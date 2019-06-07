@@ -1,0 +1,105 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+//LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_FORE                ICON                    "Fore.ico"
+
+IDI_FORE_SM             ICON                    "Fore_sm.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_FOREST              BITMAP                  "Forest.bmp"
+
+IDB_GOLFBALL            BITMAP                  "GolfBall.bmp"
+
+IDB_GRASS2              BITMAP                  "Bitmaps\\grass1.bmp"
+
+IDB_GRASS3              BITMAP                  "Bitmaps\\grass2.bmp"
+
+IDB_GRASS4              BITMAP                  "Bitmaps\\grass3.bmp"
+
+IDB_GRASS5              BITMAP                  "Bitmaps\\grass4.bmp"
+
+IDB_HORSE               BITMAP                  "Bitmaps\\horse1.bmp"
+
+IDB_LAKE                BITMAP                  "Bitmaps\\lake.bmp"
+
+IDB_GRASS_EMPTY1        BITMAP                  "Bitmaps\\terrain.bmp"
+
+IDB_GRASS_EMPTY2        BITMAP                  "Bitmaps\\terrain2.bmp"
+
+IDB_TREE                BITMAP                  "Bitmaps\\tree.bmp"
+
+IDB_WARRIORL            BITMAP                  "Bitmaps\\warriorL.bmp"
+
+IDB_WARRIORR            BITMAP                  "Bitmaps\\warriorR.bmp"
+
+IDB_GRASS1              BITMAP                  "Bitmaps\\bitmap12.bmp"
+
+IDB_WALL1               BITMAP                  "Bitmaps\\bitmap1.bmp"
+
+IDB_SELECT              BITMAP                  "Bitmaps\\bitmap3.bmp"
+
+IDB_GATHERERL           BITMAP                  "Bitmaps\\femaleL.bmp"
+
+IDB_TARGET           	BITMAP                  "Bitmaps\\target.bmp"
+
+IDB_WARRIORMOUNTEDR     BITMAP                  "Bitmaps\\warriorMountedR.bmp"
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

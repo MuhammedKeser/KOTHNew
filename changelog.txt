@@ -1,0 +1,2 @@
+-Implement crude warrior spawning (TODOS: reduce food post-spawn, and give the gatherers varied birth spawns everytime they birth)
+-Make same-sided warriors not fight each other. (ie, close friendly fire)
