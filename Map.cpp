@@ -141,6 +141,17 @@ void Map::ProceduralGeneration()
 		}
 	}
 
+	//Provide the lively area.
+	for (int i = 51; i < 59; i++)
+	{
+		for (int j = 29; j < 37; j++)
+		{
+			m_map.m_grid[i][j] = 3;
+
+		}
+
+	}
+
 	//Create some random trees
 	for (int i = 0; i < rowCount; i++)
 	{

@@ -22,6 +22,7 @@
 #include "Tile.h"
 #include "Horse.h"
 #include "Map.h"
+#include "LivelySprite.h"
 //#include <stack>
 //#include <queue>
 //DEBUG

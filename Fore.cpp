@@ -100,7 +100,10 @@ void GenerateMap()
 	cellWidth = _pWallBitmap->GetWidth();
 	cellHeight = _pWallBitmap->GetHeight();
 	Map::CreateMap(64, 64,cellWidth,cellHeight);
+	//Create living area at lower side of map
 
+
+	BOOL firstLively = false;
 	//DEBUG
 	for (int i = 0; i < rowCount; i++)
 	{
@@ -127,6 +130,18 @@ void GenerateMap()
 				newSprite->RecalculateColliderRect();
 				newSprite->isStatic = true;
 				Map::SetSpriteGridCell(i, j, newSprite);
+			}
+			//colouring bitmap
+			if (Map::GetGridCell(i,j)==3 && !firstLively)
+			{
+				LivelySprite* newSprite = (LivelySprite*)_pGame->CreateSprite<LivelySprite>(hDC);
+				RECT rect = { newSprite->GetWidth() * j,newSprite->GetHeight() * i,newSprite->GetWidth() * (j + 8),newSprite->GetHeight() * (i + 8) };
+				newSprite->Scale(8, 8);
+				newSprite->SetPosition(rect);
+				newSprite->RecalculateColliderRect();
+				/*newSprite->isStatic = false;*/
+
+				firstLively = true;
 			}
 
 			if (Map::GetGridCell(i, j) == 0 || Map::GetGridCell(i, j) == 2)
@@ -162,7 +177,24 @@ BOOL GameInitialize(HINSTANCE hInstance)
   return TRUE;
 }
 
+void startCountdown(HDC hDC) {
 
+	if (LivelySprite::playerOneCount > LivelySprite::playerTwoCount)
+	{
+		RECT rect = RECT{ 0,0,500,500 };
+		DrawText(hDC, TEXT("Countdown Started! Momo's Team is in the area!"), -1, &rect, DT_SINGLELINE | DT_CENTER);
+
+	}
+	else if (LivelySprite::playerOneCount < LivelySprite::playerTwoCount)
+	{
+		RECT rect = RECT{ 0,0,500,500 };
+		DrawText(hDC, TEXT("Countdown Started! ASP's Team is in the area!"), -1, &rect, DT_SINGLELINE | DT_CENTER);
+	}
+	else {
+
+	}
+
+}
 void GameStart(HWND hWindow)
 {
 
@@ -255,7 +287,7 @@ void GameStart(HWND hWindow)
   player.SpawnUnit<Warrior>(hDC, _pGame, 200, 200);
   player2.SpawnUnit<Warrior>(hDC, _pGame, 400, 200);
   Horse* horse = _pGame->CreateSprite<Horse>(hDC);
-  horse->SetPosition(250,250);
+  horse->SetPosition(500,590);
 
 
   player.SpawnUnit<Gatherer>(hDC, _pGame, 150, 100);
@@ -307,7 +339,7 @@ void GamePaint(HDC hDC)
   //_pGame->DrawBackground(hDC, _pForestBitmap, bgRect);
 
 	//Draw the tiles
-  /*
+  
   std::list<Tile*>::iterator it;
   int tileCount = 0;
   for (it = backgroundTiles.begin(); it != backgroundTiles.end(); it++)
@@ -325,11 +357,15 @@ void GamePaint(HDC hDC)
 	  }
 
   }
-  */
+  
   //std::cout << "TileCount: " << tileCount << std::endl;
 
   // Draw the sprites
   _pGame->DrawSprites(hDC,&camera);
+
+  //Display the countdown if need be
+  startCountdown(hDC);
+
 }
 
 void GameCycle()

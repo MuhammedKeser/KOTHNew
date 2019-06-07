@@ -2,11 +2,11 @@
 //
 #include "resource.h"
 /////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
+// Turkish (Turkey) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-//LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_TRK)
+//LANGUAGE LANG_TURKISH, SUBLANG_DEFAULT
+#pragma code_page(1254)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -47,8 +47,6 @@ IDB_GRASS_EMPTY2        BITMAP                  "Bitmaps\\terrain2.bmp"
 
 IDB_TREE                BITMAP                  "Bitmaps\\tree.bmp"
 
-IDB_WARRIORL            BITMAP                  "Bitmaps\\warriorL.bmp"
-
 IDB_WARRIORR            BITMAP                  "Bitmaps\\warriorR.bmp"
 
 IDB_GRASS1              BITMAP                  "Bitmaps\\bitmap12.bmp"
@@ -59,9 +57,15 @@ IDB_SELECT              BITMAP                  "Bitmaps\\bitmap3.bmp"
 
 IDB_GATHERERL           BITMAP                  "Bitmaps\\femaleL.bmp"
 
-IDB_TARGET           	BITMAP                  "Bitmaps\\target.bmp"
+IDB_LIVELY              BITMAP                  "bitmaps\\bitmap4.bmp"
 
-IDB_WARRIORMOUNTEDR     BITMAP                  "Bitmaps\\warriorMountedR.bmp"
+IDB_GATHERERR           BITMAP                  "Bitmaps\\femaleR.bmp"
+
+IDB_WARRIORL            BITMAP                  "Bitmaps\\warriorL.bmp"
+
+IDB_WARRIORMOUNTEDR     BITMAP                  "Bitmaps\\warriorRH.bmp"
+
+IDB_TARGET              BITMAP                  "Bitmaps\\target.bmp"
 
 
 #ifdef APSTUDIO_INVOKED
@@ -88,7 +92,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (United States) resources
+#endif    // Turkish (Turkey) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

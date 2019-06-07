@@ -386,12 +386,13 @@ void Unit::OnCollisionStay(Sprite * otherSprite)
 //Functions
 void Unit::SetDestination(int x, int y, int cellWidth, int cellHeight)
 {
-	int destinationX = floor(x/cellWidth);
-	int destinationY = floor(y/cellHeight);
+	int destinationX = floor(x / cellWidth);
+	int destinationY = floor(y / cellHeight);
 
 	std::cout << "Selected Cell Value: " << Map::GetGridCell(destinationY, destinationX) << std::endl;
 
-	if (Map::GetGridCell(destinationY, destinationX) != 0)
+	if (Map::GetGridCell(destinationY, destinationX) != 0
+	&& Map::GetGridCell(destinationY, destinationX) != 3)
 	{
 		std::cout << "ERROR IN UNIT.CPP - SETDESTINATION: The selected destination is already filled." << std::endl;
 		return;
