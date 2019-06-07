@@ -20,7 +20,9 @@ public:
 	virtual void Update() override;
 	virtual ~TreeSprite() 
 	{
+		
 	};
+
 
 	virtual void OnCollisionEnter(Sprite* otherSprite) override;
 	virtual void OnCollisionExit(Sprite* otherSprite) override;
@@ -28,7 +30,9 @@ public:
 
 	//members
 	int m_Food = 0;
-
+	static int treeCount;
+	static int minTreeCount;
+	static void HandleTreeSpawnBalance(HDC hDC);
 	//class members
 	const int maxFoodOnSpawn=400;
 	const int minFoodOnSpawn=300;
@@ -46,6 +50,8 @@ private:
 		m_Food = rand() % (maxFoodOnSpawn - minFoodOnSpawn + 1) + minFoodOnSpawn;
 		//Scale(static_cast<float>(m_Food/((maxFoodOnSpawn+minFoodOnSpawn)/2)), static_cast<float>(m_Food / ((maxFoodOnSpawn + minFoodOnSpawn) / 2)));
 		ScaleTree();
+		TreeSprite::treeCount++;
+		isStatic = true;
 	}
 
 };

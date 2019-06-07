@@ -29,8 +29,16 @@ int grassCount = 5;
 Bitmap** _pGrassBitmaps=new Bitmap*[grassCount];
 //For some reason, static lists aren't working. Weird, might have something to do with this specific game engine's stack calls.
 std::list<Player*>players = std::list<Player*>();
+
 Player player("Momo");
 Player player2("ASP");
+
+void InitializePlayerList()
+{
+	players.push_back(&player);
+	players.push_back(&player2);
+}
+
 int rowCount = 64;
 int colCount = 64;
 //int ** gameMap = new int *[rowCount];
@@ -38,6 +46,10 @@ int cellWidth, cellHeight;
 //DEBUG
 StateHandler_Gatherer* debugStateHandler;
 
+//HOUSTON WE HAVE A PROBLEM
+//There are lingering references in the selectedSprites. Meaning, if a sprite gets deallocated while still selected,
+//the value inside the sprite stored in the list will just be pure garbage. To combat this, the deallocation
+//of a sprite has to, in some way, send an event to all references that are aware of it.
 void MoveSelectedSprites() 
 {
 	if (Input::KeyPressed(InputKeys::KEY::MOUSERIGHT) &&
@@ -46,6 +58,8 @@ void MoveSelectedSprites()
 		list<Sprite*>::iterator curSprite;
 		for (curSprite = selectedSprites.begin(); curSprite != selectedSprites.end(); curSprite++)
 		{
+			if ((*curSprite) == NULL)
+				continue;
 			Unit* curUnit = dynamic_cast<Unit*>(*curSprite);
 			if (!curUnit)
 				continue;
@@ -173,6 +187,8 @@ BOOL GameInitialize(HINSTANCE hInstance)
   // Store the instance handle
   _hInstance = hInstance;
 
+  //Initialize the Players
+  InitializePlayerList();
 
   return TRUE;
 }
@@ -379,6 +395,9 @@ void GameCycle()
 
   SelectSprites();
   MoveSelectedSprites();
+  Horse::HandleHorseSpawnBalance(hDC);
+  TreeSprite::HandleTreeSpawnBalance(hDC);
+
 
   if (selectedSprites.size() > 0)
   {

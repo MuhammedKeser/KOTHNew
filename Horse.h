@@ -8,7 +8,7 @@ class Horse : public Sprite
 public:
 	static int horseCount;
 	static int minHorseCount;
-	static void HandleHorseSpawnBalance();
+	static void HandleHorseSpawnBalance(HDC hDC);
 	Horse(HDC hDC, HINSTANCE hInstance) :Sprite(hDC, hInstance, IDB_HORSE) { InitializeHorse(); };
 	Horse(Bitmap* pBitmap) :Sprite(pBitmap, IDB_HORSE) { InitializeHorse(); };
 	Horse(Bitmap* pBitmap, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) : Sprite(pBitmap, rcBounds, IDB_HORSE, baBoundsAction) { InitializeHorse(); };

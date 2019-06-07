@@ -1,3 +1,4 @@
+#pragma once
 #include "Player.h"
 #include "Gatherer.h"
 #include "Warrior.h"

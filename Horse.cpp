@@ -1,5 +1,5 @@
 #include "Horse.h"
-
+#include "GameEngine.h"
 int Horse::horseCount = 0;
 int Horse::minHorseCount = 7;
 
@@ -14,14 +14,29 @@ void Horse::Update()
 		MoveInRandomDirection();
 	}
 
+
 }
 
 void Horse::OnCollisionEnter(Sprite * otherSprite)
 {
-	if (otherSprite->name=="WALL")
+	
+	if (Warrior* otherWarrior = dynamic_cast<Warrior*>(otherSprite))
+	{
+		//If we're not marked for deletion...
+		if (!m_deletionPending)
+		{
+			//...have the warrior mount the horse...
+			otherWarrior->SetIsMounted(true);
+
+			//... and mark this horse for deletion
+			MarkForDeletion();
+		}
+		
+	}
+	else
 	{
 		//Bounce, based on how it hit
-		if (!hasXBouncedThisCycle && otherSprite->GetPosition().right < m_rcPosition.right && GetVelocity().x<0) //Moving to the left
+		if (!hasXBouncedThisCycle && otherSprite->GetPosition().right < m_rcPosition.right && GetVelocity().x < 0) //Moving to the left
 		{
 			hasXBouncedThisCycle = true;
 			ReverseDirectionX();
@@ -46,19 +61,6 @@ void Horse::OnCollisionEnter(Sprite * otherSprite)
 
 	}
 
-	if (Warrior* otherWarrior = dynamic_cast<Warrior*>(otherSprite))
-	{
-		//If we're not marked for deletion...
-		if (!m_deletionPending)
-		{
-			//...have the warrior mount the horse...
-			otherWarrior->SetIsMounted(true);
-
-			//... and mark this horse for deletion
-			MarkForDeletion();
-		}
-		
-	}
 
 }
 
@@ -77,11 +79,19 @@ void Horse::ReverseDirectionY()
 	SetVelocity(GetVelocity().x, -GetVelocity().y);
 }
 
-void Horse::HandleHorseSpawnBalance()
+void Horse::HandleHorseSpawnBalance(HDC hDC)
 {
 	if (horseCount < minHorseCount)
 	{
 		//Spawn at LEAST horseCount-minHorseCount amount of horses
+		int randYIndex = rand() % Map::GetHeight();
+		int randXIndex = rand() % Map::GetWidth();
+		if (Map::GetSpriteCell(randYIndex, randXIndex) == NULL)
+		{
+			Horse* newHorse = (Horse*)GameEngine::GetEngine()->CreateSprite<Horse>(hDC);
+			newHorse->SetPosition(Map::GetCellWidth()*randXIndex, Map::GetCellHeight()*randYIndex);
+			
+		}
 	}
 
 }
