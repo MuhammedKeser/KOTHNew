@@ -44,7 +44,7 @@ void Warrior::Fight(Unit* otherUnit)
 	if (otherUnit)
 	{
 		if (otherUnit->GetStatus() != UNIT_STATUS::DEAD
-			&& strcmp(otherUnit->GetPlayer().m_Name.c_str(),m_player->m_Name.c_str())!=0
+			&& strcmp(otherUnit->GetPlayer()->m_Name.c_str(),m_player->m_Name.c_str())!=0
 			&& m_timeOfLastAttack+m_attackInterval*1000<GetTickCount())
 		{
 			

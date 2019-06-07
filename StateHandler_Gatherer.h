@@ -40,15 +40,15 @@ public:
 
 	static void DebugRoam()
 	{
-		std::cout<<"ROAM" <<std::endl;
+		//std::cout<<"ROAM" <<std::endl;
 	}
 	static void DebugFlee()
 	{
-		std::cout<<"Flee" <<std::endl;
+		//std::cout<<"Flee" <<std::endl;
 	}
 	static void DebugGather()
 	{
-		std::cout << "Gather" << std::endl;
+		//std::cout << "Gather" << std::endl;
 	}
 
 };

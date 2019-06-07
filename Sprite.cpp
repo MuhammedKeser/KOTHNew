@@ -286,7 +286,7 @@ void Sprite::ResetCollisionList()
 		std::list<Sprite*>::const_iterator curr = it++;
 		if (!(this->TestCollision(*curr)))
 		{
-			std::cout << "REMOVED FROM COLLISION LIST" << std::endl;
+			//std::cout << "REMOVED FROM COLLISION LIST" << std::endl;
 			//Run the oncollision exit code
 			OnCollisionExit(*curr);
 			//Remove the sprite from the list

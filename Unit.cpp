@@ -34,7 +34,7 @@ void Unit::PreventOverlap(Sprite* otherSprite)
 	//TODO->Inline this badboy so you don't have to fill the stack up with it
 	auto Collision = [this, &unit]()
 	{
-		std::cout << "Collision Overlap" << std::endl;
+		//std::cout << "Collision Overlap" << std::endl;
 		CalcCollisionRect();
 		unit->CalcCollisionRect();
 		ResetCollisionList();
@@ -162,7 +162,7 @@ void Unit::PreventOverlap(Sprite* otherSprite)
 	else if (unit
 		&& otherSprite->GetPosition().bottom > m_rcPosition.top)
 	{
-		std::cout << "SET POS" << std::endl;
+		//std::cout << "SET POS" << std::endl;
 		m_rcPosition = { m_rcPosition.left,otherSprite->GetPosition().bottom , m_rcPosition.right,otherSprite->GetPosition().bottom + GetHeight() };
 		YCollision();
 	}
@@ -317,7 +317,7 @@ void Unit::OnCollisionStay(Sprite * otherSprite)
 			)
 		)
 	{
-		std::cout << "SET POS" << std::endl;
+		//std::cout << "SET POS" << std::endl;
 		m_rcPosition = { GetPosition().left - m_ptVelocity.x, m_rcPosition.top, GetPosition().right - m_ptVelocity.x, m_rcPosition.bottom };
 		XCollision();
 	}
@@ -349,7 +349,7 @@ void Unit::OnCollisionStay(Sprite * otherSprite)
 		&& unit->GetVelocity().x == 0
 		&& otherSprite->GetPosition().left < m_rcPosition.right)
 	{
-		std::cout << "SET POS" << std::endl;
+		//std::cout << "SET POS" << std::endl;
 		m_rcPosition = { otherSprite->GetPosition().left - GetWidth() - 1, m_rcPosition.top, otherSprite->GetPosition().left - 1, m_rcPosition.bottom };
 		XCollision();
 	}
@@ -358,7 +358,7 @@ void Unit::OnCollisionStay(Sprite * otherSprite)
 		&& unit->GetVelocity().x == 0
 		&& otherSprite->GetPosition().right > m_rcPosition.left)
 	{
-		std::cout << "SET POS" << std::endl;
+		//std::cout << "SET POS" << std::endl;
 		m_rcPosition = { otherSprite->GetPosition().right + 1, m_rcPosition.top, otherSprite->GetPosition().right + GetWidth() + 1, m_rcPosition.bottom };
 		XCollision();
 	}
@@ -377,7 +377,7 @@ void Unit::OnCollisionStay(Sprite * otherSprite)
 		&& unit->GetVelocity().y == 0
 		&& otherSprite->GetPosition().bottom > m_rcPosition.top)
 	{
-		std::cout << "SET POS" << std::endl;
+		//std::cout << "SET POS" << std::endl;
 		m_rcPosition = { m_rcPosition.left,otherSprite->GetPosition().bottom + 1, m_rcPosition.right,otherSprite->GetPosition().bottom + GetHeight() + 1 };
 		YCollision();
 	}
@@ -389,16 +389,16 @@ void Unit::SetDestination(int x, int y, int cellWidth, int cellHeight)
 	int destinationX = floor(x / cellWidth);
 	int destinationY = floor(y / cellHeight);
 
-	std::cout << "Selected Cell Value: " << Map::GetGridCell(destinationY, destinationX) << std::endl;
+	//std::cout << "Selected Cell Value: " << Map::GetGridCell(destinationY, destinationX) << std::endl;
 
 	if (Map::GetGridCell(destinationY, destinationX) != 0
 	&& Map::GetGridCell(destinationY, destinationX) != 3)
 	{
-		std::cout << "ERROR IN UNIT.CPP - SETDESTINATION: The selected destination is already filled." << std::endl;
+		//std::cout << "ERROR IN UNIT.CPP - SETDESTINATION: The selected destination is already filled." << std::endl;
 		return;
 	}	
 
-	std::cout << "X: " << destinationX << " Y: " << destinationY << std::endl;
+	//std::cout << "X: " << destinationX << " Y: " << destinationY << std::endl;
 	m_destinationIndex = POINT{ destinationX,destinationY};
 	m_destination = POINT{ long(destinationX*cellWidth)+long(floor(cellWidth/2))-long(GetWidth()/2),long(destinationY*cellHeight) + long(floor(cellHeight / 2))-long(GetHeight()/2)};
 }

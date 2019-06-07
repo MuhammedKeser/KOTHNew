@@ -51,7 +51,7 @@ protected:
 //Methods
 public:
 	//GETTERS/SETTERS
-	const Player& GetPlayer() { return *m_player; }
+	Player* GetPlayer() { return m_player; }
 	void SetPlayer(Player* player) { m_player = player; }
 	const float& GetMovementSpeed() { return m_movementSpeed; }
 	void SetMovementSpeed(float movementSpeed) { m_movementSpeed = movementSpeed; }

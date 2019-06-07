@@ -47,7 +47,7 @@ void LivelySprite::OnCollisionEnter(Sprite* otherSprite)
 
 	if (otherUnit != NULL) {
 
-		increasePlayerCount(otherUnit->GetPlayer());
+		increasePlayerCount(*otherUnit->GetPlayer());
 	}
 
 }
@@ -58,7 +58,7 @@ void LivelySprite::OnCollisionExit(Sprite* otherSprite)
 
 	if (otherUnit != NULL) {
 
-		decreasePlayerCount(otherUnit->GetPlayer());
+		decreasePlayerCount(*otherUnit->GetPlayer());
 	}
 
 }

@@ -19,6 +19,7 @@ public:
 	virtual void OnCollisionEnter(Sprite* otherSprite) override;
 	virtual void OnCollisionExit(Sprite* otherSprite) override;
 	virtual void OnCollisionStay(Sprite* otherSprite) override;
+	void ChangePlayer(Player* player);
 	void Update() override;
 	void RequestWinOver(Warrior* warrior);
 	static int GetFoodNeededForBirth() { return m_foodNeededForBirth; };

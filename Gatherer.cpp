@@ -29,14 +29,14 @@ void Gatherer::SapTree(TreeSprite* tree)
 	{
 		if (m_player == NULL)
 		{
-			std::cout << "No player attached to gatherer!" << std::endl;
+			//std::cout << "No player attached to gatherer!" << std::endl;
 			return;
 		}
 
 		m_player->m_food += sapSpeed;
 		tree->m_Food -= sapSpeed;
 		tree->ScaleTree();
-		std::cout << "Sapping!" << std::endl;
+		//std::cout << "Sapping!" << std::endl;
 	}
 }
 
@@ -79,18 +79,49 @@ void Gatherer::HandleBirth()
 	}
 }
 
+void Gatherer::ChangePlayer(Player* player)
+{
+	if (m_player != player)
+	{
+		std::cout << "Switched players from: " << m_player->m_Name << " to: " << player->m_Name << std::endl;
+		m_player = player;
+	}
+}
+
 void Gatherer::Update()
 {
 	Unit::Update();
 	std::list<Sprite*> neighborSprites = GetNeighboringCells();
 
 	std::list<Sprite*>::iterator siSprite;
+	std::list<Player*> surroundingPlayers;
 	for (siSprite = neighborSprites.begin(); siSprite != neighborSprites.end(); siSprite++)
 	{
 		if (TreeSprite* neighborTree = dynamic_cast<TreeSprite*>(*siSprite))
 		{
 			SapTree(neighborTree);
 		}
+		else if (Warrior* neighborWarrior = dynamic_cast<Warrior*>(*siSprite))
+		{
+			//If you have at least 2 different player types around you, don't do anything
+			if (surroundingPlayers.size() >= 2)
+				break;
+			bool containsPlayer=false;
+			for (std::list<Player*>::iterator it = surroundingPlayers.begin(); it != surroundingPlayers.begin(); it++)
+			{
+				if (strcmp((*it)->m_Name.c_str(), neighborWarrior->GetPlayer()->m_Name.c_str()) == 0)
+				{
+					containsPlayer = true;
+					break;
+				}
+			}
+			if (!containsPlayer)
+				surroundingPlayers.push_back(neighborWarrior->GetPlayer());
+		}
+	}
+	if (surroundingPlayers.size() == 1)//If you only have ONE player around you, convert
+	{
+		ChangePlayer(surroundingPlayers.front());
 	}
 
 	HandleBirth();
