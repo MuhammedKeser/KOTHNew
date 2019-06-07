@@ -32,6 +32,25 @@ public:
 	void increasePlayerCount(const Player& otherPlayer);
 	void decreasePlayerCount(const Player& otherPlayer);
 
+	static void startCountdown(HDC hDC) {
+
+		if (LivelySprite::playerOneCount > LivelySprite::playerTwoCount)
+		{
+			RECT rect = RECT{ 0,0,500,500 };
+			DrawText(hDC, TEXT("Countdown Started! Momo's Team is in the area!"), -1, &rect, DT_SINGLELINE | DT_CENTER);
+
+		}
+		else if (LivelySprite::playerOneCount < LivelySprite::playerTwoCount)
+		{
+			RECT rect = RECT{ 0,0,500,500 };
+			DrawText(hDC, TEXT("Countdown Started! ASP's Team is in the area!"), -1, &rect, DT_SINGLELINE | DT_CENTER);
+		}
+		else {
+
+		}
+
+	}
+
 	static Player* occupyingPlayer;
 
 	//if it is occupied by 1

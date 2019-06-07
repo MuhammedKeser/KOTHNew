@@ -1,5 +1,8 @@
 #include "Horse.h"
 
+int Horse::horseCount = 0;
+int Horse::minHorseCount = 7;
+
 void Horse::Update()
 {
 	hasYBouncedThisCycle = false;
@@ -74,7 +77,17 @@ void Horse::ReverseDirectionY()
 	SetVelocity(GetVelocity().x, -GetVelocity().y);
 }
 
+void Horse::HandleHorseSpawnBalance()
+{
+	if (horseCount < minHorseCount)
+	{
+		//Spawn at LEAST horseCount-minHorseCount amount of horses
+	}
+
+}
+
 void Horse::InitializeHorse()
 {
 	MoveInRandomDirection();
+	Horse::horseCount++;
 }

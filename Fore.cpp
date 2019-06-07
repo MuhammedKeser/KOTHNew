@@ -177,24 +177,7 @@ BOOL GameInitialize(HINSTANCE hInstance)
   return TRUE;
 }
 
-void startCountdown(HDC hDC) {
 
-	if (LivelySprite::playerOneCount > LivelySprite::playerTwoCount)
-	{
-		RECT rect = RECT{ 0,0,500,500 };
-		DrawText(hDC, TEXT("Countdown Started! Momo's Team is in the area!"), -1, &rect, DT_SINGLELINE | DT_CENTER);
-
-	}
-	else if (LivelySprite::playerOneCount < LivelySprite::playerTwoCount)
-	{
-		RECT rect = RECT{ 0,0,500,500 };
-		DrawText(hDC, TEXT("Countdown Started! ASP's Team is in the area!"), -1, &rect, DT_SINGLELINE | DT_CENTER);
-	}
-	else {
-
-	}
-
-}
 void GameStart(HWND hWindow)
 {
 
@@ -364,7 +347,7 @@ void GamePaint(HDC hDC)
   _pGame->DrawSprites(hDC,&camera);
 
   //Display the countdown if need be
-  startCountdown(hDC);
+  LivelySprite::startCountdown(hDC);
 
 }
 
@@ -463,7 +446,7 @@ void MouseMove(int x, int y)
 	Input::UpdateMousePosition(x, y,&camera);
 
 	// Track the mouse with the target sprite
-	_pTargetSprite->SetPosition(x - (_pTargetSprite->GetWidth() / 2), y - (_pTargetSprite->GetHeight() / 2));
+	_pTargetSprite->SetPosition(Input::GetWorldMouseX() - (_pTargetSprite->GetWidth() / 2), Input::GetWorldMouseY() - (_pTargetSprite->GetHeight() / 2));
 
 }
 

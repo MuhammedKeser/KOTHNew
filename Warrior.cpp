@@ -1,4 +1,5 @@
 #include "Warrior.h"
+#include "Horse.h"
 
 void Warrior::OnCollisionEnter(Sprite * otherSprite)
 {
@@ -69,5 +70,8 @@ void Warrior::HandleDeath()
 		//2.Perhaps play a death animation.
 		//3. Upon the end of the death animation, Remove yourself from the player's list of units, and the gameEngine's sprite list
 
+		//4. If you were mounted, decrease the horse count
+		if (m_isMounted)
+			Horse::horseCount--;
 	}
 }
