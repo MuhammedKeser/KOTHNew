@@ -49,10 +49,20 @@ void Gatherer::GiveBirth()
 	
 	*/
 	//DEBUG->This just spawns warriors 2 indices around the birthing gatherer. Do the above, later.
+
+	int randPosX = (GetXIndex(Map::GetCellWidth()) + rand() % 5 - 2);
+	int randPosY = (GetYIndex(Map::GetCellHeight()) + rand() % 5 - 2);
+	if(Map::GetGridCell(randPosY,randPosX)==0)
+	{
+		Map::SetGridCell(randPosY, randPosX, 4);
 	m_player->RequestUnitSpawn( rand()%100>94 ? UNIT_TYPE::GATHERER :UNIT_TYPE::WARRIOR,
-		(GetXIndex(Map::GetCellWidth())+rand() % 5 - 2)*Map::GetCellWidth()+ floor(Map::GetCellWidth()/2) - GetWidth()/2,
-		(GetYIndex(Map::GetCellHeight()) + rand() % 5 - 2) * Map::GetCellHeight() + floor(Map::GetCellHeight() / 2) - GetHeight() / 2
+		randPosX*Map::GetCellWidth()+ floor(Map::GetCellWidth()/2) - GetWidth()/2,
+		randPosY * Map::GetCellHeight() + floor(Map::GetCellHeight() / 2) - GetHeight() / 2
 	);
+
+	status = UNIT_STATUS::ALIVE;
+	m_timeToBirth = -1;
+	}
 }
 
 void Gatherer::HandleBirth()
@@ -73,8 +83,7 @@ void Gatherer::HandleBirth()
 		&& m_timeToBirth<GetTickCount()
 		&& m_timeToBirth !=-1)
 	{
-		status = UNIT_STATUS::ALIVE;
-		m_timeToBirth = -1;
+	
 		GiveBirth();
 	}
 }

@@ -30,13 +30,15 @@ Bitmap** _pGrassBitmaps=new Bitmap*[grassCount];
 //For some reason, static lists aren't working. Weird, might have something to do with this specific game engine's stack calls.
 std::list<Player*>players = std::list<Player*>();
 
-Player player("Momo");
-Player player2("ASP");
+Player* player;
+Player* player2;
 
 void InitializePlayerList()
 {
-	players.push_back(&player);
-	players.push_back(&player2);
+	player = new Player("Momo");
+	player2 = new Player("ASP");
+	players.push_back(player);
+	players.push_back(player2);
 }
 
 int rowCount = 64;
@@ -226,8 +228,6 @@ void GameStart(HWND hWindow)
 	GenerateMap();
 
 
-	players.push_back(&player);
-	players.push_back(&player2);
 
   // Create the golf ball sprites
   /*
@@ -282,15 +282,15 @@ void GameStart(HWND hWindow)
   warrior->SetPosition(newPosition);
   */
 
-  player.SpawnUnit<Gatherer>(hDC,_pGame,100,100);
-  player.SpawnUnit<Warrior>(hDC, _pGame, 200, 200);
-  player2.SpawnUnit<Warrior>(hDC, _pGame, 400, 200);
+  player->SpawnUnit<Gatherer>(hDC,_pGame,100,100);
+  player->SpawnUnit<Warrior>(hDC, _pGame, 200, 200);
+  player2->SpawnUnit<Warrior>(hDC, _pGame, 400, 200);
   Horse* horse = _pGame->CreateSprite<Horse>(hDC);
   horse->SetPosition(500,590);
 
 
-  player.SpawnUnit<Gatherer>(hDC, _pGame, 150, 100);
-  player.SpawnUnit<Warrior>(hDC, _pGame, 250, 200);
+  player->SpawnUnit<Gatherer>(hDC, _pGame, 150, 100);
+  player->SpawnUnit<Warrior>(hDC, _pGame, 250, 200);
 
   //Debug->The static sprite optimization really helped!
   /*for (int i = 0; i < 100; i++)

@@ -4,9 +4,13 @@
 #include "Warrior.h"
 #include "GameEngine.h"
 
+std::list<Player*> Player::playerList= std::list<Player*>();
+
 
 Player::Player(std::string name) :m_Name(name)
 {
+	Player::playerList.push_back(this);
+
 }
 
 

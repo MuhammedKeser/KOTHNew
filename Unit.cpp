@@ -426,8 +426,9 @@ std::list<Sprite*> Unit::GetNeighboringCells()
 			//Only Look for positions that are in bounds
 			int neighboringYIndex = i + GetYIndex(Map::GetCellHeight());
 			int neighboringXIndex = j + GetXIndex(Map::GetCellWidth());
-			if (neighboringYIndex < 0 || neighboringYIndex >= Map::GetCellHeight()
+			if ((neighboringYIndex < 0 || neighboringYIndex >= Map::GetCellHeight()
 				|| neighboringXIndex < 0 || neighboringXIndex >= Map::GetCellWidth())
+				&& Map::GetSpriteCell(neighboringYIndex, neighboringXIndex)!=NULL)
 				continue;
 			ret.push_back(Map::GetSpriteCell(neighboringYIndex, neighboringXIndex));
 		}

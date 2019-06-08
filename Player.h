@@ -6,6 +6,7 @@ class Unit;
 #include <queue>
 class GameEngine;
 #include <vector>
+#include <list>
 #include <iostream>
 class Warrior;
 class Gatherer;
@@ -29,6 +30,8 @@ public:
 			type(type), xPosition(xPosition), yPosition(yPosition) {};
 	};
 	//Members
+
+	static std::list<Player*> playerList;
 	std::string m_Name;
 	std::list<Unit*> m_Units;
 	int m_food=0;
@@ -50,6 +53,10 @@ public:
 		RECT newPosition = { x,y,x+ newUnit->GetWidth(),y+ newUnit->GetHeight() };
 		newUnit->SetPosition(newPosition);
 		newUnit->SetPlayer(this);
+		int xIndex = newUnit->GetXIndex(Map::GetCellWidth());
+		int yIndex = newUnit->GetXIndex(Map::GetCellHeight());
+		Map::SetGridCell(yIndex,xIndex,4);
+		Map::SetSpriteGridCell(yIndex, xIndex, newUnit);
 
 		if (std::is_same_v<T, Gatherer>)
 			m_gathererCount++;
