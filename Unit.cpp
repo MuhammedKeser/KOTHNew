@@ -428,7 +428,7 @@ std::list<Sprite*> Unit::GetNeighboringCells()
 			int neighboringXIndex = j + GetXIndex(Map::GetCellWidth());
 			if ((neighboringYIndex < 0 || neighboringYIndex >= Map::GetCellHeight()
 				|| neighboringXIndex < 0 || neighboringXIndex >= Map::GetCellWidth())
-				&& Map::GetSpriteCell(neighboringYIndex, neighboringXIndex)!=NULL)
+				||Map::GetSpriteCell(neighboringYIndex, neighboringXIndex)==NULL)
 				continue;
 			ret.push_back(Map::GetSpriteCell(neighboringYIndex, neighboringXIndex));
 		}
