@@ -372,6 +372,10 @@ void GameCycle()
 	//Update the inputs
 	Input::UpdateKeys();
 
+
+
+	_pGame->DeleteSprites();
+
 	//DEBUG
 	debugStateHandler->HandleTransitions();
 	debugStateHandler->currentState->Act();
@@ -409,8 +413,6 @@ void GameCycle()
 	  //std::cout << "Selected: " << selectedSprites.size() << std::endl;
   }
 
-
-  _pGame->DeleteSprites();
 
   // Obtain a device context for repainting the game
   HWND  hWindow = _pGame->GetWindow();

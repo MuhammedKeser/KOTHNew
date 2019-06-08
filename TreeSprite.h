@@ -20,7 +20,10 @@ public:
 	virtual void Update() override;
 	virtual ~TreeSprite() 
 	{
-		
+
+		//Remove it from the map
+		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 0);
+		//Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), NULL);
 	};
 
 
@@ -48,6 +51,8 @@ private:
 	void InitializeTree()
 	{
 		m_Food = rand() % (maxFoodOnSpawn - minFoodOnSpawn + 1) + minFoodOnSpawn;
+		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 2);
+
 		//Scale(static_cast<float>(m_Food/((maxFoodOnSpawn+minFoodOnSpawn)/2)), static_cast<float>(m_Food / ((maxFoodOnSpawn + minFoodOnSpawn) / 2)));
 		ScaleTree();
 		TreeSprite::treeCount++;

@@ -8,12 +8,28 @@
 class LivelySprite : public Sprite
 {
 public:
+	struct PlayerScoreBoard
+	{
+		Player* player;
+		int score;
+		PlayerScoreBoard(Player* player)
+		{
+			this->player = player;
+			score = 0;
+		}
+	};
 	//TODO->Make these private, and add getters and setters
 	RECT m_position;
 	Bitmap* m_bitmap;
 
 	//CTOR
-	LivelySprite(HDC hDC, HINSTANCE hInstance) :Sprite(hDC, hInstance, IDB_LIVELY) {  };
+	LivelySprite(HDC hDC, HINSTANCE hInstance) :Sprite(hDC, hInstance, IDB_LIVELY) { 
+		std::list<Player*>::iterator it;
+		for (it=Player::playerList.begin();it!=Player::playerList.end();it++)
+		{
+			LivelySprite::playerScoreBoard.push_back(new PlayerScoreBoard((*it)));
+		}
+	};
 	LivelySprite(Bitmap* pBitmap) :Sprite(pBitmap, IDB_LIVELY) { };
 	LivelySprite(Bitmap* pBitmap, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) : Sprite(pBitmap, rcBounds, IDB_LIVELY, baBoundsAction) {  };
 	LivelySprite(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder, RECT& rcBounds, BOUNDSACTION baBoundsAction = BA_STOP) :
@@ -34,6 +50,7 @@ public:
 
 	static void startCountdown(HDC hDC) {
 
+		/*
 		if (LivelySprite::playerOneCount > LivelySprite::playerTwoCount)
 		{
 			RECT rect = RECT{ 0,0,500,500 };
@@ -48,13 +65,11 @@ public:
 		else {
 
 		}
-
+		*/
 	}
 
+	static std::list<PlayerScoreBoard*> playerScoreBoard;
 	static Player* occupyingPlayer;
 
-	//if it is occupied by 1
-	//or by player 2
-	static int playerOneCount;
-	static int playerTwoCount;
+
 };
