@@ -83,7 +83,7 @@ public:
   // General Methods
   virtual SPRITEACTION  UpdatePosition();
   virtual void			Update() {};
-  void                  Draw(HDC hDC, Camera* cam);
+  virtual void          Draw(HDC hDC, Camera* cam);
   BOOL                  IsPointInside(int x, int y);
   BOOL                  TestCollision(Sprite* pTestSprite);
   void					Scale(float x,float y);
