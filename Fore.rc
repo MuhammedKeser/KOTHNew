@@ -5,7 +5,7 @@
 // Türkçe (Türkiye) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_TRK)
-LANGUAGE LANG_TURKISH, SUBLANG_DEFAULT
+//LANGUAGE LANG_TURKISH, SUBLANG_DEFAULT
 #pragma code_page(1254)
 
 /////////////////////////////////////////////////////////////////////////////
