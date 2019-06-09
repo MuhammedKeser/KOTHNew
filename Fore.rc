@@ -67,21 +67,21 @@ IDB_WARRIORMOUNTEDR     BITMAP                  "Bitmaps\\warriorRH.bmp"
 
 IDB_TARGET              BITMAP                  "Bitmaps\\target.bmp"
 
-IDB_WARRIOR_LA1         BITMAP                  "C:\\Users\\asp\\Desktop\\Bitmaps\\warriorL-A1.bmp"
+IDB_WARRIOR_LA1         BITMAP                  "Bitmaps\\warriorL-A1.bmp"
 
-IDB_WARRIOR_LA2         BITMAP                  "C:\\Users\\asp\\Desktop\\Bitmaps\\warriorL-A2 .bmp"
+IDB_WARRIOR_LA2         BITMAP                  "Bitmaps\\warriorL-A2 .bmp"
 
-IDB_WARRIOR_LW1         BITMAP                  "C:\\Users\\asp\\Desktop\\Bitmaps\\warriorL-W1.bmp"
+IDB_WARRIOR_LW1         BITMAP                  "Bitmaps\\warriorL-W1.bmp"
 
-IDB_WARRIOR_LW2         BITMAP                  "C:\\Users\\asp\\Desktop\\Bitmaps\\warriorL-W2.bmp"
+IDB_WARRIOR_LW2         BITMAP                  "Bitmaps\\warriorL-W2.bmp"
 
-IDB_WARRIOR_RA1         BITMAP                  "C:\\Users\\asp\\Desktop\\Bitmaps\\warriorR-A1.bmp"
+IDB_WARRIOR_RA1         BITMAP                  "Bitmaps\\warriorR-A1.bmp"
 
-IDB_WARRIOR_RA2         BITMAP                  "C:\\Users\\asp\\Desktop\\Bitmaps\\warriorR-A2.bmp"
+IDB_WARRIOR_RA2         BITMAP                  "Bitmaps\\warriorR-A2.bmp"
 
-IDB_WARRIOR_RW1         BITMAP                  "C:\\Users\\asp\\Desktop\\Bitmaps\\warriorR-W1.bmp"
+IDB_WARRIOR_RW1         BITMAP                  "Bitmaps\\warriorR-W1.bmp"
 
-IDB_WARRIOR_RW2         BITMAP                  "C:\\Users\\asp\\Desktop\\Bitmaps\\warriorR-W2.bmp"
+IDB_WARRIOR_RW2         BITMAP                  "Bitmaps\\warriorR-W2.bmp"
 
 
 #ifdef APSTUDIO_INVOKED
