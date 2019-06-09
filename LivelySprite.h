@@ -48,8 +48,8 @@ public:
 	void increasePlayerCount(const Player& otherPlayer);
 	void decreasePlayerCount(const Player& otherPlayer);
 
-	static void startCountdown(HDC hDC) {
-
+	static void startCountdown(HDC hDC) 
+	{
 		/*
 		if (LivelySprite::playerOneCount > LivelySprite::playerTwoCount)
 		{

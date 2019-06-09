@@ -17,8 +17,9 @@ Unit::~Unit(void)
 
 	//Remove it from the map
 	Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()),0);
-	Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), NULL);
+	Map::RemoveSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));
 	
+	std::cout << "Unit destruct" << std::endl;
 }
 
 void Unit::Update()
@@ -444,7 +445,7 @@ void Unit::MoveToPoint()
 	{
 		//DEBUG
 		//TODO-> This is DIRTY. Clean this up, and implement it AFTER movement (it's just teleportation right now.)
-		Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), NULL);
+		Map::RemoveSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));
 		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()),0);
 		SetPosition(m_destination.x,m_destination.y);
 		Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), this);
