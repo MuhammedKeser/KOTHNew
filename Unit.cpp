@@ -401,6 +401,9 @@ void Unit::SetDestination(int x, int y, int cellWidth, int cellHeight)
 	//std::cout << "X: " << destinationX << " Y: " << destinationY << std::endl;
 	m_destinationIndex = POINT{ destinationX,destinationY};
 	m_destination = POINT{ long(destinationX*cellWidth)+long(floor(cellWidth/2))-long(GetWidth()/2),long(destinationY*cellHeight) + long(floor(cellHeight / 2))-long(GetHeight()/2)};
+
+	
+
 }
 
 void Unit::Pathfind(int ** map)

@@ -31,6 +31,7 @@ void Warrior::Update()
 			Fight(neighborUnit);
 		}
 	}
+	handleBitmaps();
 	HandleDeath();
 }
 
@@ -47,7 +48,7 @@ void Warrior::Fight(Unit* otherUnit)
 			&& strcmp(otherUnit->GetPlayer()->m_Name.c_str(),m_player->m_Name.c_str())!=0
 			&& m_timeOfLastAttack+m_attackInterval*1000<GetTickCount())
 		{
-			
+			SetStatus(UNIT_STATUS::ATTACKING);
 			std::cout << "ATTACK!" << std::endl;
 			//Lower the other unit's health
 			otherUnit->SetHealth(otherUnit->GetHealth() - m_damage);
@@ -73,5 +74,36 @@ void Warrior::HandleDeath()
 		//4. If you were mounted, decrease the horse count
 		if (m_isMounted)
 			Horse::horseCount--;
+	}
+}
+
+void Warrior::handleBitmaps()
+{
+	if (GetStatus() == UNIT_STATUS::ATTACKING && m_timeOfLastAnimation +m_timeIntervalOfAnimation <= GetTickCount()) {
+
+		if (m_pBitmap == m_warriorLW1 || m_pBitmap == m_warriorLW2 || m_pBitmap == m_warriorL) {
+			m_pBitmap = m_warriorLA1;
+		}
+		else if (m_pBitmap == m_warriorRW1 || m_pBitmap == m_warriorRW2 || m_pBitmap == m_warriorR) {
+			m_pBitmap = m_warriorRA1;
+		}
+		else if (m_pBitmap == m_warriorLA1) {
+			m_pBitmap = m_warriorLA2;
+		}
+		else if (m_pBitmap == m_warriorLA2) {
+			m_pBitmap = m_warriorRA1;
+		}
+		else if (m_pBitmap == m_warriorRA1) {
+			m_pBitmap = m_warriorRA2;
+		}
+		else if (m_pBitmap == m_warriorRA2)
+		{
+			m_pBitmap = m_warriorRA1;
+		}
+		else {
+			m_pBitmap = m_warriorRA1;
+		}
+		m_timeOfLastAnimation = GetTickCount();
+
 	}
 }

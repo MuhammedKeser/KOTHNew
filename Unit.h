@@ -20,7 +20,9 @@ enum UNIT_STATUS
 {
 	DEAD,
 	ALIVE,
-	BIRTHING
+	BIRTHING,
+	ATTACKING,
+	WALKING
 };
 
 class Unit : public MapSprite
