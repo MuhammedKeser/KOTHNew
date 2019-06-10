@@ -29,6 +29,10 @@ public:
 	static const int& GetWidth() { return m_map.m_width; }
 	static const int& GetCellHeight() { return m_map.m_cellHeight; }
 	static const int& GetCellWidth() { return m_map.m_cellWidth; }
-	static Sprite* GetSpriteCell(int y, int x) { return m_map.m_spriteGrid[y][x]; }
+	static Sprite* GetSpriteCell(int y, int x) { 
+		if(m_map.m_spriteGrid[y][x]!=NULL)
+			return m_map.m_spriteGrid[y][x];
+		return NULL;
+	}
 
 };

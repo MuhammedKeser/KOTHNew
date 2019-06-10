@@ -18,7 +18,11 @@ Unit::~Unit(void)
 	//Remove it from the map
 	Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()),0);
 	Map::RemoveSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));
-	
+
+	if (Map::GetSpriteCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth())) == NULL)
+	{
+		std::cout << "NULLS!" << std::endl;
+	}
 	std::cout << "Unit destruct" << std::endl;
 }
 
@@ -427,11 +431,11 @@ std::list<Sprite*> Unit::GetNeighboringCells()
 			//Only Look for positions that are in bounds
 			int neighboringYIndex = i + GetYIndex(Map::GetCellHeight());
 			int neighboringXIndex = j + GetXIndex(Map::GetCellWidth());
-			if ((neighboringYIndex < 0 || neighboringYIndex >= Map::GetCellHeight()
+			if (
+				!((neighboringYIndex < 0 || neighboringYIndex >= Map::GetCellHeight()
 				|| neighboringXIndex < 0 || neighboringXIndex >= Map::GetCellWidth())
-				||Map::GetSpriteCell(neighboringYIndex, neighboringXIndex)==NULL)
-				continue;
-			ret.push_back(Map::GetSpriteCell(neighboringYIndex, neighboringXIndex));
+				||Map::GetSpriteCell(neighboringYIndex, neighboringXIndex)==NULL))
+				ret.push_back(Map::GetSpriteCell(neighboringYIndex, neighboringXIndex));
 		}
 	}
 
@@ -446,6 +450,10 @@ void Unit::MoveToPoint()
 		//DEBUG
 		//TODO-> This is DIRTY. Clean this up, and implement it AFTER movement (it's just teleportation right now.)
 		Map::RemoveSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));
+		if (Map::GetSpriteCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth())) != NULL)
+		{
+			std::cout << "NOT NULL" << std::endl;
+		}
 		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()),0);
 		SetPosition(m_destination.x,m_destination.y);
 		Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), this);
