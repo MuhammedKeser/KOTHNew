@@ -28,7 +28,9 @@ public:
 		
 
 	};
-	virtual ~Warrior() {};
+	virtual ~Warrior() {
+		std::cout << "Warrior destruct" << std::endl;
+	};
 
 	virtual void OnCollisionEnter(Sprite* otherSprite) override;
 	virtual void OnCollisionExit(Sprite* otherSprite) override;

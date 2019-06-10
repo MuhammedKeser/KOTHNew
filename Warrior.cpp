@@ -14,7 +14,7 @@ void Warrior::OnCollisionStay(Sprite * otherSprite)
 {
 	if (Unit* otherUnit = dynamic_cast<Unit*>(otherSprite))
 	{
-		Fight(otherUnit);
+		//Fight(otherUnit);
 	}
 }
 
@@ -26,6 +26,8 @@ void Warrior::Update()
 	std::list<Sprite*>::iterator siSprite;
 	for (siSprite = neighborSprites.begin(); siSprite != neighborSprites.end(); siSprite++)
 	{
+		if ((*siSprite) == NULL)
+			continue;
 		if (Unit* neighborUnit = dynamic_cast<Unit*>(*siSprite))
 		{
 			Fight(neighborUnit);

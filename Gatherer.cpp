@@ -106,6 +106,8 @@ void Gatherer::Update()
 	std::list<Player*> surroundingPlayers;
 	for (siSprite = neighborSprites.begin(); siSprite != neighborSprites.end(); siSprite++)
 	{
+		if ((*siSprite) == NULL)
+			continue;
 		if (TreeSprite* neighborTree = dynamic_cast<TreeSprite*>(*siSprite))
 		{
 			SapTree(neighborTree);
