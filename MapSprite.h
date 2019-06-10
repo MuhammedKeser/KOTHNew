@@ -8,7 +8,7 @@ class MapSprite : public Sprite
 public:
 	bool isOnMap=true;
 	MapSprite(HDC hDC, HINSTANCE hInstance, UINT BITMAP_ID,bool isOnMap=true) :isOnMap(isOnMap),Sprite(hDC, hInstance, BITMAP_ID) {};
-	MapSprite(Bitmap* pBitmap, UINT BITMAP_ID) :Sprite(pBitmap, BITMAP_ID) {};
+	MapSprite(Bitmap* pBitmap, UINT BITMAP_ID, bool isOnMap = true) :Sprite(pBitmap, BITMAP_ID) {};
 	MapSprite(Bitmap* pBitmap, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) :
 		Sprite(pBitmap, rcBounds, BITMAP_ID, baBoundsAction) {};
 	MapSprite(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) :

@@ -9,7 +9,7 @@ public:
 	static int horseCount;
 	static int minHorseCount;
 	static void HandleHorseSpawnBalance(HDC hDC);
-	Horse(HDC hDC, HINSTANCE hInstance) :MapSprite(hDC, hInstance, IDB_HORSE) { InitializeHorse(); };
+	Horse(HDC hDC, HINSTANCE hInstance) :MapSprite(hDC, hInstance, IDB_HORSE,false) { InitializeHorse(); };
 	Horse(Bitmap* pBitmap) :MapSprite(pBitmap, IDB_HORSE) { InitializeHorse(); };
 	Horse(Bitmap* pBitmap, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) : MapSprite(pBitmap, rcBounds, IDB_HORSE, baBoundsAction) { InitializeHorse(); };
 	Horse(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder, RECT& rcBounds, BOUNDSACTION baBoundsAction = BA_STOP) :

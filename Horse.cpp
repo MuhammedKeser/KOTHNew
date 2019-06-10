@@ -64,6 +64,27 @@ void Horse::HandleMounting()
 
 		}
 	}
+	else
+	{
+		int otherCell = Map::GetGridCell(
+			GetVelocity().y > 0 ? GetYIndexByBottomPosition(Map::GetCellHeight()) : GetVelocity().y == 0 ? GetYIndex(Map::GetCellHeight()) : GetYIndexByTopPosition(Map::GetCellHeight()),
+			GetVelocity().x > 0 ? GetXIndexByRightPosition(Map::GetCellWidth()) : GetVelocity().x == 0 ? GetXIndex(Map::GetCellWidth()) : GetXIndexByLeftPosition(Map::GetCellWidth())
+		);
+		//Bounce, based on how it hit
+		if (!hasXBouncedThisCycle && otherCell != 0) //Moving to the left
+		{
+			hasXBouncedThisCycle = true;
+			ReverseDirectionX();
+		}
+		if (!hasYBouncedThisCycle && otherCell != 0) //Moving to the up
+		{
+			hasYBouncedThisCycle = true;
+			ReverseDirectionY();
+		}
+
+
+
+	}
 }
 
 void Horse::OnCollisionEnter(Sprite * otherSprite)
