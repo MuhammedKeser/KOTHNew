@@ -30,6 +30,7 @@ Bitmap** _pGrassBitmaps=new Bitmap*[grassCount];
 //For some reason, static lists aren't working. Weird, might have something to do with this specific game engine's stack calls.
 std::list<Player*>players = std::list<Player*>();
 
+LivelySprite* livelySprite;
 Player* player;
 Player* player2;
 
@@ -156,11 +157,11 @@ void GenerateMap()
 			//colouring bitmap
 			if (Map::GetGridCell(i,j)==3 && !firstLively)
 			{
-				LivelySprite* newSprite = (LivelySprite*)_pGame->CreateSprite<LivelySprite>(hDC);
-				RECT rect = { newSprite->GetWidth() * j,newSprite->GetHeight() * i,newSprite->GetWidth() * (j + 8),newSprite->GetHeight() * (i + 8) };
-				newSprite->Scale(8, 8);
-				newSprite->SetPosition(rect);
-				newSprite->RecalculateColliderRect();
+				livelySprite = (LivelySprite*)_pGame->CreateSprite<LivelySprite>(hDC);
+				RECT rect = { livelySprite->GetWidth() * j,livelySprite->GetHeight() * i,livelySprite->GetWidth() * (j + 8),livelySprite->GetHeight() * (i + 8) };
+				livelySprite->Scale(8, 8);
+				livelySprite->SetPosition(rect);
+				livelySprite->RecalculateColliderRect();
 				/*newSprite->isStatic = false;*/
 
 				firstLively = true;
@@ -369,7 +370,7 @@ void GamePaint(HDC hDC)
   _pGame->DrawSprites(hDC,&camera);
 
   //Display the countdown if need be
-  LivelySprite::startCountdown(hDC);
+  livelySprite->HandleDisplay(hDC);
 
 }
 
@@ -401,7 +402,6 @@ void GameCycle()
 
 	// Update the sprites
 	_pGame->UpdateSprites();
-
 
   SelectSprites();
   MoveSelectedSprites();

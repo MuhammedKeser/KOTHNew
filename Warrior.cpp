@@ -1,6 +1,18 @@
 #include "Warrior.h"
 #include "Horse.h"
 
+Bitmap*Warrior::m_pMountedBitmap=NULL;
+Bitmap*Warrior::m_warriorLA1	=NULL;
+Bitmap*Warrior::m_warriorLA2	=NULL;
+Bitmap*Warrior::m_warriorLW1	=NULL;
+Bitmap*Warrior::m_warriorLW2	=NULL;
+Bitmap*Warrior::m_warriorRA1	=NULL;
+Bitmap*Warrior::m_warriorRA2	=NULL;
+Bitmap*Warrior::m_warriorRW1	=NULL;
+Bitmap*Warrior::m_warriorRW2	=NULL;
+Bitmap*Warrior::m_warriorL		=NULL;
+Bitmap*Warrior:: m_warriorR		=NULL;
+
 void Warrior::OnCollisionEnter(Sprite * otherSprite)
 {
 	Unit::OnCollisionEnter(otherSprite);

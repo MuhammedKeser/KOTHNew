@@ -45,9 +45,10 @@ public:
 	virtual void OnCollisionExit(Sprite* otherSprite) override;
 	virtual void OnCollisionStay(Sprite* otherSprite) override;
 
-	void increasePlayerCount(const Player& otherPlayer);
-	void decreasePlayerCount(const Player& otherPlayer);
-
+	void increasePlayerCount(Player* otherPlayer);
+	void decreasePlayerCount(Player* otherPlayer);
+	void HandleDisplay(HDC hDC);
+	void HandleOccupyingPlayer();
 	static void startCountdown(HDC hDC) 
 	{
 		/*
@@ -69,7 +70,6 @@ public:
 	}
 
 	static std::list<PlayerScoreBoard*> playerScoreBoard;
-	static Player* occupyingPlayer;
-
+	static PlayerScoreBoard* occupyingPlayerScoreBoard;
 
 };
