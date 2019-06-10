@@ -128,6 +128,7 @@ void GenerateMap()
 
 			if (Map::GetGridCell(i,j) == 1)
 			{
+				/*
 				Sprite* newSprite = (Sprite*)_pGame->CreateSprite<Sprite>(hDC);
 				newSprite->SetBitmap(_pWallBitmap);
 				RECT rect = { newSprite->GetWidth()*j,newSprite->GetHeight()*i,newSprite->GetWidth()*(j + 1),newSprite->GetHeight()*(i + 1) };
@@ -136,6 +137,11 @@ void GenerateMap()
 				newSprite->isStatic = true;
 				newSprite->name = "WALL";
 				Map::SetSpriteGridCell(i,j,newSprite);
+				*/
+				Bitmap* tileBitmap = _pWallBitmap;
+				RECT tilePosition = { tileBitmap->GetWidth()*j,tileBitmap->GetHeight()*i,tileBitmap->GetWidth()*(j + 1),tileBitmap->GetHeight()*(i + 1) };
+				Tile* newTile = new Tile(tilePosition, tileBitmap);
+				backgroundTiles.push_back(newTile);
 			}
 
 			if (Map::GetGridCell(i, j) == 2)

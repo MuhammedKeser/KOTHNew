@@ -14,53 +14,61 @@ void Horse::Update()
 		MoveInRandomDirection();
 	}
 
+	HandleMounting();
 
+
+}
+
+void Horse::HandleMounting()
+{
+	Sprite* otherSprite = Map::GetSpriteCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));
+
+	if ( otherSprite!=NULL)
+	{
+		Warrior* otherWarrior = dynamic_cast<Warrior*>(otherSprite);
+		if (otherWarrior
+			&& !m_deletionPending
+			&& !otherWarrior->DeletionIsPending()
+			&& !otherWarrior->GetIsMounted())
+		{
+			//If we're not marked for deletion...
+			
+			{
+				//...have the warrior mount the horse...
+				otherWarrior->SetIsMounted(true);
+
+				//... and mark this horse for deletion
+				MarkForDeletion();
+			}
+
+		}
+		else
+		{
+			int otherCell = Map::GetGridCell(
+					GetVelocity().y > 0 ? GetYIndexByBottomPosition(Map::GetCellHeight()) : GetVelocity().y==0 ? GetYIndex(Map::GetCellHeight()) : GetYIndexByTopPosition(Map::GetCellHeight()),
+					GetVelocity().x > 0 ? GetXIndexByRightPosition(Map::GetCellWidth()) : GetVelocity().x == 0 ? GetXIndex(Map::GetCellWidth()) : GetXIndexByLeftPosition(Map::GetCellWidth())
+				);
+			//Bounce, based on how it hit
+			if (!hasXBouncedThisCycle && otherCell!=0) //Moving to the left
+			{
+				hasXBouncedThisCycle = true;
+				ReverseDirectionX();
+			}
+			if (!hasYBouncedThisCycle && otherCell!=0) //Moving to the up
+			{
+				hasYBouncedThisCycle = true;
+				ReverseDirectionY();
+			}
+
+
+
+		}
+	}
 }
 
 void Horse::OnCollisionEnter(Sprite * otherSprite)
 {
 	
-	if (Warrior* otherWarrior = dynamic_cast<Warrior*>(otherSprite))
-	{
-		//If we're not marked for deletion...
-		if (!m_deletionPending)
-		{
-			//...have the warrior mount the horse...
-			otherWarrior->SetIsMounted(true);
-
-			//... and mark this horse for deletion
-			MarkForDeletion();
-		}
-		
-	}
-	else
-	{
-		//Bounce, based on how it hit
-		if (!hasXBouncedThisCycle && otherSprite->GetPosition().right < m_rcPosition.right && GetVelocity().x < 0) //Moving to the left
-		{
-			hasXBouncedThisCycle = true;
-			ReverseDirectionX();
-		}
-		else if (!hasXBouncedThisCycle && otherSprite->GetPosition().left > m_rcPosition.left&& GetVelocity().x > 0)
-		{
-			hasXBouncedThisCycle = true;
-			ReverseDirectionX();
-		}
-		if (!hasYBouncedThisCycle && otherSprite->GetPosition().bottom < m_rcPosition.bottom && GetVelocity().y < 0) //Moving to the up
-		{
-			hasYBouncedThisCycle = true;
-			ReverseDirectionY();
-		}
-		else if (!hasYBouncedThisCycle && otherSprite->GetPosition().top > m_rcPosition.top && GetVelocity().y > 0)
-		{
-			hasYBouncedThisCycle = true;
-			ReverseDirectionY();
-		}
-
-
-
-	}
-
 
 }
 
