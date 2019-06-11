@@ -39,6 +39,9 @@ void LivelySprite::decreasePlayerCount(Player* myPlayer) {
 void LivelySprite::HandleOccupyingPlayer()
 {
 	int maxPlayerScore = 0;
+	PlayerScoreBoard* oldOccupyingPlayerScoreBoard = NULL;
+	if (occupyingPlayerScoreBoard != NULL)
+		oldOccupyingPlayerScoreBoard = new PlayerScoreBoard(occupyingPlayerScoreBoard);
 	occupyingPlayerScoreBoard = NULL;
 	std::list<PlayerScoreBoard*>::iterator it;
 	for (it = LivelySprite::playerScoreBoard.begin(); it != LivelySprite::playerScoreBoard.end(); it++)
@@ -49,7 +52,22 @@ void LivelySprite::HandleOccupyingPlayer()
 			maxPlayerScore = (*it)->score;
 		}
 	}
+
+	if (
+		occupyingPlayerScoreBoard!=NULL  &&
+		((oldOccupyingPlayerScoreBoard == NULL)
+		||
+		(oldOccupyingPlayerScoreBoard->player != occupyingPlayerScoreBoard->player)
+		))
+	{
+		startCountdown();
+	}
+
+
+	delete(oldOccupyingPlayerScoreBoard);
 }
+
+
 
 void LivelySprite::HandleDisplay(HDC hDC)
 {
@@ -58,9 +76,10 @@ void LivelySprite::HandleDisplay(HDC hDC)
 	{
 		RECT rect = RECT{ 0,0,500,500 };
 		std::ostringstream oss;
-		oss << "Occupying Player: " << occupyingPlayerScoreBoard->player->m_Name << " Score: " << occupyingPlayerScoreBoard->score;
+		
+		oss << "Occupying Player: " << occupyingPlayerScoreBoard->player->m_Name << "\nScore: " << occupyingPlayerScoreBoard->score << "\nTime left (sec): "<<floor((countdownInterval*1000+timeCountdownStarted-GetTickCount())/1000);
 		std::string stringToDisplay = oss.str();
-		DrawText(hDC, TEXT(stringToDisplay.c_str()), -1, &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+		DrawText(hDC, TEXT(stringToDisplay.c_str()), -1, &rect, DT_CENTER | DT_VCENTER);
 	}
 	
 }
