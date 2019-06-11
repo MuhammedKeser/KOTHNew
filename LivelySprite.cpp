@@ -6,7 +6,7 @@ LivelySprite::PlayerScoreBoard* LivelySprite::occupyingPlayerScoreBoard = NULL;
 //DEBUG
 void LivelySprite::Update()
 {
-	
+	HandleCountdown();
 }
 
 void LivelySprite::increasePlayerCount(Player* myPlayer) {
@@ -67,7 +67,15 @@ void LivelySprite::HandleOccupyingPlayer()
 	delete(oldOccupyingPlayerScoreBoard);
 }
 
-
+void LivelySprite::HandleCountdown()
+{
+	if (timeCountdownStarted != -1
+		&& timeCountdownStarted + countdownInterval*1000 < GetTickCount())
+	{
+		//End the game
+		std::cout << "Endgame" << std::endl;
+	}
+}
 
 void LivelySprite::HandleDisplay(HDC hDC)
 {

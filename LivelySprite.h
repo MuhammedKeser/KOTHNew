@@ -66,6 +66,8 @@ public:
 		timeCountdownStarted = -1;
 	}
 
+	void HandleCountdown();
+
 	static std::list<PlayerScoreBoard*> playerScoreBoard;
 	static PlayerScoreBoard* occupyingPlayerScoreBoard;
 
