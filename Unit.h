@@ -7,6 +7,7 @@ class Player;
 #include "MapSprite.h"
 #include <cmath>
 #include <sstream>
+#include <stack>
 
 /*
 	TODO:
@@ -39,7 +40,7 @@ public:
 
 	//Functions
 	void Unit::SetDestination(int x, int y, int cellWidth, int cellHeight);
-	void Pathfind(int **map);
+	void Pathfind();
 	void MoveToPoint();
 
 //Members
@@ -50,9 +51,10 @@ protected:
 	POINT m_destination = POINT{-1,-1};
 	int status = UNIT_STATUS::ALIVE;
 	int m_health=100;
-
 //Methods
 public:
+	static bool pathfindingPerformedThisCycle;
+
 	//GETTERS/SETTERS
 	Player* GetPlayer() { return m_player; }
 	void SetPlayer(Player* player) { m_player = player; }

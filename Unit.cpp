@@ -1,5 +1,8 @@
 #include "Unit.h"
 
+bool Unit::pathfindingPerformedThisCycle=false;
+
+
 Unit::~Unit(void)
 {
 	//Remove it from the player list
@@ -411,14 +414,137 @@ void Unit::SetDestination(int x, int y, int cellWidth, int cellHeight)
 
 }
 
-void Unit::Pathfind(int ** map)
+void Unit::Pathfind()
 {
+	struct PathfindingNode
+	{
+		PathfindingNode* parentNode=NULL;
+		int xIndex = -1;
+		int yIndex = -1;
+		bool wasChecked = false;
+		bool wasAddedToList = false;
+		PathfindingNode(int yIndex, int xIndex)
+		{
+			this->xIndex = xIndex;
+			this->yIndex = yIndex;
+		}
+	};
+
+	if (pathfindingPerformedThisCycle)
+		return;
+
+	//Create a pathfinding map
+	//TODO-> This is created on the heap. This is bleugh. Create the objects/structs on the stack, but IDK how?
+	PathfindingNode*** pathfindingMap;
+	pathfindingMap = (PathfindingNode***)calloc(Map::GetHeight(), sizeof(PathfindingNode**));
+	for (int i = 0; i < Map::GetHeight(); i++)
+	{
+		pathfindingMap[i] = (PathfindingNode**)calloc(Map::GetWidth(), sizeof(PathfindingNode*));
+		for (int j = 0; j < Map::GetWidth(); j++)
+		{
+			PathfindingNode* bluh = new PathfindingNode(i, j);
+			pathfindingMap[i][j] = bluh;
+		}
+	}
+
 	//Make sure that our destination is set
 	if (m_destination.x != -1 && m_destination.y != -1)
 	{
 		//PERFORM PATHFINDING
+		std::queue<PathfindingNode*> nodesToCheck;//The list of nodes to check
+		PathfindingNode* startingNode = pathfindingMap[GetYIndex(Map::GetCellHeight())][GetXIndex(Map::GetCellWidth())];//The starting node
+		startingNode->wasChecked = true;
+		nodesToCheck.push(startingNode);//Push the node you're currently on into the queue
+		std::stack<PathfindingNode*> path;//The path to take, in reverse order
+		PathfindingNode* destinationNode=pathfindingMap[m_destinationIndex.y][m_destinationIndex.x];//The destination node
+
+		bool destinationReached = false;
+		while (nodesToCheck.size()>0)
+		{
+			//std::cout << "BOI";
+			PathfindingNode* curNode =nodesToCheck.front();
+			
+			//Nodes can be added to the list prior to being checked.
+			//Instead of iterating through every node, you can pop it off if it's been checked.
+			if (curNode!=startingNode && curNode->wasChecked)
+			{
+				nodesToCheck.pop();
+			}
+			else
+			{
+				for (int i = -1; i <= 1; i++)
+				{
+					if (destinationReached)
+						break;
+					for (int j = -1; j <= 1; j++)
+					{
+						if (destinationReached)
+							break;
+
+						int neighborXIndex = j + curNode->xIndex;
+						int neighborYIndex = i + curNode->yIndex;
+						PathfindingNode* neighborNode;
+						if (
+							!(i == 0 && j == 0)
+							&& neighborYIndex < Map::GetHeight()
+							&& neighborYIndex >= 0
+							&& neighborXIndex < Map::GetWidth()
+							&& neighborXIndex >= 0
+							&& !pathfindingMap[neighborYIndex][neighborXIndex]->wasChecked
+							&& !pathfindingMap[neighborYIndex][neighborXIndex]->wasAddedToList
+							&&  Map::GetGridCell(neighborYIndex, neighborXIndex) == 0)
+						{
+							if (Map::GetGridCell(neighborYIndex, neighborXIndex) == 0)
+							{
+								neighborNode = pathfindingMap[neighborYIndex][neighborXIndex];
+								neighborNode->parentNode = curNode;
+
+								if (neighborNode == destinationNode)
+								{
+									std::cout << "Destination Found!" << std::endl;
+									while (neighborNode->parentNode != NULL)
+									{
+										path.push(neighborNode);
+										neighborNode = neighborNode->parentNode;
+									}
+
+									while (path.size() > 0)
+									{
+										std::cout << "Node --- X: " << path.top()->xIndex << " Y: " << path.top()->yIndex << std::endl;
+										path.pop();
+									}
+
+									//We're done checking nodes
+									while (nodesToCheck.size() > 0)
+									{
+										nodesToCheck.pop();
+									}
+
+									destinationReached = true;
+
+									break;
+
+								}
+								else
+								{
+									neighborNode->wasAddedToList=true;
+									nodesToCheck.push(neighborNode);
+								}
+							}
+						}
+					}
+				}//for
+			}
+			
+
+			curNode->wasChecked = true;
+			if(nodesToCheck.size()>0)
+				nodesToCheck.pop();
+			}
+		}
+
 		//UPDATE THE MAP WITH YOUR CURRENT POSITION
-	}
+	
 }
 
 std::list<Sprite*> Unit::GetNeighboringCells()
@@ -453,15 +579,16 @@ void Unit::MoveToPoint()
 		//DEBUG
 		//TODO-> This is DIRTY. Clean this up, and implement it AFTER movement (it's just teleportation right now.)
 		Map::RemoveSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));
-		if (Map::GetSpriteCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth())) != NULL)
-		{
-			std::cout << "NOT NULL" << std::endl;
-		}
+		
+		Pathfind();
 		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()),0);
 		SetPosition(m_destination.x,m_destination.y);
 		Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), this);
 		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 4);
-
+		m_destination.x = -1;
+		m_destination.y = -1;
+		m_destinationIndex.x = -1;
+		m_destinationIndex.y = -1;
 		//Pull the next destination from your pathfinding Queue
 		//Find the velocity required to reach it, and apply it here.
 

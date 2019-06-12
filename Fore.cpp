@@ -358,7 +358,9 @@ void GamePaint(HDC hDC)
 		  camera.GetPosition().y <= (*it)->m_position.bottom
 		  )
 	  {
-		  (*it)->Draw(hDC, &camera);
+		  //DEBUG
+		  if((*it)->m_bitmap==_pWallBitmap)
+			(*it)->Draw(hDC, &camera);
 		  tileCount++;
 	  }
 
@@ -397,11 +399,14 @@ void GameCycle()
 		(*it)->HandleRequestedUnitSpawns(hDC,_pGame);
 	}
 
+	Unit::pathfindingPerformedThisCycle = false;
 	//Update the sprite collisions
 	_pGame->UpdateCollisions();
-
-	// Update the sprites
+	
+	// Update the sprites' positions
 	_pGame->UpdateSprites();
+	Unit::pathfindingPerformedThisCycle = false;
+
 
   SelectSprites();
   MoveSelectedSprites();
