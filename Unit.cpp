@@ -473,7 +473,7 @@ void Unit::Pathfind()
 
 						int neighborXIndex = j + curNode->xIndex;
 						int neighborYIndex = i + curNode->yIndex;
-						int neighborPathCost = abs(i) + abs(j) > 1.0f ? 1.5f : 1.0f;
+						int neighborPathCost = abs(i) + abs(j) > 1.0f ? sqrt(2.0f) : 1.0f;
 						PathfindingNode* neighborNode;
 						if (
 							!(i == 0 && j == 0)
@@ -591,12 +591,6 @@ void Unit::HandlePathTraversal()
 			&& GetYIndex(Map::GetCellHeight()) == nextNode->yIndex)
 		{
 
-			Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 0);
-			Map::RemoveSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));
-			SetPosition(floor((nextNode->xIndex + 0.5)*Map::GetCellWidth())+GetWidth()/2, floor((nextNode->yIndex + 0.5)*Map::GetCellHeight()) + GetHeight() / 2);
-
-			Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), this);
-			Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 4);
 			path.pop();
 			if (path.size() > 0)
 				nextNode = path.top();
@@ -604,8 +598,18 @@ void Unit::HandlePathTraversal()
 				nextNode = NULL;
 		}
 
+
+
 		if (nextNode == NULL)
 			return;
+
+
+		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 0);
+		Map::RemoveSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));
+		SetPosition(floor((nextNode->xIndex)*Map::GetCellWidth()) +GetWidth()/2, floor((nextNode->yIndex)*Map::GetCellHeight()) );
+
+		Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), this);
+		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 4);
 
 		int cellWidth = Map::GetCellWidth();
 		int cellHeight = Map::GetCellHeight();
@@ -613,8 +617,8 @@ void Unit::HandlePathTraversal()
 		int destinationY = nextNode->yIndex;
 		POINT destination = POINT{ long(destinationX*cellWidth) + long(floor(cellWidth / 2)) - long(GetWidth() / 2),
 			long(destinationY*cellHeight) + long(floor(cellHeight / 2)) - long(GetHeight() / 2) };
-		int xVel = destination.x - (GetPosition().left + GetPosition().right) / 2;
-		int yVel = destination.y-(GetPosition().bottom + GetPosition().top)/2;
+		int xVel = nextNode->xIndex - GetXIndex(Map::GetCellWidth()) ;
+		int yVel = destination.y - GetYIndex(Map::GetCellHeight());
 		SetVelocity(POINT{xVel/(xVel==0?1:abs(xVel)),yVel/ (yVel == 0 ? 1 : abs(yVel) )});
 
 	}
