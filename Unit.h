@@ -8,7 +8,8 @@ class Player;
 #include <cmath>
 #include <sstream>
 #include <stack>
-
+#include <algorithm>
+#include <iostream>
 /*
 	TODO:
 	Moving the position of a sprite requires the map to be updated.
@@ -61,7 +62,7 @@ protected:
 	};
 	std::stack<PathfindingNode*> path;//The path to take (for pathfinding)
 	Player *m_player;
-	float m_movementSpeed = 1.0f;
+	float m_movementSpeed = 20.0f;
 	POINT m_destinationIndex = POINT{-1,-1};
 	POINT m_destination = POINT{-1,-1};
 	int status = UNIT_STATUS::ALIVE;
@@ -69,8 +70,9 @@ protected:
 	void HandlePathTraversal();
 //Methods
 public:
+	SPRITEACTION UpdatePosition()override;
 	static bool pathfindingPerformedThisCycle;
-
+	static bool cmp(PathfindingNode* a, PathfindingNode* b);
 	//GETTERS/SETTERS
 	Player* GetPlayer() { return m_player; }
 	void SetPlayer(Player* player) { m_player = player; }
