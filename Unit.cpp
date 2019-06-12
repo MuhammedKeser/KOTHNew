@@ -32,6 +32,7 @@ Unit::~Unit(void)
 void Unit::Update()
 {
 	MoveToPoint();
+	HandlePathTraversal();
 }
 
 void Unit::PreventOverlap(Sprite* otherSprite)
@@ -416,26 +417,16 @@ void Unit::SetDestination(int x, int y, int cellWidth, int cellHeight)
 
 void Unit::Pathfind()
 {
-	struct PathfindingNode
-	{
-		PathfindingNode* parentNode=NULL;
-		int xIndex = -1;
-		int yIndex = -1;
-		bool wasChecked = false;
-		bool wasAddedToList = false;
-		PathfindingNode(int yIndex, int xIndex)
-		{
-			this->xIndex = xIndex;
-			this->yIndex = yIndex;
-		}
-	};
+	
 
 	if (pathfindingPerformedThisCycle)
 		return;
 
 	//Create a pathfinding map
 	//TODO-> This is created on the heap. This is bleugh. Create the objects/structs on the stack, but IDK how?
+	//TODO-> EVERYTHING IS EQUAL WEIGHT RIGHT NOW. Give diagonals a weight of 1.5, and horizontals and verticals a weight of 1
 	PathfindingNode*** pathfindingMap;
+	
 	pathfindingMap = (PathfindingNode***)calloc(Map::GetHeight(), sizeof(PathfindingNode**));
 	for (int i = 0; i < Map::GetHeight(); i++)
 	{
@@ -455,7 +446,6 @@ void Unit::Pathfind()
 		PathfindingNode* startingNode = pathfindingMap[GetYIndex(Map::GetCellHeight())][GetXIndex(Map::GetCellWidth())];//The starting node
 		startingNode->wasChecked = true;
 		nodesToCheck.push(startingNode);//Push the node you're currently on into the queue
-		std::stack<PathfindingNode*> path;//The path to take, in reverse order
 		PathfindingNode* destinationNode=pathfindingMap[m_destinationIndex.y][m_destinationIndex.x];//The destination node
 
 		bool destinationReached = false;
@@ -483,6 +473,7 @@ void Unit::Pathfind()
 
 						int neighborXIndex = j + curNode->xIndex;
 						int neighborYIndex = i + curNode->yIndex;
+						int neighborPathCost = abs(i) + abs(j) > 1.0f ? 1.5f : 1.0f;
 						PathfindingNode* neighborNode;
 						if (
 							!(i == 0 && j == 0)
@@ -490,29 +481,41 @@ void Unit::Pathfind()
 							&& neighborYIndex >= 0
 							&& neighborXIndex < Map::GetWidth()
 							&& neighborXIndex >= 0
-							&& !pathfindingMap[neighborYIndex][neighborXIndex]->wasChecked
-							&& !pathfindingMap[neighborYIndex][neighborXIndex]->wasAddedToList
+							&& 
+							(
+								(!pathfindingMap[neighborYIndex][neighborXIndex]->wasChecked
+									&& !pathfindingMap[neighborYIndex][neighborXIndex]->wasAddedToList
+								)
+								||
+								(pathfindingMap[neighborYIndex][neighborXIndex]->totalPathCost>neighborPathCost+curNode->totalPathCost)
+							)
 							&&  Map::GetGridCell(neighborYIndex, neighborXIndex) == 0)
 						{
 							if (Map::GetGridCell(neighborYIndex, neighborXIndex) == 0)
 							{
 								neighborNode = pathfindingMap[neighborYIndex][neighborXIndex];
 								neighborNode->parentNode = curNode;
+								neighborNode->totalPathCost = curNode->totalPathCost + neighborPathCost;
 
 								if (neighborNode == destinationNode)
 								{
+									//DEBUG
+									std::stack<PathfindingNode*> tempStack;//DEBUG
 									std::cout << "Destination Found!" << std::endl;
 									while (neighborNode->parentNode != NULL)
 									{
 										path.push(neighborNode);
+										tempStack.push(neighborNode);//DEBUG
 										neighborNode = neighborNode->parentNode;
 									}
 
-									while (path.size() > 0)
+									//DEBUG
+									while (!tempStack.empty())
 									{
-										std::cout << "Node --- X: " << path.top()->xIndex << " Y: " << path.top()->yIndex << std::endl;
-										path.pop();
+										std::cout << "X: " << tempStack.top()->xIndex<< " Y:"<< tempStack.top()->yIndex << std::endl;
+										tempStack.pop();
 									}
+
 
 									//We're done checking nodes
 									while (nodesToCheck.size() > 0)
@@ -572,6 +575,55 @@ std::list<Sprite*> Unit::GetNeighboringCells()
 	
 }
 
+void Unit::HandlePathTraversal()
+{
+	//As long as the path is not empty, move towards the 
+	if (!path.empty())
+	{
+		PathfindingNode* nextNode = path.top();
+
+		//Set your position
+
+		//TODO, RIGHT HERE->If the next node is full, STOP. Re-pathfind
+
+		//If you're on the nextnode, pull off the node.
+		if (GetXIndex(Map::GetCellWidth()) == nextNode->xIndex
+			&& GetYIndex(Map::GetCellHeight()) == nextNode->yIndex)
+		{
+
+			Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 0);
+			Map::RemoveSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));
+			SetPosition(floor((nextNode->xIndex + 0.5)*Map::GetCellWidth())+GetWidth()/2, floor((nextNode->yIndex + 0.5)*Map::GetCellHeight()) + GetHeight() / 2);
+
+			Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), this);
+			Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 4);
+			path.pop();
+			if (path.size() > 0)
+				nextNode = path.top();
+			else
+				nextNode = NULL;
+		}
+
+		if (nextNode == NULL)
+			return;
+
+		int cellWidth = Map::GetCellWidth();
+		int cellHeight = Map::GetCellHeight();
+		int destinationX = nextNode->xIndex;
+		int destinationY = nextNode->yIndex;
+		POINT destination = POINT{ long(destinationX*cellWidth) + long(floor(cellWidth / 2)) - long(GetWidth() / 2),
+			long(destinationY*cellHeight) + long(floor(cellHeight / 2)) - long(GetHeight() / 2) };
+		int xVel = destination.x - (GetPosition().left + GetPosition().right) / 2;
+		int yVel = destination.y-(GetPosition().bottom + GetPosition().top)/2;
+		SetVelocity(POINT{xVel/(xVel==0?1:abs(xVel)),yVel/ (yVel == 0 ? 1 : abs(yVel) )});
+
+	}
+	else
+	{
+		SetVelocity(POINT{ 0,0});
+	}
+}
+
 void Unit::MoveToPoint()
 {
 	if (m_destination.x != -1 && m_destination.y != -1)
@@ -581,10 +633,7 @@ void Unit::MoveToPoint()
 		Map::RemoveSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));
 		
 		Pathfind();
-		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()),0);
-		SetPosition(m_destination.x,m_destination.y);
-		Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), this);
-		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 4);
+		
 		m_destination.x = -1;
 		m_destination.y = -1;
 		m_destinationIndex.x = -1;

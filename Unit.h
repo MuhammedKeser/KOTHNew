@@ -45,12 +45,28 @@ public:
 
 //Members
 protected:
+	struct PathfindingNode
+	{
+		PathfindingNode* parentNode = NULL;
+		int xIndex = -1;
+		int yIndex = -1;
+		float totalPathCost = 0;
+		bool wasChecked = false;
+		bool wasAddedToList = false;
+		PathfindingNode(int yIndex, int xIndex)
+		{
+			this->xIndex = xIndex;
+			this->yIndex = yIndex;
+		}
+	};
+	std::stack<PathfindingNode*> path;//The path to take (for pathfinding)
 	Player *m_player;
 	float m_movementSpeed = 1.0f;
 	POINT m_destinationIndex = POINT{-1,-1};
 	POINT m_destination = POINT{-1,-1};
 	int status = UNIT_STATUS::ALIVE;
 	int m_health=100;
+	void HandlePathTraversal();
 //Methods
 public:
 	static bool pathfindingPerformedThisCycle;
