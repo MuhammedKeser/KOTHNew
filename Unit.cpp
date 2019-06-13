@@ -545,6 +545,12 @@ void Unit::UpdateMapPosition()
 
 void Unit::Pathfind()
 {
+	if (Map::GetGridCell(m_destinationIndex.y, m_destinationIndex.x)!=0
+		&& Map::GetGridCell(m_destinationIndex.y, m_destinationIndex.x)!=3)
+	{
+		return;
+	}
+
 	while (!path.empty())
 	{
 		path.pop();
@@ -742,17 +748,36 @@ void Unit::HandlePathTraversal()
 		//Set your position
 
 		//TODO, RIGHT HERE->If the next node is full, STOP. Re-pathfind
-		if (Map::GetGridCell(nextNode->xIndex, nextNode->yIndex) != 0
-			&& Map::GetGridCell(nextNode->xIndex, nextNode->yIndex) != 3)
+		if (Map::GetGridCell(nextNode->yIndex, nextNode->xIndex) != 0
+			&& Map::GetGridCell(nextNode->yIndex, nextNode->xIndex) != 3)
 		{
-			//while (path.size() > 1)
-			//{
-				//path.pop();
-			//}
-			/*m_destinationIndex.x = path.top()->xIndex;
-			m_destinationIndex.y = path.top()->yIndex;
-			Pathfind();*/
+			while (path.size() > 1)
+			{
+				path.pop();
+			}
+
+			std::cout << "Repathfind" << std::endl;
 			
+			SetVelocity(POINT{ 0,0 });
+			SetPosition(floor(xIndex*Map::GetCellWidth()) + GetWidth() / 2, floor(yIndex*Map::GetCellHeight()));
+			m_destinationIndex.x = path.top()->xIndex;
+			m_destinationIndex.y = path.top()->yIndex;
+			
+			Pathfind();
+			m_destinationIndex.x = -1;
+			m_destinationIndex.y = -1;
+
+			if (!path.empty())
+			{
+				if (Map::GetGridCell(path.top()->yIndex, path.top()->xIndex) != 0
+					&& Map::GetGridCell(path.top()->yIndex, path.top()->xIndex) != 3)
+				{
+					while (!path.empty())
+						path.pop();
+					nextNode = NULL;
+				}
+			}
+		
 		}
 		//If you're on the nextnode, pull off the node.
 
