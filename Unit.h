@@ -85,16 +85,8 @@ public:
 	void OnCollisionEnter(Sprite* otherSprite) override;
 	void OnCollisionStay(Sprite* otherSprite) override;
 	void PreventOverlap(Sprite* otherSprite);
-	virtual void          Draw(HDC hDC, Camera* cam) override
-	{
-		Sprite::Draw(hDC, cam);
-		//Apply text drawing here
-		int rectWidth = GetWidth() + 30;
-		RECT rect = RECT{ GetPosition().left - cam->GetPosition().x,GetPosition().top-35 - cam->GetPosition().y, GetPosition().right - cam->GetPosition().x,GetPosition().bottom - cam->GetPosition().y };
-		int rectHeight=DrawText(hDC, TEXT(std::string("HP: "+std::to_string(GetHealth())).c_str()), -1, &rect, DT_CALCRECT);
-		rect = RECT{ rect.left,rect.bottom,rect.right,rect.bottom + rectHeight };
-		DrawText(hDC, TEXT(std::string("HP: " + std::to_string(GetHealth())).c_str()), -1, &rect,  DT_CENTER);
-	};
+	virtual void          Draw(HDC hDC, Camera* cam) override;
+	
 	int GetStatus() { return status; };
 	void SetStatus(UNIT_STATUS statusToSet) { status = statusToSet; };
 	int GetHealth() { return m_health; };

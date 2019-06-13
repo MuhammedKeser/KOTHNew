@@ -52,7 +52,7 @@ public:
 	void SetDamage(int damage) { m_damage=damage; };
 	void SetAttackInterval(float attackInterval) { m_attackInterval=attackInterval; };
 	void SetTimeOfLastAttack(int timeOfLastAttack) { m_timeOfLastAttack=timeOfLastAttack; };
-	void SetIsMounted(bool isMounted) { m_isMounted = isMounted; if (m_isMounted) { SetBitmap(m_pMountedBitmap); } };
+	void SetIsMounted(bool isMounted) { m_isMounted = isMounted; if (m_isMounted) { SetBitmap(m_pMountedBitmap); m_movementSpeed = m_mountedMovementSpeed; } };
 
 protected:
 	//members
@@ -61,6 +61,7 @@ protected:
 	int m_timeOfLastAttack = -1;
 	int m_timeOfLastAnimation = -1;
 	int m_timeIntervalOfAnimation = 1000;
+	float m_mountedMovementSpeed = 10.0f;
 	bool m_isMounted = false;
 	static Bitmap*       m_pMountedBitmap;
 	static Bitmap* m_warriorLA1;
