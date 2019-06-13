@@ -25,6 +25,9 @@ void Gatherer::OnCollisionStay(Sprite * otherSprite)
 
 void Gatherer::SapTree(TreeSprite* tree)
 {
+	if (UNIT_STATUS::DEAD)
+		return;
+
 	if (tree != NULL && tree->m_Food>0)//Type of tree
 	{
 		if (m_player == NULL)
@@ -36,7 +39,12 @@ void Gatherer::SapTree(TreeSprite* tree)
 		m_player->m_food += sapSpeed;
 		tree->m_Food -= sapSpeed;
 		tree->ScaleTree();
+		SetStatus(UNIT_STATUS::SAPPING);
 		//std::cout << "Sapping!" << std::endl;
+	}
+	else
+	{
+		SetStatus(UNIT_STATUS::ALIVE);
 	}
 }
 
