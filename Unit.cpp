@@ -615,9 +615,15 @@ void Unit::Pathfind()
 							
 							(pathfindingMap[neighborYIndex][neighborXIndex]->totalPathCost>neighborPathCost+curNode->totalPathCost)
 							
-							&&  Map::GetGridCell(neighborYIndex, neighborXIndex) == 0)
+							&&  
+							(
+								Map::GetGridCell(neighborYIndex, neighborXIndex) == 0
+								|| Map::GetGridCell(neighborYIndex, neighborXIndex) == 3
+							)
+
+							)
 						{
-							if (Map::GetGridCell(neighborYIndex, neighborXIndex) == 0)
+							if (Map::GetGridCell(neighborYIndex, neighborXIndex) == 0 || Map::GetGridCell(neighborYIndex, neighborXIndex) == 3)
 							{
 								neighborNode = pathfindingMap[neighborYIndex][neighborXIndex];
 								neighborNode->parentNode = curNode;
@@ -725,7 +731,8 @@ void Unit::HandlePathTraversal()
 		//Set your position
 
 		//TODO, RIGHT HERE->If the next node is full, STOP. Re-pathfind
-		if (Map::GetGridCell(nextNode->xIndex, nextNode->yIndex) != 0)
+		if (Map::GetGridCell(nextNode->xIndex, nextNode->yIndex) != 0
+			&& Map::GetGridCell(nextNode->xIndex, nextNode->yIndex) != 3)
 		{
 			//while (path.size() > 1)
 			//{
