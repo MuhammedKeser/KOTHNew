@@ -174,9 +174,7 @@ void GenerateMap()
 				Tile* newTile = new Tile(tilePosition, tileBitmap);
 				backgroundTiles.push_back(newTile);
 			}
-			std::cout << Map::GetGridCell(i, j);
 		}
-		std::cout << std::endl;
 	}
 
 
@@ -406,6 +404,16 @@ void GameCycle()
 	// Update the sprites' positions
 	_pGame->UpdateSprites();
 	Unit::pathfindingPerformedThisCycle = false;
+
+	std::vector<Sprite*>::iterator spriteIt;
+	for (spriteIt = _pGame->m_vSprites.begin();spriteIt!=_pGame->m_vSprites.end();spriteIt++)
+	{
+		Unit* unit;
+		if (unit = dynamic_cast<Unit*>(*spriteIt))
+		{
+			unit->UpdateMapPosition();
+		}
+	}
 
 
   SelectSprites();

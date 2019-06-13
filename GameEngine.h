@@ -72,7 +72,6 @@ protected:
   BOOL                m_bSleep;
   UINT                m_uiJoystickID;
   RECT                m_rcJoystickTrip;
-  vector<Sprite*>     m_vSprites;
   
 
   // Helper Methods
@@ -80,6 +79,8 @@ protected:
   void                CheckSpriteCollision(Sprite* pTestSprite);
 
 public:
+
+  vector<Sprite*>     m_vSprites;
   // Constructor(s)/Destructor
           GameEngine(HINSTANCE hInstance, LPTSTR szWindowClass, LPTSTR szTitle,
             WORD wIcon, WORD wSmallIcon, int iWidth = 640, int iHeight = 480);

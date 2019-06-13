@@ -19,8 +19,8 @@ Unit::~Unit(void)
 	}
 
 	//Remove it from the map
-	Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()),0);
-	Map::RemoveSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));
+	Map::SetGridCell(yIndex, xIndex,0);
+	Map::RemoveSpriteGridCell(yIndex,xIndex);
 
 	if (Map::GetSpriteCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth())) == NULL)
 	{
@@ -417,8 +417,6 @@ void Unit::SetDestination(int x, int y, int cellWidth, int cellHeight)
 
 SPRITEACTION Unit::UpdatePosition()
 {
-	Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 0);
-	Map::RemoveSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));
 	
 	// Update the position
 	POINT ptNewPosition, ptSpriteSize, ptBoundsSize;
@@ -445,9 +443,6 @@ SPRITEACTION Unit::UpdatePosition()
 		else if (ptNewPosition.y > m_rcBounds.bottom)
 			ptNewPosition.y = m_rcBounds.top - ptSpriteSize.y;
 
-		
-		Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), this);
-		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 4);
 	}
 	// Bounce?
 	else if (m_baBoundsAction == BA_BOUNCE)
@@ -481,8 +476,6 @@ SPRITEACTION Unit::UpdatePosition()
 		if (bBounce)
 			SetVelocity(ptNewVelocity);
 
-		Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), this);
-		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 4);
 	}
 	// Die?
 	else if (m_baBoundsAction == BA_DIE)
@@ -492,8 +485,6 @@ SPRITEACTION Unit::UpdatePosition()
 			(ptNewPosition.y + ptSpriteSize.y) < m_rcBounds.top ||
 			ptNewPosition.y > m_rcBounds.bottom)
 		{
-			Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), this);
-			Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 4);
 			return SA_KILL;
 		}
 			
@@ -515,14 +506,10 @@ SPRITEACTION Unit::UpdatePosition()
 				m_rcBounds.bottom - ptSpriteSize.y));
 			SetVelocity(0, 0);
 		}
-		Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), this);
-		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 4);
 	}
 	// Continue? (Default)
 	else //Do nothing, let it go
 	{
-		Map::SetSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), this);
-		Map::SetGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()), 4);
 	}
 
 
@@ -536,10 +523,21 @@ bool Unit::cmp ( Unit::PathfindingNode* a, Unit::PathfindingNode* b)
 	return a->totalPathCost > b->totalPathCost;
 };
 
+void Unit::UpdateMapPosition()
+{
+
+	Map::SetSpriteGridCell(yIndex, xIndex, this);
+	Map::SetGridCell(yIndex, xIndex, 4);
+
+
+}
 
 void Unit::Pathfind()
 {
-	
+	while (!path.empty())
+	{
+		path.pop();
+	}
 
 	if (pathfindingPerformedThisCycle)
 		return;
@@ -673,6 +671,17 @@ void Unit::Pathfind()
 			}
 		}
 
+		/*
+	for (int i = 0; i < Map::GetCellHeight(); i++)
+	{
+		for (int j = 0; j < Map::GetCellWidth(); j++)
+		{
+			std::cout << Map::GetGridCell(i, j);
+		}
+		std::cout << std::endl;
+	}
+	*/
+
 		//UPDATE THE MAP WITH YOUR CURRENT POSITION
 	
 }
@@ -717,15 +726,27 @@ void Unit::HandlePathTraversal()
 		if (GetXIndex(Map::GetCellWidth()) == nextNode->xIndex
 			&& GetYIndex(Map::GetCellHeight()) == nextNode->yIndex)
 		{
+
+			Map::SetGridCell(yIndex, xIndex, 0);
+			Map::RemoveSpriteGridCell(yIndex, xIndex);
+
+			xIndex = nextNode->xIndex;
+			yIndex = nextNode->yIndex;
+
 			//TODO->Remove the old gridcells properly. Do this where velocity is applied.
-			
-			SetPosition(floor((nextNode->xIndex)*Map::GetCellWidth()) +GetWidth()/2, floor((nextNode->yIndex)*Map::GetCellHeight()) );
+			if (path.size() == 1)
+			{
+				SetPosition(floor((nextNode->xIndex)*Map::GetCellWidth()) + GetWidth() / 2, floor((nextNode->yIndex)*Map::GetCellHeight()));
+				SetVelocity(POINT{ 0,0 });
+			}
 			
 			path.pop();
 			if (path.size() > 0)
 				nextNode = path.top();
 			else
+			{
 				nextNode = NULL;
+			}
 		}
 
 
@@ -753,7 +774,7 @@ void Unit::HandlePathTraversal()
 	}
 	else
 	{
-		SetVelocity(POINT{ 0,0});
+
 	}
 }
 
