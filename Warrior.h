@@ -39,7 +39,7 @@ public:
 	virtual void OnCollisionExit(Sprite* otherSprite) override;
 	virtual void OnCollisionStay(Sprite* otherSprite) override;
 	void Update() override;
-	void Fight(Unit* otherUnit);
+	void Fight(Warrior* otherUnit);
 	void HandleDeath();
 	void handleBitmaps();
 

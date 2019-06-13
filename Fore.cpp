@@ -67,6 +67,7 @@ void MoveSelectedSprites()
 			if (!curUnit)
 				continue;
 			curUnit->SetDestination(Input::GetWorldMouseX(), Input::GetWorldMouseY(),cellWidth,cellHeight);
+			curUnit->SetStatus(UNIT_STATUS::COMMANDED);
 		}
 		//std::cout << selectedSprites.size();
 

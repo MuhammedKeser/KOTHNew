@@ -1,4 +1,5 @@
 #include "Gatherer.h"
+#include "StateHandler_Gatherer.h"
 
 int Gatherer::m_foodNeededForBirth=20;
 int Gatherer::m_birthCooldown=10;
@@ -18,15 +19,49 @@ void Gatherer::OnCollisionExit(Sprite * otherSprite)
 
 void Gatherer::OnCollisionStay(Sprite * otherSprite)
 {
-	//Checking the sprite type
-	TreeSprite* tree = dynamic_cast<TreeSprite*>(otherSprite);
-	SapTree(tree);
+	
+}
+
+void Gatherer::HandleWandering()
+{
+	if (GetStatus() == UNIT_STATUS::SAPPING)
+	{
+
+		//do nothing, just keep sapping
+		while (!path.empty())
+			path.pop();
+
+		SetVelocity(POINT{ 0,0 });
+		SetPosition(floor(xIndex*Map::GetCellWidth()) + GetWidth() / 2, floor(yIndex*Map::GetCellHeight()));
+
+	}
+	else if (path.empty())//Pathfind, if you haven't already
+	{
+		//DEBUG -> Just go to a random location around yourself for now
+		int randomXIndex = rand() % 5 - 2 + xIndex;
+		int randomYIndex = rand() % 5 - 2 + yIndex;
+
+		randomXIndex = randomXIndex < 0 ? 0 : (randomXIndex >= Map::GetWidth() ? Map::GetWidth() - 1 : randomXIndex);
+		randomYIndex = randomYIndex < 0 ? 0 : (randomYIndex >= Map::GetHeight() ? Map::GetHeight() - 1 : randomYIndex);
+
+		if (Map::GetGridCell(randomYIndex, randomXIndex) == 0 ||
+			Map::GetGridCell(randomYIndex, randomXIndex) == 3)
+		{
+			m_destinationIndex.x = randomXIndex;
+			m_destinationIndex.y = randomYIndex;
+			Pathfind();
+			m_destinationIndex.x = -1;
+			m_destinationIndex.y = -1;
+		}
+
+	}
 }
 
 void Gatherer::SapTree(TreeSprite* tree)
 {
 	if (UNIT_STATUS::DEAD)
 		return;
+
 
 	if (tree != NULL && tree->m_Food>0)//Type of tree
 	{
@@ -39,7 +74,15 @@ void Gatherer::SapTree(TreeSprite* tree)
 		m_player->m_food += sapSpeed;
 		tree->m_Food -= sapSpeed;
 		tree->ScaleTree();
-		SetStatus(UNIT_STATUS::SAPPING);
+
+
+		if(GetStatus()!=UNIT_STATUS::SAPPING
+			&& GetStatus()!=UNIT_STATUS::COMMANDED)
+		{
+			SetStatus(UNIT_STATUS::SAPPING);
+			while (!path.empty())
+				path.pop();
+		}
 		//std::cout << "Sapping!" << std::endl;
 	}
 	else
@@ -146,6 +189,7 @@ void Gatherer::Update()
 	}
 
 	HandleBirth();
+	HandleWandering();
 }
 
 void Gatherer::RequestWinOver(Warrior * warrior)

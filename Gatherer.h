@@ -29,7 +29,7 @@ private:
 	void SapTree(TreeSprite* tree);
 	void GiveBirth();
 	void HandleBirth();
-
+	void HandleWandering();
 	//Members
 	static int m_foodNeededForBirth;
 	static int m_birthCooldown;

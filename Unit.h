@@ -17,6 +17,7 @@ class Player;
 
 
 */
+class StateHandler;
 
 enum UNIT_STATUS 
 {
@@ -25,14 +26,15 @@ enum UNIT_STATUS
 	BIRTHING,
 	SAPPING,
 	ATTACKING,
-	WALKING
+	WALKING,
+	COMMANDED
 };
 
 class Unit : public MapSprite
 {
 public:
 	// Constructor(s)/Destructor
-	Unit(HDC hDC, HINSTANCE hInstance,UINT BITMAP_ID) :MapSprite(hDC, hInstance, BITMAP_ID) {};
+	Unit(HDC hDC, HINSTANCE hInstance,UINT BITMAP_ID) ;
 	Unit(Bitmap* pBitmap, UINT BITMAP_ID) :MapSprite(pBitmap, BITMAP_ID) {};
 	Unit(Bitmap* pBitmap, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) : MapSprite(pBitmap, rcBounds, BITMAP_ID, baBoundsAction) {};
 	Unit(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder, RECT& rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction = BA_STOP) :
@@ -71,6 +73,7 @@ protected:
 	void HandlePathTraversal();
 //Methods
 public:
+	StateHandler* stateHandler;
 	int xIndex = 0;
 	int yIndex = 0;
 	void UpdateMapPosition();

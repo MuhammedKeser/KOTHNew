@@ -1,7 +1,10 @@
 #include "Unit.h"
-
+#include "StateHandler.h"
 bool Unit::pathfindingPerformedThisCycle=false;
 
+Unit::Unit(HDC hDC, HINSTANCE hInstance, UINT BITMAP_ID) :MapSprite(hDC, hInstance, BITMAP_ID)
+{
+};
 
 Unit::~Unit(void)
 {
@@ -422,6 +425,8 @@ void Unit::SetDestination(int x, int y, int cellWidth, int cellHeight)
 	m_destinationIndex = POINT{ destinationX,destinationY};
 	m_destination = POINT{ long(destinationX*cellWidth)+long(floor(cellWidth/2))-long(GetWidth()/2),long(destinationY*cellHeight) + long(floor(cellHeight / 2))-long(GetHeight()/2)};
 
+	if(GetStatus()!=UNIT_STATUS::COMMANDED)
+		SetStatus(UNIT_STATUS::WALKING);
 	
 
 }
@@ -758,6 +763,8 @@ void Unit::HandlePathTraversal()
 
 			std::cout << "Repathfind" << std::endl;
 			
+
+			SetStatus(UNIT_STATUS::ALIVE);
 			SetVelocity(POINT{ 0,0 });
 			SetPosition(floor(xIndex*Map::GetCellWidth()) + GetWidth() / 2, floor(yIndex*Map::GetCellHeight()));
 			m_destinationIndex.x = path.top()->xIndex;
@@ -833,6 +840,7 @@ void Unit::HandlePathTraversal()
 			//TODO->Remove the old gridcells properly. Do this where velocity is applied.
 			if (path.size() == 1)
 			{
+				SetStatus(UNIT_STATUS::ALIVE);
 				SetPosition(floor((nextNode->xIndex)*Map::GetCellWidth()) + GetWidth() / 2, floor((nextNode->yIndex)*Map::GetCellHeight()));
 				SetVelocity(POINT{ 0,0 });
 			}

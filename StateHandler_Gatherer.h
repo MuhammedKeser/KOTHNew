@@ -2,12 +2,14 @@
 #include <iostream>
 #include "StateHandler.h"
 
+class Gatherer;
+
 class StateHandler_Gatherer : public StateHandler
 {
 public:
 	//TODO -> Document this entire badboy
 
-	StateHandler_Gatherer(): 
+	StateHandler_Gatherer():
 		StateHandler(roamState)
 	{
 		if(!hasBeenInitialized)

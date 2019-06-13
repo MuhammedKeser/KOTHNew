@@ -40,7 +40,7 @@ void Warrior::Update()
 	{
 		if ((*siSprite) == NULL)
 			continue;
-		if (Unit* neighborUnit = dynamic_cast<Unit*>(*siSprite))
+		if (Warrior* neighborUnit = dynamic_cast<Warrior*>(*siSprite))
 		{
 			Fight(neighborUnit);
 		}
@@ -53,7 +53,7 @@ void Warrior::Update()
 //1.We're going to be using a grid-based map. Turn this from collision-based attacking to neighboring cell attacking
 //ALSO perform a player check to make sure you're not attacking your own units
 //2.If it's a gatherer, win it over instead of fighting it
-void Warrior::Fight(Unit* otherUnit)
+void Warrior::Fight(Warrior* otherUnit)
 {
 
 	if (otherUnit)
