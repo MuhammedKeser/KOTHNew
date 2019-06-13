@@ -51,7 +51,7 @@ protected:
 		PathfindingNode* parentNode = NULL;
 		int xIndex = -1;
 		int yIndex = -1;
-		float totalPathCost = 0;
+		float totalPathCost = std::numeric_limits<float>::infinity();
 		bool wasChecked = false;
 		bool wasAddedToList = false;
 		PathfindingNode(int yIndex, int xIndex)

@@ -194,13 +194,13 @@ void Unit::OnCollisionEnter(Sprite * otherSprite)
 	auto XCollision = [this, &unit, &Collision]()
 	{
 		Collision();
-		m_ptVelocity.x = 0;
+		//m_ptVelocity.x = 0;
 	};
 
 	auto YCollision = [this, &unit, Collision]()
 	{
 		Collision();
-		m_ptVelocity.y = 0;
+		//m_ptVelocity.y = 0;
 	};
 
 	if (unit
@@ -221,7 +221,7 @@ void Unit::OnCollisionEnter(Sprite * otherSprite)
 			)
 		)
 	{
-		m_rcPosition = { GetPosition().left - m_ptVelocity.x, m_rcPosition.top, GetPosition().right - m_ptVelocity.x, m_rcPosition.bottom };
+		//m_rcPosition = { GetPosition().left - m_ptVelocity.x, m_rcPosition.top, GetPosition().right - m_ptVelocity.x, m_rcPosition.bottom };
 		XCollision();
 	}
 
@@ -243,7 +243,7 @@ void Unit::OnCollisionEnter(Sprite * otherSprite)
 			)
 		)
 	{
-		m_rcPosition = { m_rcPosition.left, GetPosition().top - m_ptVelocity.y,  m_rcPosition.right,GetPosition().bottom - m_ptVelocity.y };
+		//m_rcPosition = { m_rcPosition.left, GetPosition().top - m_ptVelocity.y,  m_rcPosition.right,GetPosition().bottom - m_ptVelocity.y };
 		YCollision();
 	}
 
@@ -252,7 +252,7 @@ void Unit::OnCollisionEnter(Sprite * otherSprite)
 		&& unit->GetVelocity().x >= 0
 		&& otherSprite->GetPosition().left < m_rcPosition.right)
 	{
-		m_rcPosition = { otherSprite->GetPosition().left - GetWidth() - 1, m_rcPosition.top, otherSprite->GetPosition().left - 1, m_rcPosition.bottom };
+		//m_rcPosition = { otherSprite->GetPosition().left - GetWidth() - 1, m_rcPosition.top, otherSprite->GetPosition().left - 1, m_rcPosition.bottom };
 		XCollision();
 	}
 	if (unit
@@ -260,7 +260,7 @@ void Unit::OnCollisionEnter(Sprite * otherSprite)
 		&& unit->GetVelocity().x <= 0
 		&& otherSprite->GetPosition().right > m_rcPosition.left)
 	{
-		m_rcPosition = { otherSprite->GetPosition().right + 1, m_rcPosition.top, otherSprite->GetPosition().right + GetWidth() + 1, m_rcPosition.bottom };
+		//m_rcPosition = { otherSprite->GetPosition().right + 1, m_rcPosition.top, otherSprite->GetPosition().right + GetWidth() + 1, m_rcPosition.bottom };
 		XCollision();
 	}
 
@@ -270,7 +270,7 @@ void Unit::OnCollisionEnter(Sprite * otherSprite)
 		&& otherSprite->GetPosition().top < m_rcPosition.bottom)
 	{
 
-		m_rcPosition = { m_rcPosition.left ,otherSprite->GetPosition().top - GetHeight() - 1, m_rcPosition.right,otherSprite->GetPosition().top - 1 };
+		//m_rcPosition = { m_rcPosition.left ,otherSprite->GetPosition().top - GetHeight() - 1, m_rcPosition.right,otherSprite->GetPosition().top - 1 };
 		YCollision();
 	}
 	if (unit
@@ -278,7 +278,7 @@ void Unit::OnCollisionEnter(Sprite * otherSprite)
 		&& unit->GetVelocity().y <= 0
 		&& otherSprite->GetPosition().bottom > m_rcPosition.top)
 	{
-		m_rcPosition = { m_rcPosition.left,otherSprite->GetPosition().bottom + 1, m_rcPosition.right,otherSprite->GetPosition().bottom + GetHeight() + 1 };
+		//m_rcPosition = { m_rcPosition.left,otherSprite->GetPosition().bottom + 1, m_rcPosition.right,otherSprite->GetPosition().bottom + GetHeight() + 1 };
 		YCollision();
 	}
 }
@@ -299,13 +299,13 @@ void Unit::OnCollisionStay(Sprite * otherSprite)
 	auto XCollision = [this, &unit, &Collision]()
 	{
 		Collision();
-		m_ptVelocity.x = 0;
+		//m_ptVelocity.x = 0;
 	};
 
 	auto YCollision = [this, &unit, Collision]()
 	{
 		Collision();
-		m_ptVelocity.y = 0;
+		//m_ptVelocity.y = 0;
 	};
 
 	if (unit
@@ -327,7 +327,7 @@ void Unit::OnCollisionStay(Sprite * otherSprite)
 		)
 	{
 		//std::cout << "SET POS" << std::endl;
-		m_rcPosition = { GetPosition().left - m_ptVelocity.x, m_rcPosition.top, GetPosition().right - m_ptVelocity.x, m_rcPosition.bottom };
+		//m_rcPosition = { GetPosition().left - m_ptVelocity.x, m_rcPosition.top, GetPosition().right - m_ptVelocity.x, m_rcPosition.bottom };
 		XCollision();
 	}
 
@@ -349,7 +349,7 @@ void Unit::OnCollisionStay(Sprite * otherSprite)
 			)
 		)
 	{
-		m_rcPosition = { m_rcPosition.left, GetPosition().top - m_ptVelocity.y,  m_rcPosition.right,GetPosition().bottom - m_ptVelocity.y };
+		//m_rcPosition = { m_rcPosition.left, GetPosition().top - m_ptVelocity.y,  m_rcPosition.right,GetPosition().bottom - m_ptVelocity.y };
 		YCollision();
 	}
 
@@ -368,7 +368,7 @@ void Unit::OnCollisionStay(Sprite * otherSprite)
 		&& otherSprite->GetPosition().right > m_rcPosition.left)
 	{
 		//std::cout << "SET POS" << std::endl;
-		m_rcPosition = { otherSprite->GetPosition().right + 1, m_rcPosition.top, otherSprite->GetPosition().right + GetWidth() + 1, m_rcPosition.bottom };
+		//m_rcPosition = { otherSprite->GetPosition().right + 1, m_rcPosition.top, otherSprite->GetPosition().right + GetWidth() + 1, m_rcPosition.bottom };
 		XCollision();
 	}
 
@@ -378,7 +378,7 @@ void Unit::OnCollisionStay(Sprite * otherSprite)
 		&& otherSprite->GetPosition().top < m_rcPosition.bottom)
 	{
 
-		m_rcPosition = { m_rcPosition.left ,otherSprite->GetPosition().top - GetHeight() - 1, m_rcPosition.right,otherSprite->GetPosition().top - 1 };
+		//m_rcPosition = { m_rcPosition.left ,otherSprite->GetPosition().top - GetHeight() - 1, m_rcPosition.right,otherSprite->GetPosition().top - 1 };
 		YCollision();
 	}
 	if (unit
@@ -387,7 +387,7 @@ void Unit::OnCollisionStay(Sprite * otherSprite)
 		&& otherSprite->GetPosition().bottom > m_rcPosition.top)
 	{
 		//std::cout << "SET POS" << std::endl;
-		m_rcPosition = { m_rcPosition.left,otherSprite->GetPosition().bottom + 1, m_rcPosition.right,otherSprite->GetPosition().bottom + GetHeight() + 1 };
+		//m_rcPosition = { m_rcPosition.left,otherSprite->GetPosition().bottom + 1, m_rcPosition.right,otherSprite->GetPosition().bottom + GetHeight() + 1 };
 		YCollision();
 	}
 }
@@ -539,6 +539,9 @@ void Unit::Pathfind()
 		path.pop();
 	}
 
+	xIndex = GetXIndex(Map::GetCellWidth());
+	yIndex = GetYIndex(Map::GetCellHeight());
+
 	if (pathfindingPerformedThisCycle)
 		return;
 
@@ -559,7 +562,7 @@ void Unit::Pathfind()
 	}
 
 	//Make sure that our destination is set
-	if (m_destination.x != -1 && m_destination.y != -1)
+	if (m_destinationIndex.x != -1 && m_destinationIndex.y != -1)
 	{
 		
 
@@ -568,6 +571,7 @@ void Unit::Pathfind()
 		std::vector<PathfindingNode*> nodesToCheck;//The list of nodes to check
 		std::make_heap(nodesToCheck.begin(), nodesToCheck.end(),cmp);
 		PathfindingNode* startingNode = pathfindingMap[GetYIndex(Map::GetCellHeight())][GetXIndex(Map::GetCellWidth())];//The starting node
+		startingNode->totalPathCost = 0;
 		startingNode->wasChecked = true;
 		nodesToCheck.push_back(startingNode);//Push the node you're currently on into the queue
 		PathfindingNode* destinationNode=pathfindingMap[m_destinationIndex.y][m_destinationIndex.x];//The destination node
@@ -608,17 +612,17 @@ void Unit::Pathfind()
 							&& neighborXIndex < Map::GetWidth()
 							&& neighborXIndex >= 0
 							&& 
-							(
-								(pathfindingMap[neighborYIndex][neighborXIndex]->totalPathCost==0)
-								||
-								(pathfindingMap[neighborYIndex][neighborXIndex]->totalPathCost>neighborPathCost+curNode->totalPathCost)
-							)
+							
+							(pathfindingMap[neighborYIndex][neighborXIndex]->totalPathCost>neighborPathCost+curNode->totalPathCost)
+							
 							&&  Map::GetGridCell(neighborYIndex, neighborXIndex) == 0)
 						{
 							if (Map::GetGridCell(neighborYIndex, neighborXIndex) == 0)
 							{
 								neighborNode = pathfindingMap[neighborYIndex][neighborXIndex];
 								neighborNode->parentNode = curNode;
+
+
 								neighborNode->totalPathCost = curNode->totalPathCost + neighborPathCost;
 
 								if (neighborNode == destinationNode)
@@ -721,24 +725,76 @@ void Unit::HandlePathTraversal()
 		//Set your position
 
 		//TODO, RIGHT HERE->If the next node is full, STOP. Re-pathfind
-
+		if (Map::GetGridCell(nextNode->xIndex, nextNode->yIndex) != 0)
+		{
+			//while (path.size() > 1)
+			//{
+				//path.pop();
+			//}
+			/*m_destinationIndex.x = path.top()->xIndex;
+			m_destinationIndex.y = path.top()->yIndex;
+			Pathfind();*/
+			
+		}
 		//If you're on the nextnode, pull off the node.
-		if (GetXIndex(Map::GetCellWidth()) == nextNode->xIndex
-			&& GetYIndex(Map::GetCellHeight()) == nextNode->yIndex)
+
+		//TODO->Fix the velocity positioning
+		if (nextNode == NULL)
+			return;
+
+		int cellWidth = Map::GetCellWidth();
+		int cellHeight = Map::GetCellHeight();
+		int destinationX = nextNode->xIndex;
+		int destinationY = nextNode->yIndex;
+		POINT destination = POINT{ long(destinationX*cellWidth) + long(floor(cellWidth / 2)) - long(GetWidth() / 2),
+			long(destinationY*cellHeight) + long(floor(cellHeight / 2)) - long(GetHeight() / 2) };
+		int xVel = nextNode->xIndex - xIndex;
+		int yVel = nextNode->yIndex - yIndex;
+		//Get their signs
+		xVel = xVel / (xVel == 0 ? 1 : abs(xVel));
+		yVel = yVel / (yVel == 0 ? 1 : abs(yVel));
+		float normalizedXVel = float(xVel) / sqrt(pow(xVel, 2) + pow(yVel, 2));
+		float normalizedYVel = float(yVel) / sqrt(pow(xVel, 2) + pow(yVel, 2));
+		//if(xVel==0)
+		//	SetPosition(floor((nextNode->xIndex)*Map::GetCellWidth()) + GetWidth() / 2, (GetPosition().top+GetPosition().bottom)/2);
+		//if (yVel == 0)
+		//	SetPosition((GetPosition().left+ GetPosition().right)/2, floor((nextNode->yIndex)*Map::GetCellHeight()) + GetHeight() / 2);
+
+		//SetPosition(floor((nextNode->xIndex)*Map::GetCellWidth()), floor((nextNode->yIndex)*Map::GetCellHeight()));
+		SetVelocity(POINT{ long(normalizedXVel*m_movementSpeed),long(normalizedYVel*m_movementSpeed) });
+
+		if (
+				(
+				GetXIndex(Map::GetCellWidth()) == nextNode->xIndex
+				&& GetYIndex(Map::GetCellHeight()) == nextNode->yIndex
+				)
+				||
+				(//Overshoot
+					(GetVelocity().x > 0 && floor((nextNode->xIndex)*Map::GetCellWidth()) < (GetPosition().left))
+				||	(GetVelocity().x < 0 && floor((nextNode->xIndex)*Map::GetCellWidth()) > (GetPosition().left))
+				||	(GetVelocity().y > 0 && floor((nextNode->yIndex)*Map::GetCellHeight()) <(GetPosition().top))
+				||	(GetVelocity().y < 0 && floor((nextNode->yIndex)*Map::GetCellHeight()) >(GetPosition().top))
+				)
+			)
 		{
 
 			Map::SetGridCell(yIndex, xIndex, 0);
 			Map::RemoveSpriteGridCell(yIndex, xIndex);
 
+			//SetPosition(floor((nextNode->xIndex)*Map::GetCellWidth()), floor((nextNode->yIndex)*Map::GetCellHeight()));
+			
 			xIndex = nextNode->xIndex;
 			yIndex = nextNode->yIndex;
 
+			
 			//TODO->Remove the old gridcells properly. Do this where velocity is applied.
 			if (path.size() == 1)
 			{
 				SetPosition(floor((nextNode->xIndex)*Map::GetCellWidth()) + GetWidth() / 2, floor((nextNode->yIndex)*Map::GetCellHeight()));
 				SetVelocity(POINT{ 0,0 });
 			}
+
+			UpdateMapPosition();
 			
 			path.pop();
 			if (path.size() > 0)
@@ -751,36 +807,24 @@ void Unit::HandlePathTraversal()
 
 
 
-		if (nextNode == NULL)
-			return;
 
 		
 	
-		int cellWidth = Map::GetCellWidth();
-		int cellHeight = Map::GetCellHeight();
-		int destinationX = nextNode->xIndex;
-		int destinationY = nextNode->yIndex;
-		POINT destination = POINT{ long(destinationX*cellWidth) + long(floor(cellWidth / 2)) - long(GetWidth() / 2),
-			long(destinationY*cellHeight) + long(floor(cellHeight / 2)) - long(GetHeight() / 2) };
-		int xVel = nextNode->xIndex - GetXIndex(Map::GetCellWidth()) ;
-		int yVel = nextNode->yIndex - GetYIndex(Map::GetCellHeight());
-		//Get their signs
-		xVel = xVel / (xVel == 0 ? 1 : abs(xVel));
-		yVel = yVel / (yVel == 0 ? 1 : abs(yVel));
-		float normalizedXVel = float(xVel) / sqrt(pow(xVel, 2) + pow(yVel, 2));
-		float normalizedYVel = float(yVel) / sqrt(pow(xVel, 2) + pow(yVel, 2));
-		SetVelocity(POINT{long(normalizedXVel*m_movementSpeed),long(normalizedYVel*m_movementSpeed) });
+	
 
 	}
 	else
 	{
 
 	}
+
+
+
 }
 
 void Unit::MoveToPoint()
 {
-	if (m_destination.x != -1 && m_destination.y != -1)
+	if (m_destinationIndex.x != -1 && m_destinationIndex.y != -1)
 	{
 		//DEBUG
 		//TODO-> This is DIRTY. Clean this up, and implement it AFTER movement (it's just teleportation right now.)
