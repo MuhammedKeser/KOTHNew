@@ -52,6 +52,8 @@ void Gatherer::GiveBirth()
 
 	int randPosX = (GetXIndex(Map::GetCellWidth()) + rand() % 5 - 2);
 	int randPosY = (GetYIndex(Map::GetCellHeight()) + rand() % 5 - 2);
+	randPosX = randPosX < 0 ? 0 : (randPosX>=Map::GetWidth()? Map::GetWidth()-1 : randPosX);
+	randPosY = randPosY < 0 ? 0 : (randPosY >= Map::GetHeight() ? Map::GetHeight() - 1 : randPosY);
 	if(Map::GetGridCell(randPosY,randPosX)==0)
 	{
 		Map::SetGridCell(randPosY, randPosX, 4);
