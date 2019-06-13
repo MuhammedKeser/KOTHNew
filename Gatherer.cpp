@@ -24,6 +24,9 @@ void Gatherer::OnCollisionStay(Sprite * otherSprite)
 
 void Gatherer::HandleWandering()
 {
+	if (GetStatus() == UNIT_STATUS::BIRTHING)
+		return;
+
 	if (GetStatus() == UNIT_STATUS::SAPPING)
 	{
 
@@ -77,7 +80,8 @@ void Gatherer::SapTree(TreeSprite* tree)
 
 
 		if(GetStatus()!=UNIT_STATUS::SAPPING
-			&& GetStatus()!=UNIT_STATUS::COMMANDED)
+			&& GetStatus()!=UNIT_STATUS::COMMANDED
+			&& GetStatus()!=UNIT_STATUS::BIRTHING)
 		{
 			SetStatus(UNIT_STATUS::SAPPING);
 			while (!path.empty())
@@ -188,8 +192,8 @@ void Gatherer::Update()
 		ChangePlayer(surroundingPlayers.front());
 	}
 
-	HandleBirth();
 	HandleWandering();
+	HandleBirth();
 }
 
 void Gatherer::RequestWinOver(Warrior * warrior)

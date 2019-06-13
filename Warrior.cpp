@@ -46,6 +46,7 @@ void Warrior::Update()
 		}
 	}
 	handleBitmaps();
+	HandleWandering();
 	HandleDeath();
 }
 
@@ -118,6 +119,41 @@ void Warrior::handleBitmaps()
 			m_pBitmap = m_warriorRA1;
 		}
 		m_timeOfLastAnimation = GetTickCount();
+
+	}
+}
+
+void Warrior::HandleWandering()
+{
+	if (GetStatus() == UNIT_STATUS::ATTACKING)
+	{
+
+		//do nothing, just keep sapping
+		while (!path.empty())
+			path.pop();
+
+		SetVelocity(POINT{ 0,0 });
+		SetPosition(floor(xIndex*Map::GetCellWidth()) + GetWidth() / 2, floor(yIndex*Map::GetCellHeight()));
+
+	}
+	else if (path.empty())//Pathfind, if you haven't already
+	{
+		//DEBUG -> Just go to a random location around yourself for now
+		int randomXIndex = rand() % 9 - 4 + xIndex;
+		int randomYIndex = rand() % 9 - 4 + yIndex;
+
+		randomXIndex = randomXIndex < 0 ? 0 : (randomXIndex >= Map::GetWidth() ? Map::GetWidth() - 1 : randomXIndex);
+		randomYIndex = randomYIndex < 0 ? 0 : (randomYIndex >= Map::GetHeight() ? Map::GetHeight() - 1 : randomYIndex);
+
+		if (Map::GetGridCell(randomYIndex, randomXIndex) == 0 ||
+			Map::GetGridCell(randomYIndex, randomXIndex) == 3)
+		{
+			m_destinationIndex.x = randomXIndex;
+			m_destinationIndex.y = randomYIndex;
+			Pathfind();
+			m_destinationIndex.x = -1;
+			m_destinationIndex.y = -1;
+		}
 
 	}
 }

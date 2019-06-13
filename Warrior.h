@@ -53,7 +53,8 @@ public:
 	void SetAttackInterval(float attackInterval) { m_attackInterval=attackInterval; };
 	void SetTimeOfLastAttack(int timeOfLastAttack) { m_timeOfLastAttack=timeOfLastAttack; };
 	void SetIsMounted(bool isMounted) { m_isMounted = isMounted; if (m_isMounted) { SetBitmap(m_pMountedBitmap); m_movementSpeed = m_mountedMovementSpeed; } };
-
+	void HandleWandering();
+	
 protected:
 	//members
 	int m_damage = 20;
