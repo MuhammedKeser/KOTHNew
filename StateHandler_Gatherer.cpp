@@ -1,4 +1,5 @@
 #include "StateHandler_Gatherer.h"
+#include "Gatherer.h";
 
 State* StateHandler_Gatherer::roamState = new State();
 State* StateHandler_Gatherer::gatherState = new State();

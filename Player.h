@@ -54,7 +54,7 @@ public:
 		newUnit->SetPosition(newPosition);
 		newUnit->SetPlayer(this);
 		int xIndex = newUnit->GetXIndex(Map::GetCellWidth());
-		int yIndex = newUnit->GetXIndex(Map::GetCellHeight());
+		int yIndex = newUnit->GetYIndex(Map::GetCellHeight());
 		Map::SetGridCell(yIndex,xIndex,4);
 		Map::SetSpriteGridCell(yIndex, xIndex, newUnit);
 

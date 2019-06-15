@@ -1,6 +1,18 @@
 #include "Warrior.h"
 #include "Horse.h"
 
+Bitmap*Warrior::m_pMountedBitmap=NULL;
+Bitmap*Warrior::m_warriorLA1	=NULL;
+Bitmap*Warrior::m_warriorLA2	=NULL;
+Bitmap*Warrior::m_warriorLW1	=NULL;
+Bitmap*Warrior::m_warriorLW2	=NULL;
+Bitmap*Warrior::m_warriorRA1	=NULL;
+Bitmap*Warrior::m_warriorRA2	=NULL;
+Bitmap*Warrior::m_warriorRW1	=NULL;
+Bitmap*Warrior::m_warriorRW2	=NULL;
+Bitmap*Warrior::m_warriorL		=NULL;
+Bitmap*Warrior:: m_warriorR		=NULL;
+
 void Warrior::OnCollisionEnter(Sprite * otherSprite)
 {
 	Unit::OnCollisionEnter(otherSprite);
@@ -14,7 +26,7 @@ void Warrior::OnCollisionStay(Sprite * otherSprite)
 {
 	if (Unit* otherUnit = dynamic_cast<Unit*>(otherSprite))
 	{
-		Fight(otherUnit);
+		//Fight(otherUnit);
 	}
 }
 
@@ -26,12 +38,15 @@ void Warrior::Update()
 	std::list<Sprite*>::iterator siSprite;
 	for (siSprite = neighborSprites.begin(); siSprite != neighborSprites.end(); siSprite++)
 	{
-		if (Unit* neighborUnit = dynamic_cast<Unit*>(*siSprite))
+		if ((*siSprite) == NULL)
+			continue;
+		if (Warrior* neighborUnit = dynamic_cast<Warrior*>(*siSprite))
 		{
 			Fight(neighborUnit);
 		}
 	}
 	handleBitmaps();
+	HandleWandering();
 	HandleDeath();
 }
 
@@ -39,7 +54,7 @@ void Warrior::Update()
 //1.We're going to be using a grid-based map. Turn this from collision-based attacking to neighboring cell attacking
 //ALSO perform a player check to make sure you're not attacking your own units
 //2.If it's a gatherer, win it over instead of fighting it
-void Warrior::Fight(Unit* otherUnit)
+void Warrior::Fight(Warrior* otherUnit)
 {
 
 	if (otherUnit)
@@ -104,6 +119,41 @@ void Warrior::handleBitmaps()
 			m_pBitmap = m_warriorRA1;
 		}
 		m_timeOfLastAnimation = GetTickCount();
+
+	}
+}
+
+void Warrior::HandleWandering()
+{
+	if (GetStatus() == UNIT_STATUS::ATTACKING)
+	{
+
+		//do nothing, just keep sapping
+		while (!path.empty())
+			path.pop();
+
+		SetVelocity(POINT{ 0,0 });
+		SetPosition(floor(xIndex*Map::GetCellWidth()) + GetWidth() / 2, floor(yIndex*Map::GetCellHeight()));
+
+	}
+	else if (path.empty())//Pathfind, if you haven't already
+	{
+		//DEBUG -> Just go to a random location around yourself for now
+		int randomXIndex = rand() % 9 - 4 + xIndex;
+		int randomYIndex = rand() % 9 - 4 + yIndex;
+
+		randomXIndex = randomXIndex < 0 ? 0 : (randomXIndex >= Map::GetWidth() ? Map::GetWidth() - 1 : randomXIndex);
+		randomYIndex = randomYIndex < 0 ? 0 : (randomYIndex >= Map::GetHeight() ? Map::GetHeight() - 1 : randomYIndex);
+
+		if (Map::GetGridCell(randomYIndex, randomXIndex) == 0 ||
+			Map::GetGridCell(randomYIndex, randomXIndex) == 3)
+		{
+			m_destinationIndex.x = randomXIndex;
+			m_destinationIndex.y = randomYIndex;
+			Pathfind();
+			m_destinationIndex.x = -1;
+			m_destinationIndex.y = -1;
+		}
 
 	}
 }

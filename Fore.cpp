@@ -30,6 +30,7 @@ Bitmap** _pGrassBitmaps=new Bitmap*[grassCount];
 //For some reason, static lists aren't working. Weird, might have something to do with this specific game engine's stack calls.
 std::list<Player*>players = std::list<Player*>();
 
+LivelySprite* livelySprite;
 Player* player;
 Player* player2;
 
@@ -66,12 +67,15 @@ void MoveSelectedSprites()
 			if (!curUnit)
 				continue;
 			curUnit->SetDestination(Input::GetWorldMouseX(), Input::GetWorldMouseY(),cellWidth,cellHeight);
+			curUnit->SetStatus(UNIT_STATUS::COMMANDED);
 		}
 		//std::cout << selectedSprites.size();
 
 		//selectedSprites.clear();
 	}
 }
+
+
 
 void SelectSprites()
 {
@@ -97,6 +101,7 @@ void SelectSprites()
 			//_pSelectBitmap->SetWidth(Input::MouseX - originMouseX);
 			//_pSelectBitmap->SetHeight(Input::MouseY - originMouseY);
 			//selectSprite->SetBounds(RECT{ originMouseX,originMouseY,Input::MouseX,Input::MouseY });
+			
 		}
 
 		if (Input::KeyReleased(InputKeys::KEY::MOUSELEFT))
@@ -128,6 +133,7 @@ void GenerateMap()
 
 			if (Map::GetGridCell(i,j) == 1)
 			{
+				/*
 				Sprite* newSprite = (Sprite*)_pGame->CreateSprite<Sprite>(hDC);
 				newSprite->SetBitmap(_pWallBitmap);
 				RECT rect = { newSprite->GetWidth()*j,newSprite->GetHeight()*i,newSprite->GetWidth()*(j + 1),newSprite->GetHeight()*(i + 1) };
@@ -136,6 +142,11 @@ void GenerateMap()
 				newSprite->isStatic = true;
 				newSprite->name = "WALL";
 				Map::SetSpriteGridCell(i,j,newSprite);
+				*/
+				Bitmap* tileBitmap = _pWallBitmap;
+				RECT tilePosition = { tileBitmap->GetWidth()*j,tileBitmap->GetHeight()*i,tileBitmap->GetWidth()*(j + 1),tileBitmap->GetHeight()*(i + 1) };
+				Tile* newTile = new Tile(tilePosition, tileBitmap);
+				backgroundTiles.push_back(newTile);
 			}
 
 			if (Map::GetGridCell(i, j) == 2)
@@ -150,11 +161,11 @@ void GenerateMap()
 			//colouring bitmap
 			if (Map::GetGridCell(i,j)==3 && !firstLively)
 			{
-				LivelySprite* newSprite = (LivelySprite*)_pGame->CreateSprite<LivelySprite>(hDC);
-				RECT rect = { newSprite->GetWidth() * j,newSprite->GetHeight() * i,newSprite->GetWidth() * (j + 8),newSprite->GetHeight() * (i + 8) };
-				newSprite->Scale(8, 8);
-				newSprite->SetPosition(rect);
-				newSprite->RecalculateColliderRect();
+				livelySprite = (LivelySprite*)_pGame->CreateSprite<LivelySprite>(hDC);
+				RECT rect = { livelySprite->GetWidth() * j,livelySprite->GetHeight() * i,livelySprite->GetWidth() * (j + 8),livelySprite->GetHeight() * (i + 8) };
+				livelySprite->Scale(8, 8);
+				livelySprite->SetPosition(rect);
+				livelySprite->RecalculateColliderRect();
 				/*newSprite->isStatic = false;*/
 
 				firstLively = true;
@@ -167,9 +178,7 @@ void GenerateMap()
 				Tile* newTile = new Tile(tilePosition, tileBitmap);
 				backgroundTiles.push_back(newTile);
 			}
-			std::cout << Map::GetGridCell(i, j);
 		}
-		std::cout << std::endl;
 	}
 
 
@@ -326,6 +335,7 @@ void GameActivate(HWND hWindow)
 
 void GameDeactivate(HWND hWindow)
 {
+	
 }
 
 void GamePaint(HDC hDC)
@@ -351,7 +361,9 @@ void GamePaint(HDC hDC)
 		  camera.GetPosition().y <= (*it)->m_position.bottom
 		  )
 	  {
-		  (*it)->Draw(hDC, &camera);
+		  //DEBUG
+		  if((*it)->m_bitmap==_pWallBitmap)
+			(*it)->Draw(hDC, &camera);
 		  tileCount++;
 	  }
 
@@ -363,12 +375,15 @@ void GamePaint(HDC hDC)
   _pGame->DrawSprites(hDC,&camera);
 
   //Display the countdown if need be
-  LivelySprite::startCountdown(hDC);
+  livelySprite->HandleDisplay(hDC);
 
 }
 
 void GameCycle()
 {
+
+	
+
 	//Update the inputs
 	Input::UpdateKeys();
 
@@ -390,11 +405,23 @@ void GameCycle()
 		(*it)->HandleRequestedUnitSpawns(hDC,_pGame);
 	}
 
+	Unit::pathfindingPerformedThisCycle = false;
 	//Update the sprite collisions
 	_pGame->UpdateCollisions();
-
-	// Update the sprites
+	
+	// Update the sprites' positions
 	_pGame->UpdateSprites();
+	Unit::pathfindingPerformedThisCycle = false;
+
+	std::vector<Sprite*>::iterator spriteIt;
+	for (spriteIt = _pGame->m_vSprites.begin();spriteIt!=_pGame->m_vSprites.end();spriteIt++)
+	{
+		Unit* unit;
+		if (unit = dynamic_cast<Unit*>(*spriteIt))
+		{
+			unit->UpdateMapPosition();
+		}
+	}
 
 
   SelectSprites();
@@ -418,6 +445,28 @@ void GameCycle()
   HWND  hWindow = _pGame->GetWindow();
   HDC   hDC = GetDC(hWindow);
 
+  if (livelySprite->timeCountdownStarted != -1
+	  && livelySprite->timeCountdownStarted + livelySprite->countdownInterval * 1000 < GetTickCount())
+  {
+	  //End the game
+	  HDC hDC;
+
+	  RECT rect;
+
+	  // Draw deactivation text on the game screen
+
+	  GetClientRect(hWindow, &rect);
+
+	  hDC = GetDC(hWindow);
+
+	  DrawText(hDC, TEXT("The game has Ended!"), -1, &rect,
+
+		  DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+
+	  ReleaseDC(hWindow, hDC);
+
+	  while (true) {};
+  }
 
   // Paint the game to the offscreen device context
   GamePaint(_hOffscreenDC);

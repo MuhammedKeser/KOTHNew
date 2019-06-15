@@ -28,6 +28,7 @@
 //DEBUG
 #include "StateHandler_Gatherer.h"
 
+
 class coord {
 public:
 	int x;

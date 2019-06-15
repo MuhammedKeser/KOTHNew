@@ -12,20 +12,28 @@ public:
 	{
 		Player* player;
 		int score;
-		PlayerScoreBoard(Player* player)
+
+		PlayerScoreBoard(Player* player)//standard CTOR
 		{
 			this->player = player;
 			score = 0;
+		}
+		PlayerScoreBoard(PlayerScoreBoard* playerScoreBoardToCopy)//Copy CTOR
+		{
+			this->player = playerScoreBoardToCopy->player;
+			this->score = playerScoreBoardToCopy->score;
 		}
 	};
 	//TODO->Make these private, and add getters and setters
 	RECT m_position;
 	Bitmap* m_bitmap;
 
+	int timeCountdownStarted = -1;
+	int countdownInterval = 20;//Shows the countdown interval in seconds.
 	//CTOR
-	LivelySprite(HDC hDC, HINSTANCE hInstance) :Sprite(hDC, hInstance, IDB_LIVELY) { 
+	LivelySprite(HDC hDC, HINSTANCE hInstance) :Sprite(hDC, hInstance, IDB_LIVELY) {
 		std::list<Player*>::iterator it;
-		for (it=Player::playerList.begin();it!=Player::playerList.end();it++)
+		for (it = Player::playerList.begin(); it != Player::playerList.end(); it++)
 		{
 			LivelySprite::playerScoreBoard.push_back(new PlayerScoreBoard((*it)));
 		}
@@ -45,31 +53,22 @@ public:
 	virtual void OnCollisionExit(Sprite* otherSprite) override;
 	virtual void OnCollisionStay(Sprite* otherSprite) override;
 
-	void increasePlayerCount(const Player& otherPlayer);
-	void decreasePlayerCount(const Player& otherPlayer);
-
-	static void startCountdown(HDC hDC) {
-
-		/*
-		if (LivelySprite::playerOneCount > LivelySprite::playerTwoCount)
-		{
-			RECT rect = RECT{ 0,0,500,500 };
-			DrawText(hDC, TEXT("Countdown Started! Momo's Team is in the area!"), -1, &rect, DT_SINGLELINE | DT_CENTER);
-
-		}
-		else if (LivelySprite::playerOneCount < LivelySprite::playerTwoCount)
-		{
-			RECT rect = RECT{ 0,0,500,500 };
-			DrawText(hDC, TEXT("Countdown Started! ASP's Team is in the area!"), -1, &rect, DT_SINGLELINE | DT_CENTER);
-		}
-		else {
-
-		}
-		*/
+	void increasePlayerCount(Player* otherPlayer);
+	void decreasePlayerCount(Player* otherPlayer);
+	void HandleDisplay(HDC hDC);
+	void HandleOccupyingPlayer();
+	void startCountdown()
+	{
+		timeCountdownStarted = GetTickCount();
+	}
+	void stopCountdown()
+	{
+		timeCountdownStarted = -1;
 	}
 
-	static std::list<PlayerScoreBoard*> playerScoreBoard;
-	static Player* occupyingPlayer;
+	void HandleCountdown();
 
+	static std::list<PlayerScoreBoard*> playerScoreBoard;
+	static PlayerScoreBoard* occupyingPlayerScoreBoard;
 
 };

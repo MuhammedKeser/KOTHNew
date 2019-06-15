@@ -2,15 +2,15 @@
 #include "State.h"
 #include "Transition.h"
 
+class Unit;
+
 class StateHandler
 {
 public:
+	Unit* unit;
 	State* currentState;
 
-	StateHandler(State* initialState)
-	{
-		currentState = initialState;
-	}
+	StateHandler::StateHandler(State* initialState);
 
 	void HandleTransitions()
 	{

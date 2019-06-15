@@ -1,4 +1,5 @@
 #include "Gatherer.h"
+#include "StateHandler_Gatherer.h"
 
 int Gatherer::m_foodNeededForBirth=20;
 int Gatherer::m_birthCooldown=10;
@@ -18,13 +19,53 @@ void Gatherer::OnCollisionExit(Sprite * otherSprite)
 
 void Gatherer::OnCollisionStay(Sprite * otherSprite)
 {
-	//Checking the sprite type
-	TreeSprite* tree = dynamic_cast<TreeSprite*>(otherSprite);
-	SapTree(tree);
+	
+}
+
+void Gatherer::HandleWandering()
+{
+	if (GetStatus() == UNIT_STATUS::BIRTHING)
+		return;
+
+	if (GetStatus() == UNIT_STATUS::SAPPING)
+	{
+
+		//do nothing, just keep sapping
+		while (!path.empty())
+			path.pop();
+
+		SetVelocity(POINT{ 0,0 });
+		SetPosition(floor(xIndex*Map::GetCellWidth()) + GetWidth() / 2, floor(yIndex*Map::GetCellHeight()));
+
+	}
+	else if (path.empty())//Pathfind, if you haven't already
+	{
+		//DEBUG -> Just go to a random location around yourself for now
+		int randomXIndex = rand() % 5 - 2 + xIndex;
+		int randomYIndex = rand() % 5 - 2 + yIndex;
+
+		randomXIndex = randomXIndex < 0 ? 0 : (randomXIndex >= Map::GetWidth() ? Map::GetWidth() - 1 : randomXIndex);
+		randomYIndex = randomYIndex < 0 ? 0 : (randomYIndex >= Map::GetHeight() ? Map::GetHeight() - 1 : randomYIndex);
+
+		if (Map::GetGridCell(randomYIndex, randomXIndex) == 0 ||
+			Map::GetGridCell(randomYIndex, randomXIndex) == 3)
+		{
+			m_destinationIndex.x = randomXIndex;
+			m_destinationIndex.y = randomYIndex;
+			Pathfind();
+			m_destinationIndex.x = -1;
+			m_destinationIndex.y = -1;
+		}
+
+	}
 }
 
 void Gatherer::SapTree(TreeSprite* tree)
 {
+	if (UNIT_STATUS::DEAD)
+		return;
+
+
 	if (tree != NULL && tree->m_Food>0)//Type of tree
 	{
 		if (m_player == NULL)
@@ -36,7 +77,21 @@ void Gatherer::SapTree(TreeSprite* tree)
 		m_player->m_food += sapSpeed;
 		tree->m_Food -= sapSpeed;
 		tree->ScaleTree();
+
+
+		if(GetStatus()!=UNIT_STATUS::SAPPING
+			&& GetStatus()!=UNIT_STATUS::COMMANDED
+			&& GetStatus()!=UNIT_STATUS::BIRTHING)
+		{
+			SetStatus(UNIT_STATUS::SAPPING);
+			while (!path.empty())
+				path.pop();
+		}
 		//std::cout << "Sapping!" << std::endl;
+	}
+	else
+	{
+		SetStatus(UNIT_STATUS::ALIVE);
 	}
 }
 
@@ -52,6 +107,8 @@ void Gatherer::GiveBirth()
 
 	int randPosX = (GetXIndex(Map::GetCellWidth()) + rand() % 5 - 2);
 	int randPosY = (GetYIndex(Map::GetCellHeight()) + rand() % 5 - 2);
+	randPosX = randPosX < 0 ? 0 : (randPosX>=Map::GetWidth()? Map::GetWidth()-1 : randPosX);
+	randPosY = randPosY < 0 ? 0 : (randPosY >= Map::GetHeight() ? Map::GetHeight() - 1 : randPosY);
 	if(Map::GetGridCell(randPosY,randPosX)==0)
 	{
 		Map::SetGridCell(randPosY, randPosX, 4);
@@ -106,6 +163,8 @@ void Gatherer::Update()
 	std::list<Player*> surroundingPlayers;
 	for (siSprite = neighborSprites.begin(); siSprite != neighborSprites.end(); siSprite++)
 	{
+		if ((*siSprite) == NULL)
+			continue;
 		if (TreeSprite* neighborTree = dynamic_cast<TreeSprite*>(*siSprite))
 		{
 			SapTree(neighborTree);
@@ -133,6 +192,7 @@ void Gatherer::Update()
 		ChangePlayer(surroundingPlayers.front());
 	}
 
+	HandleWandering();
 	HandleBirth();
 }
 
