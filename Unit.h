@@ -96,8 +96,8 @@ public:
 	void OnCollisionStay(Sprite* otherSprite) override;
 	void PreventOverlap(Sprite* otherSprite);
 	virtual void          Draw(HDC hDC, Camera* cam) override;
-	
-	int GetStatus() { return status; };
+	void DrawHealthBar(HDC hDC, Camera* cam);
+	int GetStatus() { return status; }; 
 	void SetStatus(UNIT_STATUS statusToSet) { status = statusToSet; };
 	int GetHealth() { return m_health; };
 	void SetHealth(int newHealth) { m_health = newHealth; };

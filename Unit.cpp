@@ -355,8 +355,8 @@ void Unit::DrawHealthBar(HDC hDC, Camera * cam)
 	//2. Make the bitmap's xScale = floor((100-min(0,health))/100)
 	
 	//3. Draw the healthbar bitmap
-	healthBarRed->Draw(hDC, GetPosition().left, GetPosition().top, 1.0f, 1.0f);
-	healthBarGreen->Draw(hDC, GetPosition().left, GetPosition().top, xScale, 1.0f);
+	healthBarRed->Draw(hDC, GetPosition().left, GetPosition().top, 1.0f, 10.0f);
+	healthBarGreen->Draw(hDC, GetPosition().left, GetPosition().top, xScale, 10.0f);
 }
 
 //Functions
