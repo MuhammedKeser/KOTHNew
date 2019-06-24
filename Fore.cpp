@@ -65,7 +65,7 @@ void MoveSelectedSprites()
 			if ((*curSprite) == NULL)
 				continue;
 			Unit* curUnit = dynamic_cast<Unit*>(*curSprite);
-			if (!curUnit)
+			if (!curUnit || !curUnit->GetPlayer()->isMainPlayer)
 				continue;
 			curUnit->SetDestination(Input::GetWorldMouseX(), Input::GetWorldMouseY(),cellWidth,cellHeight);
 			curUnit->SetStatus(UNIT_STATUS::COMMANDED);
