@@ -46,7 +46,7 @@ public:
 	void Unit::SetDestination(int x, int y, int cellWidth, int cellHeight);
 	void Pathfind();
 	void MoveToPoint();
-
+	void LoseHealthOverTime();
 //Members
 protected:
 	struct PathfindingNode
@@ -65,6 +65,8 @@ protected:
 	};
 	std::stack<PathfindingNode*> path;//The path to take (for pathfinding)
 	Player *m_player;
+	int m_nextTimeToLoseHealth = -1;
+	int m_secondsBetweenHealthLoss = 3;
 	float m_movementSpeed = 5.0f;
 	POINT m_destinationIndex = POINT{-1,-1};
 	POINT m_destination = POINT{-1,-1};

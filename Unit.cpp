@@ -32,10 +32,22 @@ Unit::~Unit(void)
 	std::cout << "Unit destruct" << std::endl;
 }
 
+void Unit::LoseHealthOverTime()
+{
+	int time = GetTickCount();
+	if (m_nextTimeToLoseHealth <= time)
+	{
+		std::cout << "Lose health" << std::endl;
+		m_health--;
+		m_nextTimeToLoseHealth = GetTickCount()+m_secondsBetweenHealthLoss*1000;
+	}
+}
+
 void Unit::Update()
 {
 	MoveToPoint();
 	HandlePathTraversal();
+	LoseHealthOverTime();
 }
 
 void Unit::PreventOverlap(Sprite* otherSprite)
