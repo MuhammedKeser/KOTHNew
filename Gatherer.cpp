@@ -176,8 +176,8 @@ void Gatherer::ChangePlayer(Player* player)
 
 void Gatherer::Update()
 {
-	Unit::Update();
-	std::list<Sprite*> neighborSprites = GetNeighboringCells();
+		Unit::Update();
+		std::list<Sprite*> neighborSprites = GetNeighboringCells();
 
 	std::list<Sprite*>::iterator siSprite;
 	std::list<Player*> surroundingPlayers;
@@ -212,7 +212,9 @@ void Gatherer::Update()
 		ChangePlayer(surroundingPlayers.front());
 	}
 
-	HandleWandering();
+	if(!m_player->isMainPlayer)
+		HandleWandering();
+
 	HandleBirth();
 }
 

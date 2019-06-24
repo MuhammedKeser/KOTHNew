@@ -30,7 +30,7 @@ public:
 			type(type), xPosition(xPosition), yPosition(yPosition) {};
 	};
 	//Members
-
+	bool isMainPlayer = false;
 	static std::list<Player*> playerList;
 	std::string m_Name;
 	std::list<Unit*> m_Units;
