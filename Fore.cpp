@@ -291,15 +291,16 @@ void GameStart(HWND hWindow)
   warrior->SetPosition(newPosition);
   */
 
-  player->SpawnUnit<Gatherer>(hDC,_pGame,100,100);
+  player->SpawnUnit<Gatherer>(hDC,_pGame,200, 200);
   player->SpawnUnit<Warrior>(hDC, _pGame, 200, 200);
-  player2->SpawnUnit<Warrior>(hDC, _pGame, 400, 200);
-  Horse* horse = _pGame->CreateSprite<Horse>(hDC);
-  horse->SetPosition(500,590);
 
 
-  player->SpawnUnit<Gatherer>(hDC, _pGame, 150, 100);
-  player->SpawnUnit<Warrior>(hDC, _pGame, 250, 200);
+  player2->SpawnUnit<Warrior>(hDC, _pGame, 1800, 200);
+  player2->SpawnUnit<Gatherer>(hDC, _pGame, 1800, 250);
+  
+
+
+
 
   //Debug->The static sprite optimization really helped!
   /*for (int i = 0; i < 100; i++)
