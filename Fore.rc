@@ -87,6 +87,8 @@ IDB_HORSEYL             BITMAP                  "Bitmaps\\horseyL.bmp"
 
 IDB_HORSEYR             BITMAP                  "Bitmaps\\horseyR.bmp"
 
+IDB_WARRIORMOUNTEDL     BITMAP                  "Bitmaps\\warriorLH.bmp"
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

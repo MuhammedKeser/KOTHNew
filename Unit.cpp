@@ -4,6 +4,7 @@ bool Unit::pathfindingPerformedThisCycle=false;
 
 Unit::Unit(HDC hDC, HINSTANCE hInstance, UINT BITMAP_ID) :MapSprite(hDC, hInstance, BITMAP_ID)
 {
+	
 };
 
 Unit::~Unit(void)
@@ -45,6 +46,7 @@ void Unit::LoseHealthOverTime()
 
 void Unit::Update()
 {
+	
 	MoveToPoint();
 	HandlePathTraversal();
 	LoseHealthOverTime();
@@ -868,13 +870,6 @@ void Unit::HandlePathTraversal()
 			}
 		}
 
-
-
-
-		
-	
-	
-
 	}
 	else
 	{
@@ -889,6 +884,9 @@ void Unit::MoveToPoint()
 {
 	if (m_destinationIndex.x != -1 && m_destinationIndex.y != -1)
 	{
+		if (GetStatus() != UNIT_STATUS::ATTACKING) {
+			SetStatus(UNIT_STATUS::WALKING);
+		}
 		//DEBUG
 		//TODO-> This is DIRTY. Clean this up, and implement it AFTER movement (it's just teleportation right now.)
 		Map::RemoveSpriteGridCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));

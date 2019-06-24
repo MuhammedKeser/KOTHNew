@@ -1,7 +1,9 @@
 #include "Warrior.h"
 #include "Horse.h"
 
-Bitmap*Warrior::m_pMountedBitmap=NULL;
+Bitmap*Warrior::m_pMountedBitmapR=NULL;
+
+Bitmap* Warrior::m_pMountedBitmapL = NULL;
 Bitmap*Warrior::m_warriorLA1	=NULL;
 Bitmap*Warrior::m_warriorLA2	=NULL;
 Bitmap*Warrior::m_warriorLW1	=NULL;
@@ -59,6 +61,7 @@ void Warrior::Fight(Warrior* otherUnit)
 
 	if (otherUnit)
 	{
+		
 		if (otherUnit->GetStatus() != UNIT_STATUS::DEAD
 			&& strcmp(otherUnit->GetPlayer()->m_Name.c_str(),m_player->m_Name.c_str())!=0
 			&& m_timeOfLastAttack+m_attackInterval*1000<GetTickCount())
@@ -71,6 +74,7 @@ void Warrior::Fight(Warrior* otherUnit)
 			//Set the time of attack
 			m_timeOfLastAttack = GetTickCount();
 		}
+	
 	}
 }
 
@@ -96,7 +100,7 @@ void Warrior::handleBitmaps()
 {
 	if (GetStatus() == UNIT_STATUS::ATTACKING && m_timeOfLastAnimation +m_timeIntervalOfAnimation <= GetTickCount()) {
 
-		if (m_pBitmap == m_warriorLW1 || m_pBitmap == m_warriorLW2 || m_pBitmap == m_warriorL) {
+		if (m_pBitmap == m_warriorLW1 || m_pBitmap == m_warriorLW2 || m_pBitmap == m_warriorL ) {
 			m_pBitmap = m_warriorLA1;
 		}
 		else if (m_pBitmap == m_warriorRW1 || m_pBitmap == m_warriorRW2 || m_pBitmap == m_warriorR) {
@@ -120,6 +124,35 @@ void Warrior::handleBitmaps()
 		}
 		m_timeOfLastAnimation = GetTickCount();
 
+	}
+	if ((GetStatus() == UNIT_STATUS::WALKING || GetStatus() == UNIT_STATUS::COMMANDED || GetStatus() == UNIT_STATUS::ALIVE) && (m_timeOfLastAnimation + m_timeIntervalOfWalking <= GetTickCount())) {
+		if (GetVelocity().x <= 0) {
+			if(!m_isMounted){
+				if (m_pBitmap == m_warriorLW1 || m_pBitmap == m_warriorL) {
+					m_pBitmap = m_warriorLW2;
+				}
+				else {
+					m_pBitmap = m_warriorLW1;
+				}
+			}
+			else if (m_isMounted) {
+				m_pBitmap = m_pMountedBitmapL;
+			}
+		}
+		else if (GetVelocity().x > 0) {
+			if (!m_isMounted) {
+				if (m_pBitmap == m_warriorRW1 || m_pBitmap == m_warriorR) {
+					m_pBitmap = m_warriorRW2;
+				}
+				else {
+					m_pBitmap = m_warriorRW1;
+				}
+			}
+			else if (m_isMounted) {
+				m_pBitmap = m_pMountedBitmapR;
+			}
+		}
+		m_timeOfLastAnimation = GetTickCount();
 	}
 }
 

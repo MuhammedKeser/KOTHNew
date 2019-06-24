@@ -39,6 +39,8 @@
 #define IDB_HORSEYL                     142
 #define IDB_BITMAP7                     143
 #define IDB_HORSEYR                     144
+#define IDB_BITMAP8                     147
+#define IDB_WARRIORMOUNTEDL             147
 #define IDI_FORE                        1000
 #define IDI_FORE_SM                     1001
 #define IDB_FOREST                      2000
@@ -48,7 +50,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        145
+#define _APS_NEXT_RESOURCE_VALUE        148
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           101

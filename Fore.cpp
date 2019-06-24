@@ -293,7 +293,7 @@ void GameStart(HWND hWindow)
 
   player->SpawnUnit<Gatherer>(hDC,_pGame,200, 200);
   player->SpawnUnit<Warrior>(hDC, _pGame, 200, 200);
-
+  
 
   player2->SpawnUnit<Warrior>(hDC, _pGame, 1800, 200);
   player2->SpawnUnit<Gatherer>(hDC, _pGame, 1800, 250);
@@ -342,8 +342,6 @@ void GameDeactivate(HWND hWindow)
 void GamePaint(HDC hDC)
 {
 	
-
-
 	// Draw the background forest
   //RECT bgRect = { 0, 0, _pGame->GetWidth(), _pGame->GetHeight() };
   //_pGame->DrawBackground(hDC, _pForestBitmap, bgRect);
@@ -382,14 +380,8 @@ void GamePaint(HDC hDC)
 
 void GameCycle()
 {
-
-	
-
 	//Update the inputs
 	Input::UpdateKeys();
-
-
-
 	_pGame->DeleteSprites();
 
 	//DEBUG
