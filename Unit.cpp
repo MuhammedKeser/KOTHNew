@@ -416,7 +416,14 @@ void Unit::Draw(HDC hDC, Camera* cam)
 	int rectHeight = DrawText(hDC, TEXT(std::string("HP: " + std::to_string(GetHealth()) + "\nPlayer: " + m_player->m_Name).c_str()), -1, &rect, DT_CALCRECT);
 	rect = RECT{ rect.left,rect.bottom,rect.right,rect.bottom + rectHeight };
 	DrawText(hDC, TEXT(std::string("HP: " + std::to_string(GetHealth()) + "\nPlayer: " + m_player->m_Name).c_str()), -1, &rect, DT_CENTER);
-};
+}
+void Unit::DrawHealthBar(HDC hDC, Camera * cam)
+{
+	//1. Make the bitmap position above the unit
+	//2. Make the bitmap's xScale = floor((100-min(0,health))/100)
+	//3. Draw the healthbar bitmap
+}
+
 
 //Functions
 void Unit::SetDestination(int x, int y, int cellWidth, int cellHeight)

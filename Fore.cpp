@@ -33,14 +33,19 @@ std::list<Player*>players = std::list<Player*>();
 LivelySprite* livelySprite;
 Player* player;
 Player* player2;
+Player* player3;
 
 void InitializePlayerList()
 {
 	player = new Player("Momo");
 	player->isMainPlayer = true;
-	player2 = new Player("ASP");
+	player2 = new Player("RandomAI");
+	player3 = new Player("AggressiveAI");
+
 	players.push_back(player);
 	players.push_back(player2);
+	players.push_back(player3);
+
 }
 
 int rowCount = 32;
