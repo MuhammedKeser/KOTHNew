@@ -9,9 +9,9 @@ public:
 	// Constructor(s)/Destructor
 	Warrior(HDC hDC, HINSTANCE hInstance) :Unit(hDC, hInstance, IDB_WARRIORR) 
 	{ 
-		if (!m_pMountedBitmap)
+		if (!m_pMountedBitmapR || !m_pMountedBitmapL)
 		{
-			m_pMountedBitmap = new Bitmap(hDC, IDB_WARRIORMOUNTEDR, hInstance);
+			m_pMountedBitmapR = new Bitmap(hDC, IDB_WARRIORMOUNTEDR, hInstance);
 			m_warriorLA1 = new Bitmap(hDC, IDB_WARRIOR_LA1, hInstance);
 			m_warriorLA2 = new Bitmap(hDC, IDB_WARRIOR_LA2, hInstance);
 			m_warriorLW1 = new Bitmap(hDC, IDB_WARRIOR_LW1, hInstance);
@@ -22,6 +22,8 @@ public:
 			m_warriorRW2 = new Bitmap(hDC, IDB_WARRIOR_RW2, hInstance);
 			m_warriorL = new Bitmap(hDC, IDB_WARRIORL, hInstance);
 			m_warriorR = new Bitmap(hDC, IDB_WARRIORR, hInstance);
+			m_pMountedBitmapL = new Bitmap(hDC, IDB_WARRIORMOUNTEDL, hInstance);
+			
 		}
 	};
 	Warrior(Bitmap* pBitmap) :Unit(pBitmap, IDB_WARRIORR) { };
@@ -52,7 +54,7 @@ public:
 	void SetDamage(int damage) { m_damage=damage; };
 	void SetAttackInterval(float attackInterval) { m_attackInterval=attackInterval; };
 	void SetTimeOfLastAttack(int timeOfLastAttack) { m_timeOfLastAttack=timeOfLastAttack; };
-	void SetIsMounted(bool isMounted) { m_isMounted = isMounted; if (m_isMounted) { SetBitmap(m_pMountedBitmap); m_movementSpeed = m_mountedMovementSpeed; } };
+	void SetIsMounted(bool isMounted) { m_isMounted = isMounted; if (m_isMounted) { SetBitmap(m_pMountedBitmapR); m_movementSpeed = m_mountedMovementSpeed; } };
 	void HandleWandering();
 	
 protected:
@@ -62,9 +64,11 @@ protected:
 	int m_timeOfLastAttack = -1;
 	int m_timeOfLastAnimation = -1;
 	int m_timeIntervalOfAnimation = 1000;
+	int m_timeIntervalOfWalking = 333;
 	float m_mountedMovementSpeed = 10.0f;
 	bool m_isMounted = false;
-	static Bitmap*       m_pMountedBitmap;
+	static Bitmap*       m_pMountedBitmapR;
+	static Bitmap* m_pMountedBitmapL;
 	static Bitmap* m_warriorLA1;
 	static Bitmap* m_warriorLA2;
 	static Bitmap* m_warriorLW1;
@@ -75,5 +79,6 @@ protected:
 	static Bitmap* m_warriorRW2;
 	static Bitmap* m_warriorL;
 	static Bitmap* m_warriorR;
+	
 
 };

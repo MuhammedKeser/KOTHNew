@@ -83,6 +83,12 @@ IDB_WARRIOR_RW1         BITMAP                  "Bitmaps\\warriorR-W1.bmp"
 
 IDB_WARRIOR_RW2         BITMAP                  "Bitmaps\\warriorR-W2.bmp"
 
+IDB_HORSEYL             BITMAP                  "Bitmaps\\horseyL.bmp"
+
+IDB_HORSEYR             BITMAP                  "Bitmaps\\horseyR.bmp"
+
+IDB_WARRIORMOUNTEDL     BITMAP                  "Bitmaps\\warriorLH.bmp"
+
 IDB_HPGREEN             BITMAP                  "Bitmaps\\hpGreen.bmp"
 
 IDB_HPRED               BITMAP                  "Bitmaps\\hpRed.bmp"
