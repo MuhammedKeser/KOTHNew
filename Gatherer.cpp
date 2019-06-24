@@ -146,6 +146,7 @@ void Gatherer::HandleBirth()
 	if (m_player->m_food > Gatherer::GetFoodNeededForBirth()
 		&& status != UNIT_STATUS::BIRTHING
 		&& status != UNIT_STATUS::DEAD
+		&& m_health>=50
 		&& 
 		(m_timeLastBirthed + m_birthCooldown*1000 < GetTickCount() ||
 			m_timeLastBirthed==-1))
