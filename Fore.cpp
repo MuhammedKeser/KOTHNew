@@ -37,6 +37,7 @@ Player* player2;
 void InitializePlayerList()
 {
 	player = new Player("Momo");
+	player->isMainPlayer = true;
 	player2 = new Player("ASP");
 	players.push_back(player);
 	players.push_back(player2);

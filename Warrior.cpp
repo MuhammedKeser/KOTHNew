@@ -46,7 +46,10 @@ void Warrior::Update()
 		}
 	}
 	handleBitmaps();
-	HandleWandering();
+	
+	if (!m_player->isMainPlayer)
+		HandleWandering();
+	
 	HandleDeath();
 }
 
