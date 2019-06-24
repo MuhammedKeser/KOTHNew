@@ -383,6 +383,9 @@ void GamePaint(HDC hDC)
   //Display the countdown if need be
   livelySprite->HandleDisplay(hDC);
 
+  //Display the player's food stats
+  
+
 }
 
 void GameCycle()
