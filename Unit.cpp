@@ -4,7 +4,10 @@ bool Unit::pathfindingPerformedThisCycle=false;
 
 Unit::Unit(HDC hDC, HINSTANCE hInstance, UINT BITMAP_ID) :MapSprite(hDC, hInstance, BITMAP_ID)
 {
-	
+
+
+	InitializeHealthBarBitmaps(hDC,hInstance);
+
 };
 
 Unit::~Unit(void)
@@ -44,6 +47,13 @@ void Unit::LoseHealthOverTime()
 	}
 }
 
+void Unit::InitializeHealthBarBitmaps(HDC hDC, HINSTANCE hInstance)
+{
+	//Set up the base and curhealth bitmaps
+	healthBarRed = new Bitmap(hDC, IDB_HPRED,hInstance);
+	healthBarGreen = new Bitmap(hDC, IDB_HPGREEN,hInstance);
+}
+
 void Unit::Update()
 {
 	
@@ -78,91 +88,7 @@ void Unit::PreventOverlap(Sprite* otherSprite)
 		Collision();
 		m_ptVelocity.y = 0;
 	};
-	/*
-	if (unit
-		&&
-		(
-		(m_ptVelocity.x < 0
-			&& unit->GetVelocity().x > 0)
-			||
-			(
-				m_ptVelocity.x > 0
-				&& unit->GetVelocity().x < 0
-				)
-			)
-		&&
-		(
-			otherSprite->GetPosition().right > m_rcPosition.left
-			|| otherSprite->GetPosition().right < m_rcPosition.left
-			)
-		)
-	{
-		std::cout << "SET POS" << std::endl;
-		m_rcPosition = { GetPosition().left - m_ptVelocity.x, m_rcPosition.top, GetPosition().right - m_ptVelocity.x, m_rcPosition.bottom };
-		XCollision();
-	}
 
-	if (unit
-		&&
-		(
-		(m_ptVelocity.y < 0
-			&& unit->GetVelocity().y > 0)
-			||
-			(
-				m_ptVelocity.y > 0
-				&& unit->GetVelocity().y < 0
-				)
-			)
-		&&
-		(
-			otherSprite->GetPosition().bottom > m_rcPosition.top
-			|| otherSprite->GetPosition().bottom < m_rcPosition.top
-			)
-		)
-	{
-		m_rcPosition = { m_rcPosition.left, GetPosition().top - m_ptVelocity.y,  m_rcPosition.right,GetPosition().bottom - m_ptVelocity.y };
-		YCollision();
-	}
-	*/
-	//VELOCITY COLLISIONS
-	/*
-	if (unit
-		&& m_ptVelocity.x > 0
-		&& unit->GetVelocity().x == 0
-		&& otherSprite->GetPosition().left < m_rcPosition.right)
-	{
-		std::cout << "SET POS" << std::endl;
-		m_rcPosition = { otherSprite->GetPosition().left - GetWidth() , m_rcPosition.top, otherSprite->GetPosition().left, m_rcPosition.bottom };
-		XCollision();
-	}
-	if (unit
-		&& m_ptVelocity.x < 0
-		&& unit->GetVelocity().x == 0
-		&& otherSprite->GetPosition().right > m_rcPosition.left)
-	{
-		std::cout << "SET POS" << std::endl;
-		m_rcPosition = { otherSprite->GetPosition().right, m_rcPosition.top, otherSprite->GetPosition().right + GetWidth(), m_rcPosition.bottom };
-		XCollision();
-	}
-
-	if (unit
-		&& m_ptVelocity.y > 0
-		&& unit->GetVelocity().y == 0
-		&& otherSprite->GetPosition().top < m_rcPosition.bottom)
-	{
-
-		m_rcPosition = { m_rcPosition.left ,otherSprite->GetPosition().top - GetHeight(), m_rcPosition.right,otherSprite->GetPosition().top };
-		YCollision();
-	}
-	if (unit
-		&& m_ptVelocity.y < 0
-		&& unit->GetVelocity().y == 0
-		&& otherSprite->GetPosition().bottom > m_rcPosition.top)
-	{
-		std::cout << "SET POS" << std::endl;
-		m_rcPosition = { m_rcPosition.left,otherSprite->GetPosition().bottom , m_rcPosition.right,otherSprite->GetPosition().bottom + GetHeight()};
-		YCollision();
-	}*/
 
 	//No velocity collisions
 	if (unit
@@ -414,11 +340,24 @@ void Unit::Draw(HDC hDC, Camera* cam)
 	Sprite::Draw(hDC, cam);
 	//Apply text drawing here
 	int rectWidth = GetWidth() + 30;
-	RECT rect = RECT{ GetPosition().left - cam->GetPosition().x-30,GetPosition().top - 70 - cam->GetPosition().y, GetPosition().right - cam->GetPosition().x,GetPosition().bottom - cam->GetPosition().y-70 };
+	RECT rect = RECT{ GetPosition().left - cam->GetPosition().x - 30,GetPosition().top - 70 - cam->GetPosition().y, GetPosition().right - cam->GetPosition().x,GetPosition().bottom - cam->GetPosition().y - 70 };
 	int rectHeight = DrawText(hDC, TEXT(std::string("HP: " + std::to_string(GetHealth()) + "\nPlayer: " + m_player->m_Name).c_str()), -1, &rect, DT_CALCRECT);
 	rect = RECT{ rect.left,rect.bottom,rect.right,rect.bottom + rectHeight };
 	DrawText(hDC, TEXT(std::string("HP: " + std::to_string(GetHealth()) + "\nPlayer: " + m_player->m_Name).c_str()), -1, &rect, DT_CENTER);
-};
+
+	DrawHealthBar(hDC, cam);
+}
+void Unit::DrawHealthBar(HDC hDC, Camera * cam)
+{
+	//1. Make the bitmap position above the unit
+	float xScale = ( max(0.0f, float(m_health))) / 100.0f;
+	std::cout << "Health: " << xScale << std::endl;
+	//2. Make the bitmap's xScale = floor((100-min(0,health))/100)
+	
+	//3. Draw the healthbar bitmap
+	healthBarRed->Draw(hDC, GetPosition().left, GetPosition().top, 1.0f, 1.0f);
+	healthBarGreen->Draw(hDC, GetPosition().left, GetPosition().top, xScale, 1.0f);
+}
 
 //Functions
 void Unit::SetDestination(int x, int y, int cellWidth, int cellHeight)

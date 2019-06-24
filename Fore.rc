@@ -2,11 +2,11 @@
 //
 #include "resource.h"
 /////////////////////////////////////////////////////////////////////////////
-// Türkçe (Türkiye) resources
+// English (United States) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_TRK)
-//LANGUAGE LANG_TURKISH, SUBLANG_DEFAULT
-#pragma code_page(1254)
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+//LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -89,6 +89,10 @@ IDB_HORSEYR             BITMAP                  "Bitmaps\\horseyR.bmp"
 
 IDB_WARRIORMOUNTEDL     BITMAP                  "Bitmaps\\warriorLH.bmp"
 
+IDB_HPGREEN             BITMAP                  "Bitmaps\\hpGreen.bmp"
+
+IDB_HPRED               BITMAP                  "Bitmaps\\hpRed.bmp"
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -114,7 +118,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Türkçe (Türkiye) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
