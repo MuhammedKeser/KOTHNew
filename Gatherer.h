@@ -15,7 +15,8 @@ public:
 		Unit(pBitmap, ptPosition, ptVelocity, iZOrder, rcBounds, IDB_GATHERERL,baBoundsAction) {
 	};
 	virtual ~Gatherer() {};
-
+	void Draw(HDC hDC, Camera* cam) override;
+	void DrawBirthTimer(HDC hDC, Camera* cam);
 	virtual void OnCollisionEnter(Sprite* otherSprite) override;
 	virtual void OnCollisionExit(Sprite* otherSprite) override;
 	virtual void OnCollisionStay(Sprite* otherSprite) override;

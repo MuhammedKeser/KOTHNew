@@ -6,6 +6,12 @@ int Gatherer::m_birthCooldown=10;
 int Gatherer::m_timeTakenForBirth=10;
 
 
+void Gatherer::Draw(HDC hDC, Camera * cam)
+{
+	Unit::Draw(hDC, cam);
+	DrawBirthTimer(hDC, cam);
+}
+
 void Gatherer::OnCollisionEnter(Sprite * otherSprite)
 {
 	Unit::OnCollisionEnter(otherSprite);
@@ -111,16 +117,29 @@ void Gatherer::GiveBirth()
 	randPosY = randPosY < 0 ? 0 : (randPosY >= Map::GetHeight() ? Map::GetHeight() - 1 : randPosY);
 	if(Map::GetGridCell(randPosY,randPosX)==0)
 	{
-		Map::SetGridCell(randPosY, randPosX, 4);
-	m_player->RequestUnitSpawn( rand()%100>94 ? UNIT_TYPE::GATHERER :UNIT_TYPE::WARRIOR,
-		randPosX*Map::GetCellWidth()+ floor(Map::GetCellWidth()/2) - GetWidth()/2,
-		randPosY * Map::GetCellHeight() + floor(Map::GetCellHeight() / 2) - GetHeight() / 2
-	);
+			Map::SetGridCell(randPosY, randPosX, 4);
+			m_player->RequestUnitSpawn( 
+				rand()%100>94 ? UNIT_TYPE::GATHERER :UNIT_TYPE::WARRIOR,
+				randPosX*Map::GetCellWidth()+ floor(Map::GetCellWidth()/2) - GetWidth()/2,
+				randPosY * Map::GetCellHeight() + floor(Map::GetCellHeight() / 2) - GetHeight() / 2
+			);
 
-	status = UNIT_STATUS::ALIVE;
-	m_timeToBirth = -1;
+		status = UNIT_STATUS::ALIVE;
+		m_timeToBirth = -1;
 	}
 }
+
+void Gatherer::DrawBirthTimer(HDC hDC, Camera* cam)
+{
+	if (m_timeToBirth!=-1)
+	{
+		int rectWidth = GetWidth() + 1000;
+		RECT rect = RECT{ GetPosition().left - cam->GetPosition().x - 300,GetPosition().top - 70 - cam->GetPosition().y, GetPosition().right - cam->GetPosition().x+300,GetPosition().bottom - cam->GetPosition().y - 70 };
+		
+		DrawText(hDC, TEXT(std::string("Time to Birth: " + std::to_string((m_timeToBirth - GetTickCount())/1000)).c_str()), -1, &rect, DT_CENTER);
+	}
+}
+
 
 void Gatherer::HandleBirth()
 {
