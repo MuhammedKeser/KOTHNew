@@ -33,19 +33,14 @@ std::list<Player*>players = std::list<Player*>();
 LivelySprite* livelySprite;
 Player* player;
 Player* player2;
-Player* player3;
 
 void InitializePlayerList()
 {
 	player = new Player("Momo");
 	player->isMainPlayer = true;
-	player2 = new Player("RandomAI");
-	player3 = new Player("AggressiveAI");
-
+	player2 = new Player("ASP");
 	players.push_back(player);
 	players.push_back(player2);
-	players.push_back(player3);
-
 }
 
 int rowCount = 32;
@@ -297,15 +292,16 @@ void GameStart(HWND hWindow)
   warrior->SetPosition(newPosition);
   */
 
-  player->SpawnUnit<Gatherer>(hDC,_pGame,100,100);
+  player->SpawnUnit<Gatherer>(hDC,_pGame,200, 200);
   player->SpawnUnit<Warrior>(hDC, _pGame, 200, 200);
-  player2->SpawnUnit<Warrior>(hDC, _pGame, 400, 200);
-  Horse* horse = _pGame->CreateSprite<Horse>(hDC);
-  horse->SetPosition(500,590);
+  
+
+  player2->SpawnUnit<Warrior>(hDC, _pGame, 1800, 200);
+  player2->SpawnUnit<Gatherer>(hDC, _pGame, 1800, 250);
+  
 
 
-  player->SpawnUnit<Gatherer>(hDC, _pGame, 150, 100);
-  player->SpawnUnit<Warrior>(hDC, _pGame, 250, 200);
+
 
   //Debug->The static sprite optimization really helped!
   /*for (int i = 0; i < 100; i++)
@@ -347,8 +343,6 @@ void GameDeactivate(HWND hWindow)
 void GamePaint(HDC hDC)
 {
 	
-
-
 	// Draw the background forest
   //RECT bgRect = { 0, 0, _pGame->GetWidth(), _pGame->GetHeight() };
   //_pGame->DrawBackground(hDC, _pForestBitmap, bgRect);
@@ -390,14 +384,8 @@ void GamePaint(HDC hDC)
 
 void GameCycle()
 {
-
-	
-
 	//Update the inputs
 	Input::UpdateKeys();
-
-
-
 	_pGame->DeleteSprites();
 
 	//DEBUG
