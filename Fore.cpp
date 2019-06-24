@@ -42,8 +42,8 @@ void InitializePlayerList()
 	players.push_back(player2);
 }
 
-int rowCount = 64;
-int colCount = 64;
+int rowCount = 32;
+int colCount = 32;
 //int ** gameMap = new int *[rowCount];
 int cellWidth, cellHeight;
 //DEBUG
@@ -120,7 +120,7 @@ void GenerateMap()
 {
 	cellWidth = _pWallBitmap->GetWidth();
 	cellHeight = _pWallBitmap->GetHeight();
-	Map::CreateMap(64, 64,cellWidth,cellHeight);
+	Map::CreateMap(32, 32,cellWidth,cellHeight);
 	//Create living area at lower side of map
 
 
