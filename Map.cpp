@@ -120,6 +120,9 @@ void Map::ProceduralGeneration()
 			{
 				for (int neighborCol = -1; neighborCol <= 1; neighborCol++)
 				{
+					if (abs(neighborRow) + abs(neighborCol) != 1)
+						continue;
+
 					if (i + neighborRow < 0 || i + neighborRow >= rowCount
 						|| j + neighborCol < 0 || j + neighborCol >= colCount)
 						continue;

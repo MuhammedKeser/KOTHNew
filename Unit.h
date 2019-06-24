@@ -33,6 +33,8 @@ enum UNIT_STATUS
 class Unit : public MapSprite
 {
 public:
+	Bitmap* healthBarRed	;
+	Bitmap* healthBarGreen	;
 	// Constructor(s)/Destructor
 	Unit(HDC hDC, HINSTANCE hInstance,UINT BITMAP_ID) ;
 	Unit(Bitmap* pBitmap, UINT BITMAP_ID) :MapSprite(pBitmap, BITMAP_ID) {};
@@ -47,6 +49,8 @@ public:
 	void Pathfind();
 	void MoveToPoint();
 	void LoseHealthOverTime();
+
+	void InitializeHealthBarBitmaps(HDC hDC,HINSTANCE hInstance);
 //Members
 protected:
 	struct PathfindingNode

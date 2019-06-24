@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ içerme dosyasý oluþturdu.
-// Fore.rc tarafýndan kullanýlmýþ
+// Microsoft Visual C++ generated include file.
+// Used by Fore.rc
 //
 #define IDB_GRASS2                      102
 #define IDB_GRASS3                      103
@@ -35,6 +35,9 @@
 #define IDB_WARRIOR_RW1                 139
 #define IDB_BITMAP4                     140
 #define IDB_WARRIOR_RW2                 140
+#define IDB_HPGREEN                     141
+#define IDB_BITMAP7                     142
+#define IDB_HPRED                       142
 #define IDI_FORE                        1000
 #define IDI_FORE_SM                     1001
 #define IDB_FOREST                      2000
@@ -44,7 +47,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        141
+#define _APS_NEXT_RESOURCE_VALUE        143
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           101
