@@ -464,7 +464,7 @@ void GameCycle()
 		  DT_CENTER | DT_SINGLELINE | DT_VCENTER );
 	  
 	  ReleaseDC(hWindow, hDC);
-
+	  PlaySound(TEXT("win.wav"), NULL, SND_ASYNC);
 	  while (true) {};
   }
 

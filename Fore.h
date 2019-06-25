@@ -23,6 +23,7 @@
 #include "Horse.h"
 #include "Map.h"
 #include "LivelySprite.h"
+#include "MMSystem.h"
 //#include <stack>
 //#include <queue>
 //DEBUG
