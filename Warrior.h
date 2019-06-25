@@ -2,6 +2,8 @@
 #include "Unit.h"
 #include <iostream>
 #include "Resource.h"
+#include "Windows.h"
+#include "MMSystem.h"
 
 class Warrior: public Unit
 {
@@ -68,6 +70,7 @@ protected:
 	int m_timeIntervalOfWalking = 333;
 	float m_mountedMovementSpeed = 10.0f;
 	bool m_isMounted = false;
+	bool sword = false;
 	static Bitmap*       m_pMountedBitmapR;
 	static Bitmap* m_pMountedBitmapL;
 	static Bitmap* m_warriorLA1;

@@ -130,6 +130,14 @@ void Warrior::handleBitmaps()
 		else {
 			m_pBitmap = m_warriorRA1;
 		}
+		if (sword) {
+			PlaySound(TEXT("sword1.wav"), NULL, SND_ASYNC);
+			sword = false;
+		}
+		else if (!sword) {
+			PlaySound(TEXT("sword2.wav"), NULL, SND_ASYNC);
+			sword = true;
+		}
 		m_timeOfLastAnimation = GetTickCount();
 
 	}

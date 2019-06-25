@@ -43,8 +43,8 @@
 #define IDB_WARRIORMOUNTEDL             146
 
 #define IDB_HPGREEN                     147
-#define IDB_BITMAP7                     148
-#define IDB_HPRED                       149
+
+#define IDB_HPRED                       148
 
 #define IDI_FORE                        1000
 #define IDI_FORE_SM                     1001
