@@ -70,15 +70,20 @@ void Warrior::Fight(Warrior* otherUnit)
 			&& m_timeOfLastAttack+m_attackInterval*1000<GetTickCount())
 		{
 			SetStatus(UNIT_STATUS::ATTACKING);
-			std::cout << "ATTACK!" << std::endl;
+			//std::cout << "ATTACK!" << std::endl;
 			//Lower the other unit's health
 			otherUnit->SetHealth(otherUnit->GetHealth() - m_damage);
 
 			//Set the time of attack
 			m_timeOfLastAttack = GetTickCount();
 		}
+		
 	
 	}
+	else {
+		SetStatus(UNIT_STATUS::ALIVE);
+	}
+	
 }
 
 void Warrior::HandleDeath()
@@ -128,7 +133,7 @@ void Warrior::handleBitmaps()
 		m_timeOfLastAnimation = GetTickCount();
 
 	}
-	if ((GetStatus() == UNIT_STATUS::WALKING || GetStatus() == UNIT_STATUS::COMMANDED || GetStatus() == UNIT_STATUS::ALIVE) && (m_timeOfLastAnimation + m_timeIntervalOfWalking <= GetTickCount())) {
+	if ((GetStatus() == UNIT_STATUS::WALKING || GetStatus() == UNIT_STATUS::COMMANDED) && (m_timeOfLastAnimation + m_timeIntervalOfWalking <= GetTickCount())) {
 		if (GetVelocity().x <= 0) {
 			if(!m_isMounted){
 				if (m_pBitmap == m_warriorLW1 || m_pBitmap == m_warriorL) {
@@ -154,6 +159,15 @@ void Warrior::handleBitmaps()
 			else if (m_isMounted) {
 				m_pBitmap = m_pMountedBitmapR;
 			}
+		}
+		m_timeOfLastAnimation = GetTickCount();
+	}
+	if ((GetStatus() == UNIT_STATUS::ALIVE && (m_timeOfLastAnimation + m_timeIntervalOfWaiting <= GetTickCount()))) {
+		if (m_pBitmap == m_warriorL) {
+			m_pBitmap = m_warriorL;
+		}
+		else if (m_pBitmap == m_warriorL) {
+			m_pBitmap = m_warriorR;
 		}
 		m_timeOfLastAnimation = GetTickCount();
 	}

@@ -63,6 +63,7 @@ protected:
 	float m_attackInterval = 1.0f;//The time (in seconds) between attacks
 	int m_timeOfLastAttack = -1;
 	int m_timeOfLastAnimation = -1;
+	int m_timeIntervalOfWaiting = 500;
 	int m_timeIntervalOfAnimation = 1000;
 	int m_timeIntervalOfWalking = 333;
 	float m_mountedMovementSpeed = 10.0f;

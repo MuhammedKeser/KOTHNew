@@ -456,10 +456,13 @@ void GameCycle()
 
 	  hDC = GetDC(hWindow);
 
-	  DrawText(hDC, TEXT("The game has Ended!"), -1, &rect,
+	  std::stringstream buffer("The game has Ended! Winner is: ", ios_base::app | ios_base::out);
+	  buffer << LivelySprite::occupyingPlayerScoreBoard->player->m_Name;
+	  
+	  DrawText(hDC, buffer.str().c_str(), -1, &rect,
 
-		  DT_SINGLELINE | DT_CENTER | DT_VCENTER);
-
+		  DT_CENTER | DT_SINGLELINE | DT_VCENTER );
+	  
 	  ReleaseDC(hWindow, hDC);
 
 	  while (true) {};
