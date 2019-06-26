@@ -2,6 +2,8 @@
 #include "Unit.h"
 #include <iostream>
 #include "Resource.h"
+#include "Windows.h"
+#include "MMSystem.h"
 
 class Warrior: public Unit
 {
@@ -63,10 +65,12 @@ protected:
 	float m_attackInterval = 1.0f;//The time (in seconds) between attacks
 	int m_timeOfLastAttack = -1;
 	int m_timeOfLastAnimation = -1;
+	int m_timeIntervalOfWaiting = 500;
 	int m_timeIntervalOfAnimation = 1000;
 	int m_timeIntervalOfWalking = 333;
 	float m_mountedMovementSpeed = 10.0f;
 	bool m_isMounted = false;
+	bool sword = false;
 	static Bitmap*       m_pMountedBitmapR;
 	static Bitmap* m_pMountedBitmapL;
 	static Bitmap* m_warriorLA1;
