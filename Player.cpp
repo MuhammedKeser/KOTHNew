@@ -39,14 +39,14 @@ void Player::InitializeUnitBitmaps(HDC hDC, HINSTANCE hInstance)
 		warriorRW2		[0] =			new Bitmap(hDC, IDB_WARRIOR_RW2, hInstance);
 		warriorRA1		[0] =			new Bitmap(hDC, IDB_WARRIOR_RA1, hInstance);
 		warriorRA2		[0] =			new Bitmap(hDC, IDB_WARRIOR_RA2, hInstance);
-		warriorRMounted	[0] =	new Bitmap(hDC, IDB_WARRIORMOUNTEDR, hInstance);
+		warriorRMounted	[0] =			new Bitmap(hDC, IDB_WARRIORMOUNTEDR, hInstance);
 						 
 		warriorL		[0] =			new Bitmap(hDC, IDB_WARRIORL, hInstance);
 		warriorLW1		[0] =			new Bitmap(hDC, IDB_WARRIOR_LW1, hInstance);
 		warriorLW2		[0] =			new Bitmap(hDC, IDB_WARRIOR_LW2, hInstance);
 		warriorLA1		[0] =			new Bitmap(hDC, IDB_WARRIOR_LA1, hInstance);
 		warriorLA2		[0] =			new Bitmap(hDC, IDB_WARRIOR_LA2, hInstance);
-		warriorLMounted	[0] =	new Bitmap(hDC, IDB_WARRIORMOUNTEDL, hInstance);
+		warriorLMounted	[0] =			new Bitmap(hDC, IDB_WARRIORMOUNTEDL, hInstance);
 
 		//The 2nd/hot/aggro player
 		warriorR		[1] = new Bitmap(hDC, IDB_WARRIOR_RO, hInstance);

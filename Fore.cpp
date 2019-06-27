@@ -33,14 +33,17 @@ std::list<Player*>players = std::list<Player*>();
 LivelySprite* livelySprite;
 Player* player;
 Player* player2;
+Player* player3;
 
 void InitializePlayerList()
 {
-	player = new Player("Momo");
+	player = new Player("You");
 	player->isMainPlayer = true;
-	player2 = new Player("ASP");
+	player2 = new Player("AngryBot");
+	player3 = new Player("ChillCPU");
 	players.push_back(player);
 	players.push_back(player2);
+	players.push_back(player3);
 }
 
 int rowCount = 32;
@@ -314,6 +317,9 @@ void GameStart(HWND hWindow)
 
   player2->SpawnUnit<Warrior>(hDC, _pGame, 1800, 200);
   player2->SpawnUnit<Gatherer>(hDC, _pGame, 1800, 250);
+  
+  player3->SpawnUnit<Gatherer>(hDC, _pGame, 1800, 800);
+  player3->SpawnUnit<Warrior>(hDC, _pGame, 1800, 900);
   
 
 

@@ -31,13 +31,13 @@ void Map::ProceduralGeneration()
 		for (int j = 0; j < colCount; j++)
 		{
 			//The closer it is to the midpoint to the center, the higher the likelyhood
-			if (rand() % (abs(abs((i - rowCount / 2)) - rowCount / 4) + 1) < 1
-				&& rand() % (abs(abs((j - colCount / 2)) - colCount / 4) + 1) < 1)
+			if (rand() % (abs(abs((i - rowCount / 2)) - rowCount / 4) + 2) < 1
+				&& rand() % (abs(abs((j - colCount / 2)) - colCount / 4) + 2) < 1)
 				m_map.m_grid[i][j] = 1;
 
 			//The closer it is to the center, the higher the likelyhood
-			if (rand() % (abs(i - rowCount / 2) + 1) < 1
-				&& rand() % (abs(j - colCount / 2) + 1) < 1)
+			if (rand() % (abs(i - rowCount / 2) + 2) < 1
+				&& rand() % (abs(j - colCount / 2) + 2) < 1)
 				m_map.m_grid[i][j] = 1;
 		}
 	}
