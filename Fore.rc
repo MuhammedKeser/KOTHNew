@@ -61,7 +61,7 @@ IDB_LIVELY              BITMAP                  "bitmaps\\bitmap4.bmp"
 
 IDB_GATHERERR           BITMAP                  "Bitmaps\\femaleR.bmp"
 
-IDB_WARRIORL            BITMAP                  "Bitmaps\\warriorL.bmp"
+IDB_WARRIOR_L           BITMAP                  "Bitmaps\\warriorL.bmp"
 
 IDB_WARRIORMOUNTEDR     BITMAP                  "Bitmaps\\warriorRH.bmp"
 
@@ -92,6 +92,54 @@ IDB_WARRIORMOUNTEDL     BITMAP                  "Bitmaps\\warriorLH.bmp"
 IDB_HPGREEN             BITMAP                  "Bitmaps\\hpGreen.bmp"
 
 IDB_HPRED               BITMAP                  "Bitmaps\\hpRed.bmp"
+
+IDB_WARRIOR_LA1C        BITMAP                  "Bitmaps\\warriorL-A1C.bmp"
+
+IDB_WARRIOR_LA1O        BITMAP                  "Bitmaps\\warriorL-A1O.bmp"
+
+IDB_WARRIOR_LA2C        BITMAP                  "Bitmaps\\warriorL-A2C.bmp"
+
+IDB_LA2O                BITMAP                  "Bitmaps\\warriorL-A2O.bmp"
+
+IDB_WARRIOR_LC          BITMAP                  "Bitmaps\\warriorLC.bmp"
+
+IDB_WARRIOR_LHO         BITMAP                  "D:\\Desktop\\GameDes\\Chap11labyrinth\\Fore 2\\Bitmaps\\warriorLHO.bmp"
+
+IDB_WARRIOR_LO          BITMAP                  "Bitmaps\\warriorLO.bmp"
+
+IDB_WARRIOR_LW1C        BITMAP                  "Bitmaps\\warriorL-W1C.bmp"
+
+IDB_WARRIOR_LW1O        BITMAP                  "Bitmaps\\warriorL-W1O.bmp"
+
+IDB_WARRIOR_LW2C        BITMAP                  "Bitmaps\\warriorL-W2C.bmp"
+
+IDB_WARRIOR_LW2O        BITMAP                  "Bitmaps\\warriorL-W2O.bmp"
+
+IDB_WARRIOR_RA1C        BITMAP                  "Bitmaps\\warriorR-A1C.bmp"
+
+IDB_WARRIOR_RA1O        BITMAP                  "Bitmaps\\warriorR-A1O.bmp"
+
+IDB_WARRIOR_RA2C        BITMAP                  "Bitmaps\\warriorR-A2C.bmp"
+
+IDB_WARRIOR_RA2O        BITMAP                  "Bitmaps\\warriorR-A2O.bmp"
+
+IDB_WARRIOR_RC          BITMAP                  "Bitmaps\\warriorRC.bmp"
+
+IDB_WARRIOR_RHC         BITMAP                  "D:\\Desktop\\GameDes\\Chap11labyrinth\\Fore 2\\Bitmaps\\warriorRHC.bmp"
+
+IDB_WARRIOR_RHO         BITMAP                  "D:\\Desktop\\GameDes\\Chap11labyrinth\\Fore 2\\Bitmaps\\warriorRHO.bmp"
+
+IDB_WARRIOR_RO          BITMAP                  "Bitmaps\\warriorRO.bmp"
+
+IDB_WARRIOR_RW1C        BITMAP                  "Bitmaps\\warriorR-W1C.bmp"
+
+IDB_WARRIOR_RW1O        BITMAP                  "Bitmaps\\warriorR-W1O.bmp"
+
+IDB_WARRIOR_RW2C        BITMAP                  "Bitmaps\\warriorR-W2C.bmp"
+
+IDB_WARRIOR_RW2O        BITMAP                  "Bitmaps\\warriorR-W2O.bmp"
+
+IDB_WARRIOR_LHC         BITMAP                  "Bitmaps\\warriorLHC.bmp"
 
 
 #ifdef APSTUDIO_INVOKED

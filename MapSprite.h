@@ -24,10 +24,10 @@ public:
 	};
 
 public:
-	int GetXIndex(int mapCellWidth) { return floor(((m_rcPosition.left + m_rcPosition.right) / 2) / mapCellWidth); };
-	int GetYIndex(int mapCellHeight) { return floor(((m_rcPosition.top + m_rcPosition.bottom) / 2) / mapCellHeight); };
-	int GetXIndexByRightPosition(int mapCellWidth) { return floor( m_rcPosition.right / mapCellWidth); };
-	int GetXIndexByLeftPosition(int mapCellWidth) { return floor( m_rcPosition.left / mapCellWidth); };
-	int GetYIndexByBottomPosition(int mapCellHeight) { return floor(m_rcPosition.bottom / mapCellHeight); };
-	int GetYIndexByTopPosition(int mapCellHeight) { return floor(m_rcPosition.top/ mapCellHeight); };
+	int GetXIndex(int mapCellWidth) { return max(0, min(Map::GetWidth() - 1, floor(((m_rcPosition.left + m_rcPosition.right) / 2) / mapCellWidth))); };
+	int GetYIndex(int mapCellHeight) { return max(0, min(Map::GetHeight() - 1, floor(((m_rcPosition.top + m_rcPosition.bottom) / 2) / mapCellHeight))); };
+	int GetXIndexByRightPosition(int mapCellWidth) { return max(0, min(Map::GetWidth() - 1, floor( m_rcPosition.right / mapCellWidth))); };
+	int GetXIndexByLeftPosition(int mapCellWidth) { return max(0,min(Map::GetWidth()-1,floor( m_rcPosition.left / mapCellWidth))); };
+	int GetYIndexByBottomPosition(int mapCellHeight) { return max(0, min(Map::GetHeight() - 1, floor(m_rcPosition.bottom / mapCellHeight))); };
+	int GetYIndexByTopPosition(int mapCellHeight) { return max(0, min(Map::GetHeight() - 1, floor(m_rcPosition.top/ mapCellHeight))); };
 };

@@ -102,4 +102,5 @@ public:
 	int GetHealth() { return m_health; };
 	void SetHealth(int newHealth) { m_health = newHealth; };
 	std::list<Sprite*> GetNeighboringCells();
+	virtual void SetupBitmaps() {};
 };

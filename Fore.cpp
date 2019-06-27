@@ -236,6 +236,7 @@ void GameStart(HWND hWindow)
 		_pGame->GetWidth(), _pGame->GetHeight());
 	SelectObject(_hOffscreenDC, _hOffscreenBitmap);
 
+	Player::InitializeUnitBitmaps(hDC, _hInstance);
 	// Create and load the bitmaps
 	hDC = GetDC(hWindow);
 	_pForestBitmap = new Bitmap(hDC, IDB_FOREST, _hInstance);

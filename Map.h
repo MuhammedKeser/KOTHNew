@@ -38,8 +38,8 @@ public:
 			x = m_map.m_width - 1;
 		if (y < 0)
 			y = 0;
-		else if (x >= m_map.m_height)
-			x = m_map.m_height - 1;
+		else if (y >= m_map.m_height)
+			y = m_map.m_height - 1;
 
 		if(m_map.m_spriteGrid[y][x]!=NULL)
 			return m_map.m_spriteGrid[y][x];

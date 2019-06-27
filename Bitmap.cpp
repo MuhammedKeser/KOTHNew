@@ -212,7 +212,7 @@ BOOL Bitmap::Create(HDC hDC, int iWidth, int iHeight, COLORREF crColor)
 
 void Bitmap::Draw(HDC hDC, int x, int y, float xScale, float yScale,BOOL bTrans, COLORREF crTransColor)
 {
-	if (m_hBitmap != NULL)
+	if (m_hBitmap&&m_hBitmap != NULL)
 	{
 		// Create a memory device context for the bitmap
 		HDC hMemDC = CreateCompatibleDC(hDC);
