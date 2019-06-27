@@ -33,7 +33,7 @@ void TreeSprite::HandleTreeSpawnBalance(HDC hDC)
 		//Spawn at LEAST horseCount-minHorseCount amount of horses
 		int randYIndex = rand() % Map::GetHeight();
 		int randXIndex = rand() % Map::GetWidth();
-		if (Map::GetSpriteCell(randYIndex, randXIndex) == NULL)
+		if (Map::GetSpriteCell(randYIndex, randXIndex) == NULL && Map::GetGridCell(randYIndex, randXIndex)==0)
 		{
 			TreeSprite* newTree = (TreeSprite*)GameEngine::GetEngine()->CreateSprite<TreeSprite>(hDC);
 			RECT rect = { newTree->GetWidth()*randXIndex,newTree->GetHeight()*randYIndex,newTree->GetWidth()*(randXIndex + 1),newTree->GetHeight()*(randYIndex + 1) };

@@ -3,6 +3,7 @@
 
 std::list<LivelySprite::PlayerScoreBoard*> LivelySprite::playerScoreBoard=std::list<LivelySprite::PlayerScoreBoard*>();
 LivelySprite::PlayerScoreBoard* LivelySprite::occupyingPlayerScoreBoard = NULL;
+LivelySprite::PlayerScoreBoard* LivelySprite::winnerPlayerScoreBoard = NULL;
 //DEBUG
 void LivelySprite::Update()
 {
@@ -74,6 +75,7 @@ void LivelySprite::HandleCountdown()
 	{
 		//End the game
 		std::cout << "Endgame" << std::endl;
+		winnerPlayerScoreBoard = occupyingPlayerScoreBoard;
 	}
 }
 
@@ -108,7 +110,7 @@ void LivelySprite::OnCollisionExit(Sprite* otherSprite)
 {
 	if (otherSprite)
 	{
-		Unit* otherUnit = dynamic_cast<Unit*> (otherSprite);
+		Unit* otherUnit = dynamic_cast<Unit*> (otherSprite);//Deallocation error
 
 		if (otherUnit != NULL) {
 

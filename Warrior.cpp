@@ -40,7 +40,7 @@ void Warrior::Update()
 	std::list<Sprite*>::iterator siSprite;
 	for (siSprite = neighborSprites.begin(); siSprite != neighborSprites.end(); siSprite++)
 	{
-		if ((*siSprite) == NULL)
+		if ((*siSprite) == NULL)//Deallocation error
 			continue;
 		if (Warrior* neighborUnit = dynamic_cast<Warrior*>(*siSprite))
 		{

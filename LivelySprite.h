@@ -70,5 +70,6 @@ public:
 
 	static std::list<PlayerScoreBoard*> playerScoreBoard;
 	static PlayerScoreBoard* occupyingPlayerScoreBoard;
+	static PlayerScoreBoard* winnerPlayerScoreBoard;
 
 };

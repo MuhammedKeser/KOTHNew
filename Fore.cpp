@@ -116,6 +116,21 @@ void SelectSprites()
 	}
 }
 
+void DrawPlayerFoodCount(HDC hDC)
+{
+	HWND  hWindow = _pGame->GetWindow();
+
+	RECT rect = {0,0,700,700};
+	std::stringstream buffer("Food: ", ios_base::app | ios_base::out);
+	buffer << player->m_food;
+
+	DrawText(hDC, buffer.str().c_str(), -1, &rect,
+
+		DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+
+	ReleaseDC(hWindow, hDC);
+}
+
 std::list<Tile*>backgroundTiles;
 void GenerateMap()
 {
@@ -234,7 +249,7 @@ void GameStart(HWND hWindow)
 	_pGrassBitmaps[3] = new Bitmap(hDC, IDB_GRASS4, _hInstance);
 	_pGrassBitmaps[4] = new Bitmap(hDC, IDB_GRASS5, _hInstance);
 
-
+	TreeSprite::minTreeCount = floor((rowCount * colCount) * 2 / 100);
 	GenerateMap();
 
 
@@ -378,7 +393,7 @@ void GamePaint(HDC hDC)
   livelySprite->HandleDisplay(hDC);
 
   //Display the player's food stats
-  
+  DrawPlayerFoodCount(hDC);
 
 }
 
@@ -456,16 +471,21 @@ void GameCycle()
 
 	  hDC = GetDC(hWindow);
 
-	  std::stringstream buffer("The game has Ended! Winner is: ", ios_base::app | ios_base::out);
-	  buffer << LivelySprite::occupyingPlayerScoreBoard->player->m_Name;
-	  
-	  DrawText(hDC, buffer.str().c_str(), -1, &rect,
+	  if (LivelySprite::winnerPlayerScoreBoard)
+	  {
+		  std::stringstream buffer("The game has Ended! Winner is: ", ios_base::app | ios_base::out);
+		  buffer << LivelySprite::winnerPlayerScoreBoard->player->m_Name;
 
-		  DT_CENTER | DT_SINGLELINE | DT_VCENTER );
-	  
-	  ReleaseDC(hWindow, hDC);
-	  PlaySound(TEXT("win.wav"), NULL, SND_ASYNC);
-	  while (true) {};
+		  DrawText(hDC, buffer.str().c_str(), -1, &rect,
+
+			  DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+
+		  ReleaseDC(hWindow, hDC);
+		  PlaySound(TEXT("win.wav"), NULL, SND_ASYNC);
+
+
+		  while (true) {};
+	  }
   }
 
   // Paint the game to the offscreen device context

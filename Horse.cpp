@@ -23,7 +23,7 @@ void Horse::HandleMounting()
 {
 	Sprite* otherSprite = Map::GetSpriteCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));
 
-	if ( otherSprite!=NULL)
+	if ( otherSprite)
 	{
 		Warrior* otherWarrior = dynamic_cast<Warrior*>(otherSprite);
 		if (otherWarrior
@@ -44,6 +44,10 @@ void Horse::HandleMounting()
 		}
 		else
 		{
+			std::cout << "Y Index:" << (GetVelocity().y > 0 ? GetYIndexByBottomPosition(Map::GetCellHeight()) : GetVelocity().y == 0 ? GetYIndex(Map::GetCellHeight()) : GetYIndexByTopPosition(Map::GetCellHeight())) << std::endl;
+			std::cout << "X Index:" << (GetVelocity().x > 0 ? GetXIndexByRightPosition(Map::GetCellWidth()) : GetVelocity().x == 0 ? GetXIndex(Map::GetCellWidth()) : GetXIndexByLeftPosition(Map::GetCellWidth())) << std::endl;
+
+
 			int otherCell = Map::GetGridCell(
 					GetVelocity().y > 0 ? GetYIndexByBottomPosition(Map::GetCellHeight()) : GetVelocity().y==0 ? GetYIndex(Map::GetCellHeight()) : GetYIndexByTopPosition(Map::GetCellHeight()),
 					GetVelocity().x > 0 ? GetXIndexByRightPosition(Map::GetCellWidth()) : GetVelocity().x == 0 ? GetXIndex(Map::GetCellWidth()) : GetXIndexByLeftPosition(Map::GetCellWidth())
@@ -66,6 +70,9 @@ void Horse::HandleMounting()
 	}
 	else
 	{
+		std::cout << "Y Index:" << (GetVelocity().y > 0 ? GetYIndexByBottomPosition(Map::GetCellHeight()) : GetVelocity().y == 0 ? GetYIndex(Map::GetCellHeight()) : GetYIndexByTopPosition(Map::GetCellHeight())) << std::endl;
+		std::cout << "X Index:" << (GetVelocity().x > 0 ? GetXIndexByRightPosition(Map::GetCellWidth()) : GetVelocity().x == 0 ? GetXIndex(Map::GetCellWidth()) : GetXIndexByLeftPosition(Map::GetCellWidth())) << std::endl;
+
 		int otherCell = Map::GetGridCell(
 			GetVelocity().y > 0 ? GetYIndexByBottomPosition(Map::GetCellHeight()) : GetVelocity().y == 0 ? GetYIndex(Map::GetCellHeight()) : GetYIndexByTopPosition(Map::GetCellHeight()),
 			GetVelocity().x > 0 ? GetXIndexByRightPosition(Map::GetCellWidth()) : GetVelocity().x == 0 ? GetXIndex(Map::GetCellWidth()) : GetXIndexByLeftPosition(Map::GetCellWidth())

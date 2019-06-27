@@ -168,7 +168,7 @@ void Map::ProceduralGeneration()
 				}
 			}
 
-			if (neighborCount <= 1 && rand() % 100 > 60)
+			if (neighborCount <= 1 && rand() % 100 <=2)
 				m_map.m_grid[i][j] = 2;
 		}
 	}

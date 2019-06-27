@@ -20,6 +20,7 @@ Unit::~Unit(void)
 			if ((*siUnit)->DeletionIsPending())
 			{
 				m_player->m_Units.erase(std::next(siUnit).base());
+				Map::m_map.RemoveSpriteGridCell(yIndex, xIndex);
 				break;
 			}
 		}
@@ -545,115 +546,125 @@ void Unit::Pathfind()
 		//PERFORM PATHFINDING
 		std::vector<PathfindingNode*> nodesToCheck;//The list of nodes to check
 		std::make_heap(nodesToCheck.begin(), nodesToCheck.end(),cmp);
-		PathfindingNode* startingNode = pathfindingMap[GetYIndex(Map::GetCellHeight())][GetXIndex(Map::GetCellWidth())];//The starting node
-		startingNode->totalPathCost = 0;
-		startingNode->wasChecked = true;
-		nodesToCheck.push_back(startingNode);//Push the node you're currently on into the queue
-		PathfindingNode* destinationNode=pathfindingMap[m_destinationIndex.y][m_destinationIndex.x];//The destination node
 
-		bool destinationReached = false;
-		while (nodesToCheck.size()>0)
+		if (
+			(GetYIndex(Map::GetCellHeight()) >= 0 && GetYIndex(Map::GetCellHeight()) < Map::GetHeight()) &&
+			(GetXIndex(Map::GetCellWidth()) >= 0 && GetXIndex(Map::GetCellWidth()) < Map::GetWidth())
+			)
 		{
-			//std::cout << "BOI";
-			PathfindingNode* curNode =nodesToCheck.front();
-			
-			//Nodes can be added to the list prior to being checked.
-			//Instead of iterating through every node, you can pop it off if it's been checked.
-			if (curNode!=startingNode && curNode->wasChecked)
-			{
-				nodesToCheck.erase(nodesToCheck.begin(), nodesToCheck.begin()+1);
-				std::make_heap(nodesToCheck.begin(), nodesToCheck.end(), cmp);
+			PathfindingNode* startingNode = pathfindingMap[GetYIndex(Map::GetCellHeight())][GetXIndex(Map::GetCellWidth())];//The starting node
+			startingNode->totalPathCost = 0;
+			startingNode->wasChecked = true;
+			nodesToCheck.push_back(startingNode);//Push the node you're currently on into the queue
+			PathfindingNode* destinationNode = pathfindingMap[m_destinationIndex.y][m_destinationIndex.x];//The destination node
 
-			}
-			else
+			bool destinationReached = false;
+			while (nodesToCheck.size() > 0)
 			{
-				for (int i = -1; i <= 1; i++)
+				//std::cout << "BOI";
+				PathfindingNode* curNode = nodesToCheck.front();
+
+				//Nodes can be added to the list prior to being checked.
+				//Instead of iterating through every node, you can pop it off if it's been checked.
+				if (curNode != startingNode && curNode->wasChecked)
 				{
-					if (destinationReached)
-						break;
-					for (int j = -1; j <= 1; j++)
+					nodesToCheck.erase(nodesToCheck.begin(), nodesToCheck.begin() + 1);
+					std::make_heap(nodesToCheck.begin(), nodesToCheck.end(), cmp);
+
+				}
+				else
+				{
+					for (int i = -1; i <= 1; i++)
 					{
 						if (destinationReached)
 							break;
-
-						int neighborXIndex = j + curNode->xIndex;
-						int neighborYIndex = i + curNode->yIndex;
-						float neighborPathCost = ((abs(i) + abs(j) > 1.0f) ? 1.5f : 1.0f);
-						PathfindingNode* neighborNode;
-						if (
-							!(i == 0 && j == 0)
-							&& neighborYIndex < Map::GetHeight()
-							&& neighborYIndex >= 0
-							&& neighborXIndex < Map::GetWidth()
-							&& neighborXIndex >= 0
-							&& 
-							
-							(pathfindingMap[neighborYIndex][neighborXIndex]->totalPathCost>neighborPathCost+curNode->totalPathCost)
-							
-							&&  
-							(
-								Map::GetGridCell(neighborYIndex, neighborXIndex) == 0
-								|| Map::GetGridCell(neighborYIndex, neighborXIndex) == 3
-							)
-
-							)
+						for (int j = -1; j <= 1; j++)
 						{
-							if (Map::GetGridCell(neighborYIndex, neighborXIndex) == 0 || Map::GetGridCell(neighborYIndex, neighborXIndex) == 3)
+							if (destinationReached)
+								break;
+
+							int neighborXIndex = j + curNode->xIndex;
+							int neighborYIndex = i + curNode->yIndex;
+							float neighborPathCost = ((abs(i) + abs(j) > 1.0f) ? 1.5f : 1.0f);
+							PathfindingNode* neighborNode;
+							if (
+								!(i == 0 && j == 0)
+								&& neighborYIndex < Map::GetHeight()
+								&& neighborYIndex >= 0
+								&& neighborXIndex < Map::GetWidth()
+								&& neighborXIndex >= 0
+								&&
+
+								(pathfindingMap[neighborYIndex][neighborXIndex]->totalPathCost > neighborPathCost + curNode->totalPathCost)
+
+								&&
+								(
+									Map::GetGridCell(neighborYIndex, neighborXIndex) == 0
+									|| Map::GetGridCell(neighborYIndex, neighborXIndex) == 3
+									)
+
+								)
 							{
-								neighborNode = pathfindingMap[neighborYIndex][neighborXIndex];
-								neighborNode->parentNode = curNode;
-
-
-								neighborNode->totalPathCost = curNode->totalPathCost + neighborPathCost;
-
-								if (neighborNode == destinationNode)
+								if (Map::GetGridCell(neighborYIndex, neighborXIndex) == 0 || Map::GetGridCell(neighborYIndex, neighborXIndex) == 3)
 								{
-									//DEBUG
-									std::stack<PathfindingNode*> tempStack;//DEBUG
-									std::cout << "Destination Found!" << std::endl;
-									while (neighborNode->parentNode != NULL)
+									neighborNode = pathfindingMap[neighborYIndex][neighborXIndex];
+									neighborNode->parentNode = curNode;
+
+
+									neighborNode->totalPathCost = curNode->totalPathCost + neighborPathCost;
+
+									if (neighborNode == destinationNode)
 									{
-										path.push(neighborNode);
-										tempStack.push(neighborNode);//DEBUG
-										neighborNode = neighborNode->parentNode;
-									}
+										//DEBUG
+										std::stack<PathfindingNode*> tempStack;//DEBUG
+										std::cout << "Destination Found!" << std::endl;
+										while (neighborNode->parentNode != NULL)
+										{
+											path.push(neighborNode);
+											tempStack.push(neighborNode);//DEBUG
+											neighborNode = neighborNode->parentNode;
+										}
 
-									//DEBUG
-									while (!tempStack.empty())
+										//DEBUG
+										while (!tempStack.empty())
+										{
+											std::cout << "X: " << tempStack.top()->xIndex << " Y:" << tempStack.top()->yIndex << std::endl;
+											tempStack.pop();
+										}
+
+
+										//We're done checking nodes
+										while (nodesToCheck.size() > 0)
+										{
+											nodesToCheck.erase(nodesToCheck.begin(), nodesToCheck.begin() + 1);
+										}
+
+										destinationReached = true;
+
+										break;
+
+									}
+									else
 									{
-										std::cout << "X: " << tempStack.top()->xIndex<< " Y:"<< tempStack.top()->yIndex << std::endl;
-										tempStack.pop();
+										neighborNode->wasAddedToList = true;
+										nodesToCheck.push_back(neighborNode);
+										std::push_heap(nodesToCheck.begin(), nodesToCheck.end(), cmp);
 									}
-
-
-									//We're done checking nodes
-									while (nodesToCheck.size() > 0)
-									{
-										nodesToCheck.erase(nodesToCheck.begin(),nodesToCheck.begin()+1);
-									}
-
-									destinationReached = true;
-
-									break;
-
-								}
-								else
-								{
-									neighborNode->wasAddedToList=true;
-									nodesToCheck.push_back(neighborNode);
-									std::push_heap(nodesToCheck.begin(), nodesToCheck.end(), cmp);
 								}
 							}
 						}
-					}
-				}//for
-			}
-			
+					}//for
+				}
 
-			curNode->wasChecked = true;
-			if(nodesToCheck.size()>0)
-				nodesToCheck.erase(nodesToCheck.begin(), nodesToCheck.begin()+1);
+
+				curNode->wasChecked = true;
+				if (nodesToCheck.size() > 0)
+					nodesToCheck.erase(nodesToCheck.begin(), nodesToCheck.begin() + 1);
 			}
+		}
+		
+
+		
 		}
 
 		/*
@@ -685,9 +696,10 @@ std::list<Sprite*> Unit::GetNeighboringCells()
 			int neighboringYIndex = i + GetYIndex(Map::GetCellHeight());
 			int neighboringXIndex = j + GetXIndex(Map::GetCellWidth());
 			if (
-				!((neighboringYIndex < 0 || neighboringYIndex >= Map::GetCellHeight()
-				|| neighboringXIndex < 0 || neighboringXIndex >= Map::GetCellWidth())
-				||Map::GetSpriteCell(neighboringYIndex, neighboringXIndex)==NULL))
+				((neighboringYIndex >= 0 && neighboringYIndex < Map::GetCellHeight()
+				&& neighboringXIndex >= 0 && neighboringXIndex < Map::GetCellWidth())
+				&&Map::GetSpriteCell(neighboringYIndex, neighboringXIndex)!=NULL)
+				)
 				ret.push_back(Map::GetSpriteCell(neighboringYIndex, neighboringXIndex));
 		}
 	}

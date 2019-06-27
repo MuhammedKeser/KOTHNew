@@ -185,7 +185,7 @@ void Gatherer::Update()
 	{
 		if ((*siSprite) == NULL)
 			continue;
-		if (TreeSprite* neighborTree = dynamic_cast<TreeSprite*>(*siSprite))
+		if (TreeSprite* neighborTree = dynamic_cast<TreeSprite*>(*siSprite))//Deallocation error
 		{
 			SapTree(neighborTree);
 		}

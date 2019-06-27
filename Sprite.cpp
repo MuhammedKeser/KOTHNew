@@ -133,6 +133,7 @@ Sprite::Sprite(Bitmap * pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder
 
 Sprite::~Sprite()
 {
+
 }
 
 //-----------------------------------------------------------------

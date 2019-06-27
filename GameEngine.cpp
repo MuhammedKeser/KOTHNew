@@ -513,6 +513,7 @@ void GameEngine::CheckSpriteCollision(Sprite* pTestSprite)
 		else
 		{
 			pTestSprite->AddSpriteToCollisionList(*siSprite);
+
 			pTestSprite->OnCollisionEnter(*siSprite);
 		}
 
