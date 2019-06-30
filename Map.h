@@ -29,7 +29,7 @@ public:
 			m_map.m_spriteGrid[yIndex][xIndex] = -1;
 
 	}
-	static void RemoveSpriteGridCell(int yIndex, int xIndex) { m_map.m_spriteGrid[yIndex][xIndex] = NULL; }
+	static void RemoveSpriteGridCell(int yIndex, int xIndex) { m_map.m_spriteGrid[yIndex][xIndex] = -1; }
 	static const int& GetGridCell(int yIndex,int xIndex) { return m_map.m_grid[yIndex][xIndex]; }
 	static const int& GetHeight() { return m_map.m_height; }
 	static const int& GetWidth() { return m_map.m_width; }
