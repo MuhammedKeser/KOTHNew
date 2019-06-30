@@ -174,9 +174,9 @@ void Map::ProceduralGeneration()
 	}
 
 	//Provide the lively area.
-	for (int i = 13; i < 23; i++)
+	for (int i = 13; i < 21; i++)
 	{
-		for (int j = 13; j < 23; j++)
+		for (int j = 13; j < 21; j++)
 		{
 			m_map.m_grid[i][j] = 3;
 

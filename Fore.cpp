@@ -397,7 +397,6 @@ void GamePaint(HDC hDC)
 		  )
 	  {
 		  //DEBUG
-		  if((*it)->m_bitmap==_pWallBitmap)
 			(*it)->Draw(hDC, &camera);
 		  tileCount++;
 	  }
