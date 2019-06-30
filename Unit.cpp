@@ -342,9 +342,9 @@ void Unit::Draw(HDC hDC, Camera* cam)
 	//Apply text drawing here
 	int rectWidth = GetWidth() + 30;
 	RECT rect = RECT{ GetPosition().left - cam->GetPosition().x - 30,GetPosition().top - 70 - cam->GetPosition().y, GetPosition().right - cam->GetPosition().x,GetPosition().bottom - cam->GetPosition().y - 70 };
-	int rectHeight = DrawText(hDC, TEXT(std::string("HP: " + std::to_string(GetHealth()) + "\nPlayer: " + m_player->m_Name).c_str()), -1, &rect, DT_CALCRECT);
+	int rectHeight = DrawText(hDC, TEXT(std::string("Player: " + m_player->m_Name).c_str()), -1, &rect, DT_CALCRECT);
 	rect = RECT{ rect.left,rect.bottom,rect.right,rect.bottom + rectHeight };
-	DrawText(hDC, TEXT(std::string("HP: " + std::to_string(GetHealth()) + "\nPlayer: " + m_player->m_Name).c_str()), -1, &rect, DT_CENTER);
+	DrawText(hDC, TEXT(std::string("Player: " + m_player->m_Name).c_str()), -1, &rect, DT_CENTER);
 
 	DrawHealthBar(hDC, cam);
 }

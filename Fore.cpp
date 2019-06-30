@@ -15,7 +15,7 @@
 Camera camera;
 
 //DEBUG
-std::list<Sprite*> selectedSprites;
+std::list<int> selectedSpriteIds;
 int originMouseX = -1;
 int originMouseY = -1;
 bool selectMode = false;
@@ -60,14 +60,17 @@ StateHandler_Gatherer* debugStateHandler;
 void MoveSelectedSprites() 
 {
 	if (Input::KeyPressed(InputKeys::KEY::MOUSERIGHT) &&
-		selectedSprites.size() > 0)
+		selectedSpriteIds.size() > 0)
 	{
-		list<Sprite*>::iterator curSprite;
-		for (curSprite = selectedSprites.begin(); curSprite != selectedSprites.end(); curSprite++)
+		list<int>::iterator curSpriteId;
+		for (curSpriteId = selectedSpriteIds.begin(); curSpriteId != selectedSpriteIds.end(); curSpriteId++)
 		{
-			if ((*curSprite) == NULL)
+			if ((*curSpriteId) == NULL)
 				continue;
-			Unit* curUnit = dynamic_cast<Unit*>(*curSprite);
+			Sprite* curSprite = Sprite::GetSpriteById(*curSpriteId);
+			if (curSprite == nullptr)
+				continue;
+			Unit* curUnit = dynamic_cast<Unit*>(curSprite);
 			if (!curUnit || !curUnit->GetPlayer()->isMainPlayer)
 				continue;
 			curUnit->SetDestination(Input::GetWorldMouseX(), Input::GetWorldMouseY(),cellWidth,cellHeight);
@@ -85,7 +88,7 @@ void SelectSprites()
 {
 	if (Input::KeyPressed(InputKeys::KEY::MOUSELEFT))
 	{
-		selectedSprites.clear();
+		selectedSpriteIds.clear();
 		selectMode = true;
 		originMouseX=Input::GetWorldMouseX();
 		originMouseY=Input::GetWorldMouseY();
@@ -101,7 +104,17 @@ void SelectSprites()
 		if (Input::KeyHeld(InputKeys::KEY::MOUSELEFT))
 		{
 			selectSprite->Scale((float)(Input::GetWorldMouseX() - originMouseX) / (float)selectSprite->GetWidth(), (float)(Input::GetWorldMouseY() - originMouseY) / (float)selectSprite->GetHeight());
-			selectedSprites = selectSprite->GetCollisionList();
+			
+			std::list<Sprite*>selectedSprites = selectSprite->GetCollisionList();
+			std::list<int> newSelectedSpriteIds;
+			for (std::list<Sprite*>::iterator it = selectedSprites.begin(); it != selectedSprites.end(); it++)
+			{
+				if (Sprite::IsAllocated((*it)->GetId()))
+				{
+					newSelectedSpriteIds.push_back((*it)->GetId());
+				}
+			}
+			selectedSpriteIds = newSelectedSpriteIds;
 			//_pSelectBitmap->SetWidth(Input::MouseX - originMouseX);
 			//_pSelectBitmap->SetHeight(Input::MouseY - originMouseY);
 			//selectSprite->SetBounds(RECT{ originMouseX,originMouseY,Input::MouseX,Input::MouseY });
@@ -123,7 +136,7 @@ void DrawPlayerFoodCount(HDC hDC)
 {
 	HWND  hWindow = _pGame->GetWindow();
 
-	RECT rect = {0,0,700,700};
+	RECT rect = {0,0,100,100};
 	std::stringstream buffer("Food: ", ios_base::app | ios_base::out);
 	buffer << player->m_food;
 
@@ -449,10 +462,10 @@ void GameCycle()
   TreeSprite::HandleTreeSpawnBalance(hDC);
 
 
-  if (selectedSprites.size() > 0)
+  if (selectedSpriteIds.size() > 0)
   {
-	  list<Sprite*>::iterator curSprite;
-	  for (curSprite = selectedSprites.begin(); curSprite != selectedSprites.end(); curSprite++)
+	  list<int>::iterator curSprite;
+	  for (curSprite = selectedSpriteIds.begin(); curSprite != selectedSpriteIds.end(); curSprite++)
 	  {
 		  //std::cout << "Selected!" << std::endl;
 	  }

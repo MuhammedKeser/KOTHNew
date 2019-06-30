@@ -8,6 +8,10 @@
 //-----------------------------------------------------------------
 #include "Sprite.h"
 
+std::vector<BOOL> Sprite::spriteAllocated;
+std::vector<Sprite*> Sprite::spriteList;
+int Sprite::curSpriteId = 0;
+
 //-----------------------------------------------------------------
 // Sprite Constructor(s)/Destructor
 //-----------------------------------------------------------------
@@ -22,6 +26,10 @@ Sprite::Sprite(HDC hDC, HINSTANCE hInstance)
 	SetRect(&m_rcBounds, 0, 0, 640, 480);
 	m_baBoundsAction = BA_STOP;
 	m_bHidden = FALSE;
+
+	m_id = curSpriteId++;
+	Sprite::spriteAllocated.push_back(TRUE);
+	Sprite::spriteList.push_back(this);
 }
 
 Sprite::Sprite(Bitmap* pBitmap)
@@ -35,6 +43,9 @@ Sprite::Sprite(Bitmap* pBitmap)
   SetRect(&m_rcBounds, 0, 0, 640, 480);
   m_baBoundsAction = BA_STOP;
   m_bHidden = FALSE;
+  m_id = curSpriteId++;
+  Sprite::spriteAllocated.push_back(TRUE);
+  Sprite::spriteList.push_back(this);
 }
 
 Sprite::Sprite(Bitmap* pBitmap, RECT& rcBounds, BOUNDSACTION baBoundsAction)
@@ -53,6 +64,9 @@ Sprite::Sprite(Bitmap* pBitmap, RECT& rcBounds, BOUNDSACTION baBoundsAction)
   CopyRect(&m_rcBounds, &rcBounds);
   m_baBoundsAction = baBoundsAction;
   m_bHidden = FALSE;
+  m_id = curSpriteId++;
+  Sprite::spriteAllocated.push_back(TRUE);
+  Sprite::spriteList.push_back(this);
 }
 
 Sprite::Sprite(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder,
@@ -68,6 +82,9 @@ Sprite::Sprite(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder,
   CopyRect(&m_rcBounds, &rcBounds);
   m_baBoundsAction = baBoundsAction;
   m_bHidden = FALSE;
+  m_id = curSpriteId++;
+  Sprite::spriteAllocated.push_back(TRUE);
+  Sprite::spriteList.push_back(this);
 }
 
 Sprite::Sprite(HDC hDC, HINSTANCE hInstance, UINT BITMAP_ID)
@@ -81,6 +98,9 @@ Sprite::Sprite(HDC hDC, HINSTANCE hInstance, UINT BITMAP_ID)
 	SetRect(&m_rcBounds, 0, 0, 640, 480);
 	m_baBoundsAction = BA_STOP;
 	m_bHidden = FALSE;
+	m_id = curSpriteId++;
+	Sprite::spriteAllocated.push_back(TRUE);
+	Sprite::spriteList.push_back(this);
 }
 
 Sprite::Sprite(Bitmap * pBitmap, UINT BITMAP_ID)
@@ -95,6 +115,9 @@ Sprite::Sprite(Bitmap * pBitmap, UINT BITMAP_ID)
 	SetRect(&m_rcBounds, 0, 0, 640, 480);
 	m_baBoundsAction = BA_STOP;
 	m_bHidden = FALSE;
+	m_id = curSpriteId++;
+	Sprite::spriteAllocated.push_back(TRUE);
+	Sprite::spriteList.push_back(this);
 }
 
 Sprite::Sprite(Bitmap * pBitmap, RECT & rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction)
@@ -114,6 +137,9 @@ Sprite::Sprite(Bitmap * pBitmap, RECT & rcBounds, UINT BITMAP_ID, BOUNDSACTION b
 	CopyRect(&m_rcBounds, &rcBounds);
 	m_baBoundsAction = baBoundsAction;
 	m_bHidden = FALSE;
+	m_id = curSpriteId++;
+	Sprite::spriteAllocated.push_back(TRUE);
+	Sprite::spriteList.push_back(this);
 }
 
 Sprite::Sprite(Bitmap * pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder, RECT & rcBounds, UINT BITMAP_ID, BOUNDSACTION baBoundsAction)
@@ -129,11 +155,15 @@ Sprite::Sprite(Bitmap * pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder
 	CopyRect(&m_rcBounds, &rcBounds);
 	m_baBoundsAction = baBoundsAction;
 	m_bHidden = FALSE;
+	m_id = curSpriteId++;
+	Sprite::spriteAllocated.push_back(TRUE);
+	Sprite::spriteList.push_back(this);
 }
 
 Sprite::~Sprite()
 {
 
+	Sprite::spriteAllocated[m_id] = FALSE;
 }
 
 //-----------------------------------------------------------------
@@ -276,6 +306,20 @@ void Sprite::Draw(HDC hDC,Camera* cam)
 		TRUE);
     //m_pBitmap->Draw(hDC, m_rcPosition.left, m_rcPosition.top, TRUE);
 }
+
+BOOL Sprite::IsAllocated(int spriteId)
+{
+	return Sprite::spriteAllocated[spriteId];
+}
+
+Sprite * Sprite::GetSpriteById(int spriteId)
+{
+	if (Sprite::IsAllocated(spriteId))
+		return Sprite::spriteList[spriteId];
+
+	return nullptr;
+}
+
 
 void Sprite::ResetCollisionList()
 {

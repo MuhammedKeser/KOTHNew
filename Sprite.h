@@ -16,6 +16,7 @@
 #include <iostream>
 #include "InputManager.h"
 #include <string>
+#include <vector>
 //-----------------------------------------------------------------
 // Custom Data Types
 //-----------------------------------------------------------------
@@ -42,6 +43,7 @@ public:
 	float	yScale = 1.0f;
 	BOOL	isStatic = false;//If true, this object doesn't check for collision but can be checked for collision
 	std::string name = "";//DEBUGGING PURPOSES
+	static int curSpriteId;
 protected:
   // Member Variables
   Bitmap*       m_pBitmap;
@@ -53,6 +55,10 @@ protected:
   BOUNDSACTION  m_baBoundsAction;
   BOOL          m_bHidden;
   BOOL			m_deletionPending = FALSE;
+  int			m_id=-1;
+  static std::vector<BOOL> spriteAllocated;
+  static std::vector<Sprite*> spriteList;
+
 protected:
 	//Virtual variable used to set up bitmaps
 	UINT BITMAP_ID = IDB_GOLFBALL;
@@ -112,7 +118,8 @@ public:
   const std::list<Sprite*>& GetCollisionList() { return collisionList; };
   void		AddSpriteToCollisionList(Sprite* collidingSprite) { collisionList.push_back(collidingSprite); };
   BOOL		DeletionIsPending() { return m_deletionPending; };
-
+  static BOOL IsAllocated(int spriteId);
+  static Sprite* GetSpriteById(int spriteId);
   //Collision Methods
   virtual void OnCollisionEnter(Sprite* otherSprite) {};
   virtual void OnCollisionExit(Sprite* otherSprite) {};
@@ -120,6 +127,7 @@ public:
 public:
   void ResetCollisionList();
   void RecalculateColliderRect() {CopyRect(&m_rcCollision, &m_rcPosition);};
+  int GetId() { return m_id; }
 
 };
 
