@@ -177,19 +177,19 @@ void Gatherer::ChangePlayer(Player* player)
 void Gatherer::Update()
 {
 		Unit::Update();
-		std::list<Sprite*> neighborSprites = GetNeighboringCells();
+		std::list<int> neighborSprites = GetNeighboringCells();
 
-	std::list<Sprite*>::iterator siSprite;
+	std::list<int>::iterator siSprite;
 	std::list<Player*> surroundingPlayers;
 	for (siSprite = neighborSprites.begin(); siSprite != neighborSprites.end(); siSprite++)
 	{
-		if ((*siSprite) == NULL)
+		if (!Sprite::IsAllocated(*siSprite))
 			continue;
-		if (TreeSprite* neighborTree = dynamic_cast<TreeSprite*>(*siSprite))//Deallocation error
+		if (TreeSprite* neighborTree = dynamic_cast<TreeSprite*>(Sprite::GetSpriteById(*siSprite)))//Deallocation error
 		{
 			SapTree(neighborTree);
 		}
-		else if (Warrior* neighborWarrior = dynamic_cast<Warrior*>(*siSprite))
+		else if (Warrior* neighborWarrior = dynamic_cast<Warrior*>(Sprite::GetSpriteById(*siSprite)))
 		{
 			//If you have at least 2 different player types around you, don't do anything
 			if (surroundingPlayers.size() >= 2)

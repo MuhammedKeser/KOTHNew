@@ -105,13 +105,13 @@ void SelectSprites()
 		{
 			selectSprite->Scale((float)(Input::GetWorldMouseX() - originMouseX) / (float)selectSprite->GetWidth(), (float)(Input::GetWorldMouseY() - originMouseY) / (float)selectSprite->GetHeight());
 			
-			std::list<Sprite*>selectedSprites = selectSprite->GetCollisionList();
+			std::list<int>selectedSprites = selectSprite->GetCollisionList();
 			std::list<int> newSelectedSpriteIds;
-			for (std::list<Sprite*>::iterator it = selectedSprites.begin(); it != selectedSprites.end(); it++)
+			for (std::list<int>::iterator it = selectedSprites.begin(); it != selectedSprites.end(); it++)
 			{
-				if (Sprite::IsAllocated((*it)->GetId()))
+				if (Sprite::IsAllocated(*it))
 				{
-					newSelectedSpriteIds.push_back((*it)->GetId());
+					newSelectedSpriteIds.push_back(*it);
 				}
 			}
 			selectedSpriteIds = newSelectedSpriteIds;

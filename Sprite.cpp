@@ -324,19 +324,23 @@ Sprite * Sprite::GetSpriteById(int spriteId)
 void Sprite::ResetCollisionList()
 {
 	
-	std::list<Sprite*>::const_iterator it = collisionList.begin();
+	std::list<int>::const_iterator it = collisionList.begin();
 	
 	while (it != collisionList.end())
 	{
-		std::list<Sprite*>::const_iterator curr = it++;
-		if (!(this->TestCollision(*curr)))
+		std::list<int>::const_iterator curr = it++;
+		if (
+			Sprite::IsAllocated(*curr)&&
+			!(this->TestCollision(Sprite::GetSpriteById(*curr)))
+			)
 		{
 			//std::cout << "REMOVED FROM COLLISION LIST" << std::endl;
 			//Run the oncollision exit code
-			OnCollisionExit(*curr);
+			OnCollisionExit(Sprite::GetSpriteById(*curr));
 			//Remove the sprite from the list
 			collisionList.erase(curr);
 		}
-
+		else if(!Sprite::IsAllocated(*curr))
+			collisionList.erase(curr);
 	}
 }

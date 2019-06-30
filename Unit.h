@@ -79,6 +79,7 @@ protected:
 	void HandlePathTraversal();
 //Methods
 public:
+	BOOL isOnLivelySprite = FALSE;
 	StateHandler* stateHandler;
 	int xIndex = 0;
 	int yIndex = 0;
@@ -101,6 +102,6 @@ public:
 	void SetStatus(UNIT_STATUS statusToSet) { status = statusToSet; };
 	int GetHealth() { return m_health; };
 	void SetHealth(int newHealth) { m_health = newHealth; };
-	std::list<Sprite*> GetNeighboringCells();
+	std::list<int> GetNeighboringCells();
 	virtual void SetupBitmaps() {};
 };

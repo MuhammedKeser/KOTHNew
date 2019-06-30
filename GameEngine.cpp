@@ -493,13 +493,13 @@ void GameEngine::CheckSpriteCollision(Sprite* pTestSprite)
 		//Used to check if this collision is a 'stay' or 'enter' collision
 		bool isOnStayCollision = false;
 
-		const std::list<Sprite*>& collisionList = pTestSprite->GetCollisionList();
+		const std::list<int>& collisionList = pTestSprite->GetCollisionList();
 		
 		//Check if they exist in each others' collision lists - i.e., were already in a collision
-		std::list<Sprite*>::const_iterator it = collisionList.begin();
+		std::list<int>::const_iterator it = collisionList.begin();
 		for (int i = 0; i < collisionList.size(); i++)
 		{
-			if ((*it) == (*siSprite))
+			if ((*it) == (*siSprite)->GetId())
 			{
 				isOnStayCollision = true;
 				break;
@@ -512,6 +512,7 @@ void GameEngine::CheckSpriteCollision(Sprite* pTestSprite)
 			pTestSprite->OnCollisionStay(*siSprite);
 		else
 		{
+			//BRO
 			pTestSprite->AddSpriteToCollisionList(*siSprite);
 
 			pTestSprite->OnCollisionEnter(*siSprite);

@@ -66,7 +66,7 @@ protected:
   // Helper Methods
   virtual void  CalcCollisionRect();
 private:
-	std::list<Sprite*> collisionList;//Shows which sprites we're currently colliding with
+	std::list<int> collisionList;//Shows which sprites we're currently colliding with
 
 public:
   // Constructor(s)/Destructor
@@ -115,8 +115,8 @@ public:
   void    SetHidden(BOOL bHidden)   { m_bHidden = bHidden; };
   int     GetWidth()                { return m_pBitmap->GetWidth(); };
   int     GetHeight()               { return m_pBitmap->GetHeight(); };
-  const std::list<Sprite*>& GetCollisionList() { return collisionList; };
-  void		AddSpriteToCollisionList(Sprite* collidingSprite) { collisionList.push_back(collidingSprite); };
+  const std::list<int>& GetCollisionList() { return collisionList; };
+  void		AddSpriteToCollisionList(Sprite* collidingSprite) { collisionList.push_back(collidingSprite->GetId()); };
   BOOL		DeletionIsPending() { return m_deletionPending; };
   static BOOL IsAllocated(int spriteId);
   static Sprite* GetSpriteById(int spriteId);

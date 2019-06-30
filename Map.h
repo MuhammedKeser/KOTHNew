@@ -13,23 +13,29 @@ public:
 //Members and ctor
 protected:
 	int ** m_grid;
-	Sprite*** m_spriteGrid;
+	int** m_spriteGrid;
 	int m_width, m_height;
 	int m_cellWidth, m_cellHeight;
-	Map(int height, int width, int cellHeight, int cellWidth) :m_width(width), m_height(height), m_cellWidth(cellWidth), m_cellHeight(cellHeight) { m_grid = (int**)calloc(height, sizeof(int*)); m_spriteGrid = (Sprite***)calloc(height, sizeof(Sprite**)); };
+	Map(int height, int width, int cellHeight, int cellWidth) :m_width(width), m_height(height), m_cellWidth(cellWidth), m_cellHeight(cellHeight) { m_grid = (int**)calloc(height, sizeof(int*)); m_spriteGrid = (int**)calloc(height, sizeof(int**)); };
 
 //Methods
 public:
 	static void SetGrid(int ** grid) { m_map.m_grid = grid; }
 	static void SetGridCell(int yIndex, int xIndex, int value) { m_map.m_grid[yIndex][xIndex] = value; }
-	static void SetSpriteGridCell(int yIndex, int xIndex, Sprite* sprite) { m_map.m_spriteGrid[yIndex][xIndex] = sprite; }
+	static void SetSpriteGridCell(int yIndex, int xIndex, Sprite* sprite) { 
+		if (sprite != NULL)
+			m_map.m_spriteGrid[yIndex][xIndex] = sprite->GetId();
+		else
+			m_map.m_spriteGrid[yIndex][xIndex] = -1;
+
+	}
 	static void RemoveSpriteGridCell(int yIndex, int xIndex) { m_map.m_spriteGrid[yIndex][xIndex] = NULL; }
 	static const int& GetGridCell(int yIndex,int xIndex) { return m_map.m_grid[yIndex][xIndex]; }
 	static const int& GetHeight() { return m_map.m_height; }
 	static const int& GetWidth() { return m_map.m_width; }
 	static const int& GetCellHeight() { return m_map.m_cellHeight; }
 	static const int& GetCellWidth() { return m_map.m_cellWidth; }
-	static Sprite* GetSpriteCell(int y, int x) 
+	static int GetSpriteCell(int y, int x) 
 	{ 
 		//Cap the width and height
 		if (x < 0)

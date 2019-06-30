@@ -12,7 +12,7 @@ void Map::ProceduralGeneration()
 	for (int i = 0; i < rowCount; i++)
 	{
 		m_map.m_grid[i] = (int*)calloc(colCount, sizeof(int));
-		m_map.m_spriteGrid[i] = (Sprite**)calloc(colCount, sizeof(Sprite*));
+		m_map.m_spriteGrid[i] = (int*)calloc(colCount, sizeof(int));
 	}
 	//Fill in the borders
 	for (int i = 0; i < rowCount; i++)

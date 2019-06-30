@@ -23,14 +23,14 @@ void Warrior::OnCollisionStay(Sprite * otherSprite)
 void Warrior::Update()
 {
 	Unit::Update();
-	std::list<Sprite*> neighborSprites = GetNeighboringCells();
+	std::list<int> neighborSprites = GetNeighboringCells();
 
-	std::list<Sprite*>::iterator siSprite;
+	std::list<int>::iterator siSprite;
 	for (siSprite = neighborSprites.begin(); siSprite != neighborSprites.end(); siSprite++)
 	{
-		if ((*siSprite) == NULL)//Deallocation error
+		if (!Sprite::IsAllocated(*siSprite))//Deallocation error
 			continue;
-		if (Warrior* neighborUnit = dynamic_cast<Warrior*>(*siSprite))
+		if (Warrior* neighborUnit = dynamic_cast<Warrior*>(Sprite::GetSpriteById(*siSprite)))
 		{
 			Fight(neighborUnit);
 		}
@@ -236,10 +236,12 @@ void Warrior::HandleWandering()
 					{
 						
 						if (Map::GetGridCell(neighborIndexY,neighborIndexX)==4
-							&& dynamic_cast<Warrior*>(Map::GetSpriteCell(neighborIndexY, neighborIndexX))
+							&& Map::GetSpriteCell(neighborIndexY, neighborIndexX)!=-1
+							&& Sprite::IsAllocated(Map::GetSpriteCell(neighborIndexY, neighborIndexX))
+							&& dynamic_cast<Warrior*>(Sprite::GetSpriteById(Map::GetSpriteCell(neighborIndexY, neighborIndexX)))
 							)
 						{
-							Warrior* aggroWarrior = dynamic_cast<Warrior*>(Map::GetSpriteCell(neighborIndexY, neighborIndexX));
+							Warrior* aggroWarrior = dynamic_cast<Warrior*>(Sprite::GetSpriteById(Map::GetSpriteCell(neighborIndexY, neighborIndexX)));
 							if (aggroWarrior->m_player->playerIndex != m_player->playerIndex)
 							{
 								enemyFound = true;

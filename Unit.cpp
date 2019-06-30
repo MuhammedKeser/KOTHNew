@@ -30,11 +30,7 @@ Unit::~Unit(void)
 	Map::SetGridCell(yIndex, xIndex,0);
 	Map::RemoveSpriteGridCell(yIndex,xIndex);
 
-	if (Map::GetSpriteCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth())) == NULL)
-	{
-		std::cout << "NULLS!" << std::endl;
-	}
-	std::cout << "Unit destruct" << std::endl;
+	isOnLivelySprite = FALSE;
 }
 
 void Unit::LoseHealthOverTime()
@@ -42,7 +38,6 @@ void Unit::LoseHealthOverTime()
 	int time = GetTickCount();
 	if (m_nextTimeToLoseHealth <= time)
 	{
-		std::cout << "Lose health" << std::endl;
 		m_health--;
 		m_nextTimeToLoseHealth = GetTickCount()+m_secondsBetweenHealthLoss*1000;
 	}
@@ -682,9 +677,9 @@ void Unit::Pathfind()
 	
 }
 
-std::list<Sprite*> Unit::GetNeighboringCells()
+std::list<int> Unit::GetNeighboringCells()
 {
-	std::list<Sprite*> ret;
+	std::list<int> ret;
 	for (int i = -1; i <= 1; i++)
 	{
 		for (int j = -1; j <= 1; j++)
@@ -698,7 +693,8 @@ std::list<Sprite*> Unit::GetNeighboringCells()
 			if (
 				((neighboringYIndex >= 0 && neighboringYIndex < Map::GetCellHeight()
 				&& neighboringXIndex >= 0 && neighboringXIndex < Map::GetCellWidth())
-				&&Map::GetSpriteCell(neighboringYIndex, neighboringXIndex)!=NULL)
+				&&Map::GetSpriteCell(neighboringYIndex, neighboringXIndex)!=-1)
+				&&Sprite::IsAllocated(Map::GetSpriteCell(neighboringYIndex, neighboringXIndex))
 				)
 				ret.push_back(Map::GetSpriteCell(neighboringYIndex, neighboringXIndex));
 		}

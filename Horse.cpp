@@ -21,11 +21,11 @@ void Horse::Update()
 
 void Horse::HandleMounting()
 {
-	Sprite* otherSprite = Map::GetSpriteCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));
+	int otherSprite = Map::GetSpriteCell(GetYIndex(Map::GetCellHeight()), GetXIndex(Map::GetCellWidth()));
 
-	if ( otherSprite)
+	if ( otherSprite!=-1 && Sprite::IsAllocated(otherSprite))
 	{
-		Warrior* otherWarrior = dynamic_cast<Warrior*>(otherSprite);
+		Warrior* otherWarrior = dynamic_cast<Warrior*>(Sprite::GetSpriteById(otherSprite));
 		if (otherWarrior
 			&& !m_deletionPending
 			&& !otherWarrior->DeletionIsPending()
@@ -122,7 +122,7 @@ void Horse::HandleHorseSpawnBalance(HDC hDC)
 		//Spawn at LEAST horseCount-minHorseCount amount of horses
 		int randYIndex = rand() % Map::GetHeight();
 		int randXIndex = rand() % Map::GetWidth();
-		if (Map::GetSpriteCell(randYIndex, randXIndex) == NULL)
+		if (Map::GetSpriteCell(randYIndex, randXIndex) == -1)
 		{
 			Horse* newHorse = (Horse*)GameEngine::GetEngine()->CreateSprite<Horse>(hDC);
 			newHorse->SetPosition(Map::GetCellWidth()*randXIndex, Map::GetCellHeight()*randYIndex);

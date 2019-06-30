@@ -100,7 +100,7 @@ void LivelySprite::OnCollisionEnter(Sprite* otherSprite)
 	Unit* otherUnit = dynamic_cast<Unit*> (otherSprite);
 
 	if (otherUnit != NULL) {
-
+		otherUnit->isOnLivelySprite = TRUE;
 		increasePlayerCount(otherUnit->GetPlayer());
 	}
 
@@ -113,11 +113,12 @@ void LivelySprite::OnCollisionExit(Sprite* otherSprite)
 		Unit* otherUnit = dynamic_cast<Unit*> (otherSprite);//Deallocation error
 
 		if (otherUnit != NULL) {
-
+			otherUnit->isOnLivelySprite = FALSE;
 			decreasePlayerCount(otherUnit->GetPlayer());
 		}
 	}
 }
+
 
 void LivelySprite::OnCollisionStay(Sprite* otherSprite)
 {
